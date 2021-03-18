@@ -8,6 +8,8 @@ using UnityEngine;
 public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 {
     private static string _version = "0.2";
+    public GameManager gameManager;
+    public FeedbackTextController ftc;
 
     private void ConnectToPhoton(string connString)
     {
@@ -48,18 +50,25 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     }
 
     #region Unity Methods
-    void Start()
+
+    private void Start()
     {
         ConnectToPhoton(_version);
+        /*
+        gameManager = FindObjectOfType<GameManager>();
+        */
+        
+        //DEBUG
+        gameManager = new GameManager();
+        gameManager.gameMode = GameMode.Multiplayer;
+        Debug.Log($"Current game mode: {gameManager.gameMode}");
     }
+
     private void Awake()
     {
+        //Debug.Log(GameManager.gameMode);
     }
-    
-    void Update()
-    {
-        
-    }
+
     #endregion
 
     #region Photon Methods
@@ -93,6 +102,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log($"Joined to room: ${PhotonNetwork.CurrentRoom.Name}");
+        ftc.SetFeedbackText($"Connected to room ${PhotonNetwork.CurrentRoom.Name}",Color.green);
     }
 
     public override void OnLeftRoom()
