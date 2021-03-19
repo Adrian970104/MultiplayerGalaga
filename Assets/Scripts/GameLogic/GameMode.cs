@@ -4,5 +4,6 @@ using UnityEngine;
 
 public enum GameMode{
     Singleplayer,
-    Multiplayer
+    Multiplayer,
+    Undefined
 }

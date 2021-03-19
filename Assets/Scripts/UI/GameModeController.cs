@@ -21,6 +21,12 @@ public class GameModeController : MonoBehaviour
     }
 
     #region UntiyMethods
-    
+
+    private void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+        gameManager.gameMode = GameMode.Undefined;
+    }
+
     #endregion
 }

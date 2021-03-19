@@ -1,31 +1,30 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
-public class CurrentRoomController : MonoBehaviour
+public class CurrentUserTextController : MonoBehaviour
 {
-    public TextMeshProUGUI CurrentRoomText;
+    public TextMeshProUGUI CurrentUserText;
 
     #region Unity Methods
     private void Update()
     {
         if (!PhotonNetwork.IsConnected)
         {
-            CurrentRoomText.text = "";
+            CurrentUserText.text = "";
             return;
         }
 
         if (PhotonNetwork.CurrentRoom is null)
         {
-            CurrentRoomText.text = "";
+            CurrentUserText.text = "";
             return;
         }
         
-        CurrentRoomText.text = $"Room Name: {PhotonNetwork.CurrentRoom.Name}";
-        CurrentRoomText.color = Color.green;
+        CurrentUserText.text = $"Current User: {PhotonNetwork.LocalPlayer.NickName}";
+        CurrentUserText.color = Color.green;
     }
     #endregion
 }
