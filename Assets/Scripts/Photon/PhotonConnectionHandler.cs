@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -24,35 +27,41 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
     }
+
+    private bool CheckUserInput(string input)
+    {
+        var regex = new Regex("[a-zA-Z0-9]+");
+        
+        return regex.IsMatch(input);
+    }
     
     public void CreateRoom(string roomName, string nickname)
     {
-
         if (!PhotonNetwork.IsConnected)
         {
             Debug.Log("Connect to Photon first!");
-            ftc.SetFeedbackText("Connect to Photon first!", Color.red);
+            ftc.SetPhotonError("Connect to Photon first!", Color.red);
             return;
         }
 
         if (!PhotonNetwork.InLobby)
         {
             Debug.Log("Connect to Photon first!");
-            ftc.SetFeedbackText("Connect to Photon first!", Color.red);
+            ftc.SetPhotonError("Connect to Photon first!", Color.red);
             return;
         }
 
-        if (roomName.Length < 2)
+        if (!CheckUserInput(roomName))
         {
-            Debug.Log("Room name can not be empty!");
-            ftc.SetFeedbackText("Room name can not be empty", Color.red);
+            Debug.Log("Invalid Room Name!");
+            ftc.SetPhotonError("Invalid Room Name!", Color.red);
             return;
         }
         
-        if (nickname.Length < 2)
+        if (!CheckUserInput(nickname))
         {
-            Debug.Log("Username can not be empty!");
-            ftc.SetFeedbackText("Username can not be empty!", Color.red);
+            Debug.Log("Invalid Username!");
+            ftc.SetPhotonError("Invalid Username!", Color.red);
             return;
         }
         
@@ -62,26 +71,34 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
     public void JoinRoom(string roomName, string nickname)
     {
+        
         if(PhotonNetwork.InRoom) return;
         
         if (!PhotonNetwork.IsConnected)
         {
             Debug.Log("Connect to Photon first!");
-            ftc.SetFeedbackText("Connect to Photon first!", Color.red);
-            return;
-        }
-
-        if (roomName.Length < 2)
-        {
-            Debug.Log("Room name can not be empty!");
-            ftc.SetFeedbackText("Room name can not be empty", Color.red);
+            ftc.SetPhotonError("Connect to Photon first!", Color.red);
             return;
         }
         
-        if (nickname.Length < 2)
+        if (!PhotonNetwork.InLobby)
         {
-            Debug.Log("Username can not be empty!");
-            ftc.SetFeedbackText("Username can not be empty!", Color.red);
+            Debug.Log("Connect to Photon first!");
+            ftc.SetPhotonError("Connect to Photon first!", Color.red);
+            return;
+        }
+
+        if (!CheckUserInput(roomName))
+        {
+            Debug.Log("Invalid Room Name!");
+            ftc.SetPhotonError("Invalid Room Name!", Color.red);
+            return;
+        }
+        
+        if (!CheckUserInput(nickname))
+        {
+            Debug.Log("Invalid Username!");
+            ftc.SetPhotonError("Invalid Username!", Color.red);
             return;
         }
         
@@ -94,7 +111,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsConnected)
         {
             Debug.Log("Connect to Photon first!");
-            ftc.SetFeedbackText("Connect to Photon first!", Color.red);
+            ftc.SetPhotonError("Connect to Photon first!", Color.red);
             return;
         }
         
@@ -125,7 +142,8 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        ConnectToPhoton(_version);
+        ConnectToPhoton(Guid.NewGuid().ToString());
+        PhotonNetwork.GameVersion = _version;
         /*
         */
         gameManager = FindObjectOfType<GameManager>();
@@ -152,20 +170,20 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Photon Master Server");
-        ftc.SetFeedbackText("Connected To Photon Master Server",Color.green);
+        ftc.SetPhotonStatus("Connected To Photon Master Server",Color.green);
         if (PhotonNetwork.InLobby)
         {
-            ftc.SetFeedbackText("Connected To Photon Lobby",Color.green);
+            ftc.SetPhotonStatus("Connected To Photon Lobby",Color.green);
             return;
         }
-        ftc.SetFeedbackText("Connecting To Photon Lobby...",Color.yellow);
+        ftc.SetPhotonStatus("Connecting To Photon Lobby...",Color.yellow);
         PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedLobby()
     {
         Debug.Log("Connected to Photon Lobby");
-        ftc.SetFeedbackText("Connected To Photon Lobby",Color.green);
+        ftc.SetPhotonStatus("Connected To Photon Lobby",Color.green);
         //CreateRoom("room1");
     }
 
@@ -178,8 +196,16 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     {
         Debug.Log($"Room creation failed with return code: ${returnCode}");
         Debug.Log($"Room creation failed with message: ${message}");
-
-        ftc.SetFeedbackText("Room creation failed",Color.red);
+        
+        if (message.Contains("A game with the specified id already exist"))
+        {
+            PhotonNetwork.JoinLobby();
+            ftc.SetPhotonError("Roomname reserved",Color.red);
+            return;
+        }
+        
+        PhotonNetwork.JoinLobby();
+        ftc.SetPhotonError("Room creation failed",Color.red);
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -189,17 +215,30 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
         if (message.Contains("Game does not exist"))
         {
-            ftc.SetFeedbackText("Room does not exist",Color.red);
+            PhotonNetwork.JoinLobby();
+            ftc.SetPhotonError("Room does not exist",Color.red);
             return;
         }
         
-        ftc.SetFeedbackText("Failed to join room",Color.red);
+        PhotonNetwork.JoinLobby();
+        ftc.SetPhotonError("Failed to join room",Color.red);
     }
 
     public override void OnJoinedRoom()
     {
+        
+        if (PhotonNetwork.PlayerListOthers.Any(player => player.NickName.Equals(PhotonNetwork.LocalPlayer.NickName)))
+        {
+            LeaveRoom();
+            Debug.Log("Username reserved!");
+            ftc.SetPhotonError("Username reserved!", Color.red);
+            return;
+        }
+        
         Debug.Log($"Joined to room: ${PhotonNetwork.CurrentRoom.Name}");
-        ftc.SetFeedbackText($"Connected to room ${PhotonNetwork.CurrentRoom.Name}",Color.green);
+        ftc.SetPhotonStatus($"Connected to room ${PhotonNetwork.CurrentRoom.Name}",Color.green);
+        ftc.ClearPhotonError();
+        ftc.ClearPhotonStatus();
         ChangeToLobbyCanvas();
     }
 
