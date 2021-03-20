@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using TMPro;
@@ -14,23 +15,36 @@ public class MultiplayerButtonHandler : MonoBehaviour
     public void OnClickJoinRoom()
     {
         if(!PhotonNetwork.IsConnected) return;
-        
+
         photonConnHandler.JoinRoom(roomnamField.text, usernameField.text);
+        ClearButtonTexts();
     }
     
     public void OnClickCreateRoom()
     {
         if(!PhotonNetwork.IsConnected) return;
-        
+
         photonConnHandler.CreateRoom(roomnamField.text, usernameField.text);
+        ClearButtonTexts();
     }
     
-    public void OnClickBack()
+    public void OnClickBackFromMultiplayer()
     {
         if(PhotonNetwork.InRoom) return;
         
         PhotonNetwork.Disconnect();
         SceneManager.LoadScene("GameMode");
+    }
+    
+    public void OnClickBackFromLobby()
+    {
+        photonConnHandler.LeaveRoom();
+    }
+
+    private void ClearButtonTexts()
+    {
+        usernameField.SetText(string.Empty);
+        roomnamField.SetText(string.Empty);
     }
     
     #region Unity Methods

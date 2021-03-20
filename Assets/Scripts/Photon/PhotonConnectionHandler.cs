@@ -10,7 +10,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     private static string _version = "0.2";
     public GameManager gameManager;
     public FeedbackTextController ftc;
-    public Canvas sercerCreationCanvas;
+    public Canvas serverCreationCanvas;
     public Canvas lobbyCanvas;
     
     private readonly RoomOptions _roomOptions = new RoomOptions(){MaxPlayers = 2};
@@ -29,6 +29,13 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     {
 
         if (!PhotonNetwork.IsConnected)
+        {
+            Debug.Log("Connect to Photon first!");
+            ftc.SetFeedbackText("Connect to Photon first!", Color.red);
+            return;
+        }
+
+        if (!PhotonNetwork.InLobby)
         {
             Debug.Log("Connect to Photon first!");
             ftc.SetFeedbackText("Connect to Photon first!", Color.red);
@@ -82,9 +89,36 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.NickName = nickname;
     }
 
+    public void LeaveRoom()
+    {
+        if (!PhotonNetwork.IsConnected)
+        {
+            Debug.Log("Connect to Photon first!");
+            ftc.SetFeedbackText("Connect to Photon first!", Color.red);
+            return;
+        }
+        
+        if(!PhotonNetwork.IsConnectedAndReady) return;
+
+        PhotonNetwork.LocalPlayer.NickName = string.Empty;
+        PhotonNetwork.LeaveRoom();
+    }
+
     public void LoadScene(string sceneName)
     {
         PhotonNetwork.LoadLevel(sceneName);
+    }
+
+    public void ChangeToLobbyCanvas()
+    {
+        lobbyCanvas.enabled = true;
+        serverCreationCanvas.enabled = false;
+    }
+    
+    public void ChangeToServerCreationCanvas()
+    {
+        serverCreationCanvas.enabled = true;
+        lobbyCanvas.enabled = false;
     }
 
     #region Unity Methods
@@ -103,6 +137,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         //DEBUG
         gameManager.gameMode = GameMode.Multiplayer;
         Debug.Log($"Current game mode: {gameManager.gameMode}");
+        ChangeToServerCreationCanvas();
     }
 
     private void Awake()
@@ -165,13 +200,13 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     {
         Debug.Log($"Joined to room: ${PhotonNetwork.CurrentRoom.Name}");
         ftc.SetFeedbackText($"Connected to room ${PhotonNetwork.CurrentRoom.Name}",Color.green);
-        sercerCreationCanvas.enabled = false;
-        lobbyCanvas.enabled = true;
+        ChangeToLobbyCanvas();
     }
 
     public override void OnLeftRoom()
     {
         Debug.Log($"Room left");
+        ChangeToServerCreationCanvas();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
