@@ -60,3 +60,7 @@ crashlytics-build.properties
 
 # idea files
 *.idea
+
+#BuildFolders
+*UWPBuild/
+*PCBuild/
