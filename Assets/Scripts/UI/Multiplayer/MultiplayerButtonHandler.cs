@@ -5,6 +5,7 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MultiplayerButtonHandler : MonoBehaviour
 {
@@ -17,7 +18,6 @@ public class MultiplayerButtonHandler : MonoBehaviour
         if(!PhotonNetwork.IsConnected) return;
 
         photonConnHandler.JoinRoom(roomnamField.text, usernameField.text);
-        ClearButtonTexts();
     }
     
     public void OnClickCreateRoom()
@@ -25,7 +25,6 @@ public class MultiplayerButtonHandler : MonoBehaviour
         if(!PhotonNetwork.IsConnected) return;
 
         photonConnHandler.CreateRoom(roomnamField.text, usernameField.text);
-        ClearButtonTexts();
     }
     
     public void OnClickBackFromMultiplayer()
@@ -40,11 +39,11 @@ public class MultiplayerButtonHandler : MonoBehaviour
     {
         photonConnHandler.LeaveRoom();
     }
-
+    
     private void ClearButtonTexts()
     {
-        usernameField.SetText(string.Empty);
-        roomnamField.SetText(string.Empty);
+        usernameField.text = string.Empty;
+        roomnamField.text = string.Empty;
     }
     
     #region Unity Methods
