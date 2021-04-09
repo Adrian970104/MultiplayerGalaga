@@ -27,12 +27,13 @@ public class UIPlayerInstanceController : MonoBehaviour
         defenderToggle.isOn = isOn;
     }
 
-    public void setActive(bool isActive)
+    public void SetCbSelectable(bool isEnabled)
     {
-        gameObject.SetActive(isActive);
+        attackerToggle.enabled = isEnabled;
+        defenderToggle.enabled = isEnabled;
     }
     
-    #region Unity Methond
+    #region Unity Methonds
 
     private void Start()
     {

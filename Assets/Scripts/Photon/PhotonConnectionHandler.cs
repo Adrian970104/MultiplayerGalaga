@@ -15,6 +15,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     public FeedbackTextController ftc;
     public Canvas serverCreationCanvas;
     public Canvas lobbyCanvas;
+    public PlayerContainerController playerContainerController;
     
     private readonly RoomOptions _roomOptions = new RoomOptions(){MaxPlayers = 2};
 
@@ -126,16 +127,18 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel(sceneName);
     }
 
-    public void ChangeToLobbyCanvas()
+    private void ChangeToLobbyCanvas()
     {
         lobbyCanvas.enabled = true;
         serverCreationCanvas.enabled = false;
+        playerContainerController.Fill();
     }
-    
-    public void ChangeToServerCreationCanvas()
+
+    private void ChangeToServerCreationCanvas()
     {
         serverCreationCanvas.enabled = true;
         lobbyCanvas.enabled = false;
+        playerContainerController.Clear();
     }
 
     #region Unity Methods
@@ -251,11 +254,13 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log($"Player joined: ${newPlayer.NickName}");
+        playerContainerController.Refresh();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log($"Player Left: ${otherPlayer.NickName}");
+        playerContainerController.Refresh();
     }
     
     //OnMasterClientSwitched - Akkor történik, ha az aktuális masterClient user elhagyja a szobát. Ekkor egy másik kliens lesz a MasterClient.
