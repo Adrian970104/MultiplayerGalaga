@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,10 @@ public class GameManager : MonoBehaviour
     public GameMode gameMode { get; set; }
     public MultiplayerPhase multiplayerPhase { get; set; }
     public SingleplayerPhase singleplayerPhase { get; set; }
+
+    private List<PlayerController> _playerList;
+    
+    private PlayerController _player;
 
     #region UnityMethods
     private void Start()

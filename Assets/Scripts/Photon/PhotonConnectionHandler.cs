@@ -7,6 +7,7 @@ using System.Threading;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.Networking.PlayerConnection;
 
 public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 {
@@ -131,14 +132,12 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     {
         lobbyCanvas.enabled = true;
         serverCreationCanvas.enabled = false;
-        playerContainerController.Fill();
     }
 
     private void ChangeToServerCreationCanvas()
     {
         serverCreationCanvas.enabled = true;
         lobbyCanvas.enabled = false;
-        playerContainerController.Clear();
     }
 
     #region Unity Methods
@@ -159,6 +158,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         gameManager.gameMode = GameMode.Multiplayer;
         Debug.Log($"Current game mode: {gameManager.gameMode}");
         ChangeToServerCreationCanvas();
+        playerContainerController.Clear();
     }
 
     private void Awake()
@@ -243,24 +243,31 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         ftc.ClearPhotonError();
         ftc.ClearPhotonStatus();
         ChangeToLobbyCanvas();
+        playerContainerController.Fill();
     }
 
     public override void OnLeftRoom()
     {
+        var props = new[] {"IsAttacker"};
         Debug.Log($"Room left");
+        Debug.Log($"CustomProperties reseted");
+        PhotonNetwork.RemovePlayerCustomProperties(props);
         ChangeToServerCreationCanvas();
+        playerContainerController.Clear();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log($"Player joined: ${newPlayer.NickName}");
-        playerContainerController.Refresh();
+        //playerContainerController.Refresh();
+        playerContainerController.photonView.RPC("Refresh",RpcTarget.All);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log($"Player Left: ${otherPlayer.NickName}");
-        playerContainerController.Refresh();
+        //playerContainerController.Refresh();
+        playerContainerController.photonView.RPC("Refresh",RpcTarget.All);
     }
     
     //OnMasterClientSwitched - Akkor történik, ha az aktuális masterClient user elhagyja a szobát. Ekkor egy másik kliens lesz a MasterClient.
