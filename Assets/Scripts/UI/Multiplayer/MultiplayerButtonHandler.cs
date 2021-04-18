@@ -12,6 +12,7 @@ public class MultiplayerButtonHandler : MonoBehaviour
     public TextMeshProUGUI usernameField;
     public TextMeshProUGUI roomnamField;
     public PhotonConnectionHandler photonConnHandler;
+    public Button readyButton;
     
     public void OnClickJoinRoom()
     {
@@ -40,12 +41,56 @@ public class MultiplayerButtonHandler : MonoBehaviour
         photonConnHandler.LeaveRoom();
     }
     
-    private void ClearButtonTexts()
+    public void ClearButtonTexts()
     {
         usernameField.text = string.Empty;
         roomnamField.text = string.Empty;
     }
-    
+
+    public void OnClickReady()
+    {
+        //ExitGames.Client.Photon.Hashtable _myCustomProperties = new ExitGames.Client.Photon.Hashtable();
+        
+        if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("IsReady"))
+        {
+            ChangeReady(false);
+        }
+        else
+        {
+            ChangeReady((bool) PhotonNetwork.LocalPlayer.CustomProperties["IsReady"]);
+        }
+    }
+
+    private void ChangeReady(bool isReady)
+    { 
+        ExitGames.Client.Photon.Hashtable myCustomProperties = new ExitGames.Client.Photon.Hashtable();
+        //UIPlayerInstanceController uiplController = new UIPlayerInstanceController();
+        
+        myCustomProperties["IsReady"] = !isReady;
+        PhotonNetwork.SetPlayerCustomProperties(myCustomProperties);
+        //PhotonNetwork.LocalPlayer.CustomProperties = myCustomProperties;
+
+        foreach (var plinstance in GameObject.FindGameObjectsWithTag("UIPlayerInstance"))
+        {
+            var uiplic = plinstance.GetComponent<UIPlayerInstanceController>();
+            if (uiplic.username.text == PhotonNetwork.LocalPlayer.NickName)
+            {
+                uiplic.SetCbSelectable(isReady);
+            }
+        }
+        
+        if (isReady)
+        {
+            readyButton.image.color = Color.green;
+            readyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Ready";
+        }
+        else
+        {
+            readyButton.image.color = Color.yellow;
+            readyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Cancel Ready";
+        }
+    }
+
     #region Unity Methods
 
     #endregion

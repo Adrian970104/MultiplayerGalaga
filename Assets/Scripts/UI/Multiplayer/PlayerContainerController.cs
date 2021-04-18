@@ -46,19 +46,33 @@ public class PlayerContainerController : MonoBehaviour
         
         foreach (var player in PhotonNetwork.PlayerList)
         {
-            /*if(player.NickName == PhotonNetwork.LocalPlayer.NickName && !player.Equals(PhotonNetwork.LocalPlayer))
-                return;*/
+            if(player.NickName == PhotonNetwork.LocalPlayer.NickName && !player.Equals(PhotonNetwork.LocalPlayer))
+                return;
             
             Debug.Log($"Player Ui instance created: {player.NickName}");
-            //var canvasTransform = canvas.transform;
             var contentTransform = content.transform;
             //var UIPLayerInstance = PhotonNetwork.Instantiate(UIPlayerInstance.name, contentTransform.position, contentTransform.rotation, default,null);
             var UIPLayerInstance = Instantiate(UIPlayerInstance, contentTransform);
             UIPLayerInstance.transform.localScale = new Vector3(1.0f,1.0f,1.0f);
-            //UIPLayerInstance.transform.SetParent(contentTransform);
             var UIPIController = UIPLayerInstance.GetComponentInChildren<UIPlayerInstanceController>();
             UIPIController.SetUsername(player.NickName);
-            UIPIController.SetCbSelectable(PhotonNetwork.LocalPlayer.Equals(player));
+            
+            if (PhotonNetwork.LocalPlayer.Equals(player))
+            {
+                if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("IsReady"))
+                {
+                    UIPIController.SetCbSelectable(!(bool) PhotonNetwork.LocalPlayer.CustomProperties["IsReady"]);
+                }
+                else
+                {
+                    UIPIController.SetCbSelectable(true);
+                }
+            }
+
+            if (!PhotonNetwork.LocalPlayer.Equals(player))
+            {
+                UIPIController.SetCbSelectable(false);
+            }
             
             //if (player.CustomProperties["IsAttacker"] is null)
             if (!player.CustomProperties.ContainsKey("IsAttacker"))

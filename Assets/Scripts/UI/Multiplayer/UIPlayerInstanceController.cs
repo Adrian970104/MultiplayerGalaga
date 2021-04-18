@@ -21,15 +21,8 @@ public class UIPlayerInstanceController : MonoBehaviour
     {
         _myCustomProperties["IsAttacker"] = attackerToggle.isOn;
         PhotonNetwork.SetPlayerCustomProperties(_myCustomProperties);
-        //PhotonNetwork.LocalPlayer.SetCustomProperties(_myCustomProperties);
         PhotonNetwork.LocalPlayer.CustomProperties = _myCustomProperties;
-        Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("IsAttacker")
-            ? $"Players {PhotonNetwork.LocalPlayer.NickName} IsAttacker successfully set to {(bool) PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"]}"
-            : $"Failed to set {PhotonNetwork.LocalPlayer.NickName} players Custom Properties");
-
-        //PhotonView.RPC("Refresh",RpcTarget.All);
         _playerContainerController.photonView.RPC("Refresh",RpcTarget.All);
-        //pcc.Update();
     }
     public void SelectedUpdate()
     {
