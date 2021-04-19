@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,5 +26,14 @@ public class GameManager : MonoBehaviour
         multiplayerPhase = MultiplayerPhase.Undefined;
         singleplayerPhase = SingleplayerPhase.Undefined;
     }
+
+    private void Update()
+    {
+        /*if (ReadyCheck())
+        {
+            Debug.Log("All users ready ");
+        }*/
+    }
+
     #endregion
 }

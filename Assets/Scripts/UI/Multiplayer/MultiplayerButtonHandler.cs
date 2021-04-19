@@ -17,15 +17,15 @@ public class MultiplayerButtonHandler : MonoBehaviour
     public void OnClickJoinRoom()
     {
         if(!PhotonNetwork.IsConnected) return;
-
         photonConnHandler.JoinRoom(roomnamField.text, usernameField.text);
+        ActivateReadyButton(false);
     }
     
     public void OnClickCreateRoom()
     {
         if(!PhotonNetwork.IsConnected) return;
-
         photonConnHandler.CreateRoom(roomnamField.text, usernameField.text);
+        ActivateReadyButton(false);
     }
     
     public void OnClickBackFromMultiplayer()
@@ -38,6 +38,7 @@ public class MultiplayerButtonHandler : MonoBehaviour
     
     public void OnClickBackFromLobby()
     {
+        SetReadyButton(true);
         photonConnHandler.LeaveRoom();
     }
     
@@ -62,7 +63,7 @@ public class MultiplayerButtonHandler : MonoBehaviour
     }
 
     private void ChangeReady(bool isReady)
-    { 
+    {
         ExitGames.Client.Photon.Hashtable myCustomProperties = new ExitGames.Client.Photon.Hashtable();
         //UIPlayerInstanceController uiplController = new UIPlayerInstanceController();
         
@@ -79,6 +80,11 @@ public class MultiplayerButtonHandler : MonoBehaviour
             }
         }
         
+        SetReadyButton(isReady);
+    }
+
+    private void SetReadyButton(bool isReady)
+    {
         if (isReady)
         {
             readyButton.image.color = Color.green;
@@ -89,6 +95,12 @@ public class MultiplayerButtonHandler : MonoBehaviour
             readyButton.image.color = Color.yellow;
             readyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Cancel Ready";
         }
+    }
+
+    private void ActivateReadyButton(bool activate)
+    {
+        //readyButton.enabled = activate;
+        readyButton.interactable = activate;
     }
 
     #region Unity Methods

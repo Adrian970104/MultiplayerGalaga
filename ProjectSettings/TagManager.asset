@@ -6,6 +6,7 @@ TagManager:
   tags:
   - UIPlayerInstance
   - PlayerContainerCanvas
+  - MultiplayerReadyButton
   layers:
   - Default
   - TransparentFX

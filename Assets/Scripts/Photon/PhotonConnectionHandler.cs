@@ -8,6 +8,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.Networking.PlayerConnection;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 {
@@ -248,7 +249,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        var props = new[] {"IsAttacker"};
+        var props = new[] {"IsAttacker","IsReady"};
         Debug.Log($"Room left");
         Debug.Log($"CustomProperties reseted");
         PhotonNetwork.RemovePlayerCustomProperties(props);
@@ -275,6 +276,19 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     {
         Debug.Log($"The new master client is: ${newMasterClient.NickName}");
     }
-    
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        if(!changedProps.ContainsKey("IsReady")) return;
+        
+        Debug.Log($"IsReady CustomProperty Changed. All player ready: {ReadyCheck()}");
+    }
+
     #endregion
+    
+    private bool ReadyCheck()
+    {
+        var counter = PhotonNetwork.PlayerList.Count(player => player.CustomProperties.ContainsKey("IsReady") && (bool) player.CustomProperties["IsReady"]);
+        return (counter > 0 && counter == PhotonNetwork.CurrentRoom.PlayerCount);
+    }
 }

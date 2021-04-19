@@ -4401,8 +4401,8 @@ GameObject:
   - component: {fileID: 2090487165}
   - component: {fileID: 2090487164}
   m_Layer: 5
-  m_Name: ReadyButton
-  m_TagString: Untagged
+  m_Name: MultiplayerReadyButton
+  m_TagString: MultiplayerReadyButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
