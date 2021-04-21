@@ -8,8 +8,7 @@ public class CurrentUserTextController : MonoBehaviour
 {
     public TextMeshProUGUI CurrentUserText;
 
-    #region Unity Methods
-    private void Update()
+    public void Refresh()
     {
         if (!PhotonNetwork.IsConnected)
         {
@@ -26,5 +25,4 @@ public class CurrentUserTextController : MonoBehaviour
         CurrentUserText.text = $"Current User: {PhotonNetwork.LocalPlayer.NickName}";
         CurrentUserText.color = Color.green;
     }
-    #endregion
 }

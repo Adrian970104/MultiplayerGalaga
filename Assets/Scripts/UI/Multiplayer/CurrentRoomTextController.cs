@@ -8,9 +8,7 @@ using UnityEngine;
 public class CurrentRoomTextController : MonoBehaviour
 {
     public TextMeshProUGUI CurrentRoomText;
-
-    #region Unity Methods
-    private void Update()
+    public void Refresh()
     {
         if (!PhotonNetwork.IsConnected)
         {
@@ -27,5 +25,4 @@ public class CurrentRoomTextController : MonoBehaviour
         CurrentRoomText.text = $"Current Room: {PhotonNetwork.CurrentRoom.Name}";
         CurrentRoomText.color = Color.green;
     }
-    #endregion
 }

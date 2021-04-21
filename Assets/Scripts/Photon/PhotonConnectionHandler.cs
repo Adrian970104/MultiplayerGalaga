@@ -19,6 +19,9 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     public Canvas serverCreationCanvas;
     public Canvas lobbyCanvas;
     public PlayerContainerController playerContainerController;
+    public CurrentRoomTextController crtc;
+    public CurrentUserTextController cutc;
+    public RadyCheckFeedbackTextController rcftc;
     
     private readonly RoomOptions _roomOptions = new RoomOptions(){MaxPlayers = 2};
 
@@ -267,6 +270,10 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         ftc.SetPhotonStatus($"Connected to room ${PhotonNetwork.CurrentRoom.Name}",Color.green);
         ftc.ClearPhotonError();
         ftc.ClearPhotonStatus();
+        cutc.Refresh();
+        crtc.Refresh();
+        rcftc.SetMessage(string.Empty);
+        
         ChangeToLobbyCanvas();
         playerContainerController.Fill();
     }
@@ -284,14 +291,12 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log($"Player joined: ${newPlayer.NickName}");
-        //playerContainerController.Refresh();
         playerContainerController.photonView.RPC("Refresh",RpcTarget.All);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log($"Player Left: ${otherPlayer.NickName}");
-        //playerContainerController.Refresh();
         playerContainerController.photonView.RPC("Refresh",RpcTarget.All);
     }
     
@@ -306,19 +311,30 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         if(!changedProps.ContainsKey("IsReady")) return;
         if (!PlayerCountCheck())
         {
-            Debug.Log($"Kevés user.");
+            rcftc.SetMessage($"At least {_roomOptions.MaxPlayers} players required");
             return;
         }
 
         if (!PlayerReadyCheck())
         {
-            Debug.Log($"Várakozás a másik játékosra");
+            if(!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("IsReady"))
+                return;
+            
+            if ((bool) PhotonNetwork.LocalPlayer.CustomProperties["IsReady"])
+            {
+                rcftc.SetMessage("Waiting for other player");
+            }
+            else
+            {
+                rcftc.SetMessage(string.Empty);
+            }
+
             return;
         }
 
         if (!PlayerRoleCheck())
         {
-            Debug.Log($"Nem lehet ugyanaz a role-ja két játékosnak.");
+            rcftc.SetMessage("Players must choose different role");
             return;
         }
         gameManager.StartDeploy();
