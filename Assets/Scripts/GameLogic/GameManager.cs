@@ -16,7 +16,12 @@ public class GameManager : MonoBehaviour
     private List<PlayerController> _playerList;
     
     private PlayerController _player;
-
+    
+    public void StartDeploy()
+    {
+        PhotonNetwork.LoadLevel("SingleplayerMenu");
+    }
+    
     #region UnityMethods
     private void Start()
     {

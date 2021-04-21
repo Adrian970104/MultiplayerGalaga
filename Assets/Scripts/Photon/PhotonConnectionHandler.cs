@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Photon.Pun;
@@ -139,6 +140,29 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     {
         serverCreationCanvas.enabled = true;
         lobbyCanvas.enabled = false;
+    }
+
+    private bool PlayerCountCheck()
+    {
+        Debug.Log($"PlayerListLength: {PhotonNetwork.PlayerList.Length}");
+        Debug.Log($"MaxPlayers: {_roomOptions.MaxPlayers}");
+        return PhotonNetwork.PlayerList.Length == _roomOptions.MaxPlayers;
+    }
+
+    private bool PlayerReadyCheck()
+    {
+        if (PhotonNetwork.PlayerList[0].CustomProperties["IsReady"] is null) return false;
+        if (PhotonNetwork.PlayerList[1].CustomProperties["IsReady"] is null) return false;
+        return (bool) PhotonNetwork.PlayerList[0].CustomProperties["IsReady"] &&
+               (bool) PhotonNetwork.PlayerList[1].CustomProperties["IsReady"];
+    }
+
+    private bool PlayerRoleCheck()
+    {
+        if (PhotonNetwork.PlayerList[0].CustomProperties["IsAttacker"] is null) return false;
+        if (PhotonNetwork.PlayerList[1].CustomProperties["IsAttacker"] is null) return false;
+        return (bool) PhotonNetwork.PlayerList[0].CustomProperties["IsAttacker"] !=
+               (bool) PhotonNetwork.PlayerList[1].CustomProperties["IsAttacker"];
     }
 
     #region Unity Methods
@@ -280,15 +304,25 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         if(!changedProps.ContainsKey("IsReady")) return;
-        
-        Debug.Log($"IsReady CustomProperty Changed. All player ready: {ReadyCheck()}");
+        if (!PlayerCountCheck())
+        {
+            Debug.Log($"Kevés user.");
+            return;
+        }
+
+        if (!PlayerReadyCheck())
+        {
+            Debug.Log($"Várakozás a másik játékosra");
+            return;
+        }
+
+        if (!PlayerRoleCheck())
+        {
+            Debug.Log($"Nem lehet ugyanaz a role-ja két játékosnak.");
+            return;
+        }
+        gameManager.StartDeploy();
     }
 
     #endregion
-    
-    private bool ReadyCheck()
-    {
-        var counter = PhotonNetwork.PlayerList.Count(player => player.CustomProperties.ContainsKey("IsReady") && (bool) player.CustomProperties["IsReady"]);
-        return (counter > 0 && counter == PhotonNetwork.CurrentRoom.PlayerCount);
-    }
 }
