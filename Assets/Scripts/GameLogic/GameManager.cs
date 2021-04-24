@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     
     public void StartDeploy()
     {
-        PhotonNetwork.LoadLevel("SingleplayerMenu");
+        PhotonNetwork.LoadLevel("InGame");
     }
     
     #region UnityMethods

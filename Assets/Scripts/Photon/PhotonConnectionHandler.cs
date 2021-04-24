@@ -154,16 +154,20 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
     private bool PlayerReadyCheck()
     {
-        if (PhotonNetwork.PlayerList[0].CustomProperties["IsReady"] is null) return false;
-        if (PhotonNetwork.PlayerList[1].CustomProperties["IsReady"] is null) return false;
-        return (bool) PhotonNetwork.PlayerList[0].CustomProperties["IsReady"] &&
-               (bool) PhotonNetwork.PlayerList[1].CustomProperties["IsReady"];
+        if (PhotonNetwork.PlayerList.Any(player => player.CustomProperties["IsReady"] is null))
+        {
+            return false;
+        }
+
+        return PhotonNetwork.PlayerList.All(player => (bool) player.CustomProperties["IsReady"]);
     }
 
     private bool PlayerRoleCheck()
     {
-        if (PhotonNetwork.PlayerList[0].CustomProperties["IsAttacker"] is null) return false;
-        if (PhotonNetwork.PlayerList[1].CustomProperties["IsAttacker"] is null) return false;
+        if (PhotonNetwork.PlayerList.Any(player => player.CustomProperties["IsAttacker"] is null))
+        {
+            return false;
+        }
         return (bool) PhotonNetwork.PlayerList[0].CustomProperties["IsAttacker"] !=
                (bool) PhotonNetwork.PlayerList[1].CustomProperties["IsAttacker"];
     }
@@ -172,6 +176,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        DontDestroyOnLoad(this);
         ConnectToPhoton(Guid.NewGuid().ToString());
         PhotonNetwork.GameVersion = _version;
         /*
@@ -231,12 +236,12 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         if (message.Contains("A game with the specified id already exist"))
         {
             PhotonNetwork.JoinLobby();
-            ftc.SetPhotonError("Roomname reserved",Color.red);
+            ftc.SetPhotonError("Roomname reserved", Color.red);
             return;
         }
         
         PhotonNetwork.JoinLobby();
-        ftc.SetPhotonError("Room creation failed",Color.red);
+        ftc.SetPhotonError("Room creation failed", Color.red);
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -247,12 +252,19 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         if (message.Contains("Game does not exist"))
         {
             PhotonNetwork.JoinLobby();
-            ftc.SetPhotonError("Room does not exist",Color.red);
+            ftc.SetPhotonError("Room does not exist", Color.red);
+            return;
+        }
+        
+        if (message.Contains("full"))
+        {
+            PhotonNetwork.JoinLobby();
+            ftc.SetPhotonError("Room is full", Color.red);
             return;
         }
         
         PhotonNetwork.JoinLobby();
-        ftc.SetPhotonError("Failed to join room",Color.red);
+        ftc.SetPhotonError("Failed to join room", Color.red);
     }
 
     public override void OnJoinedRoom()
@@ -309,6 +321,8 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         if(!changedProps.ContainsKey("IsReady")) return;
+        //TODO EZ AZÉRT KOMMENT HOGY KÖNNYEBB LEGYEN DEBUGOLNI!
+        
         if (!PlayerCountCheck())
         {
             rcftc.SetMessage($"At least {_roomOptions.MaxPlayers} players required");
@@ -331,13 +345,15 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
             return;
         }
-
+        /*TODO Ez csak azért van kimmentbe,hogy egy user is be tudjon jelentkezni
         if (!PlayerRoleCheck())
         {
             rcftc.SetMessage("Players must choose different role");
             return;
         }
+        */
         gameManager.StartDeploy();
+        
     }
 
     #endregion
