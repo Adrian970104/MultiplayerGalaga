@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 1232478380168060550}
   - component: {fileID: 917046974315244729}
   - component: {fileID: 1014101215111893188}
-  - component: {fileID: 8783459435816414128}
   - component: {fileID: 2673876069302134384}
+  - component: {fileID: 5100574643373507370}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -112,20 +112,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
---- !u!114 &8783459435816414128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2673876069302134390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2923d26028e865d499a358ead96b6b5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: {fileID: 3396197704998782655, guid: 19495bbd355ccfc42b52d705efba110c, type: 3}
-  photonView: {fileID: 2673876069302134384}
 --- !u!114 &2673876069302134384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,8 +131,21 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 8783459435816414128}
-  - {fileID: 0}
+  - {fileID: 5100574643373507370}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &5100574643373507370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2673876069302134390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2923d26028e865d499a358ead96b6b5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 3396197704998782655, guid: 19495bbd355ccfc42b52d705efba110c, type: 3}
+  photonView: {fileID: 2673876069302134384}

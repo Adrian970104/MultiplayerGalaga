@@ -7,15 +7,15 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class PhotonPlayerBehaviour : MonoBehaviourPun, IPunObservable
+public class PhotonDefenderPlayerBehaviour : MonoBehaviourPun, IPunObservable
 {
     [SerializeField]
     public GameObject bullet;
     public PhotonView photonView;
+    
     private Vector3 _selfPos;
-    private Vector3 _selfVel;
     private Rigidbody _rigidbody;
-    private float _lag;
+    private bool _isAttacker;
 
     private void AddForceMovement()
     {
@@ -52,19 +52,10 @@ public class PhotonPlayerBehaviour : MonoBehaviourPun, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(_rigidbody.position);
-            //stream.SendNext(_rigidbody.velocity);
         }
         else
         {
             _selfPos = (Vector3)stream.ReceiveNext();
-            //_selfVel = (Vector3)stream.ReceiveNext();
-            
-            //_lag = Mathf.Abs((float) (PhotonNetwork.Time - info.SentServerTime));
-           /*_rigidbody.position = (Vector3) stream.ReceiveNext();
-           _rigidbody.velocity = (Vector3) stream.ReceiveNext();
-
-           float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.timestamp));
-           _rigidbody.position += _rigidbody.velocity * lag;*/
         }
     }
     #endregion
@@ -73,31 +64,25 @@ public class PhotonPlayerBehaviour : MonoBehaviourPun, IPunObservable
     #region Unity Methods
     void Start()
     {
+        _isAttacker = (bool) PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"];
         _rigidbody = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
     {
-        if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"])
+        if (_isAttacker)
         {
             _rigidbody.position = Vector3.Lerp(_rigidbody.position, _selfPos, Time.fixedDeltaTime * 15);
-            //_rigidbody.position = Vector3.MoveTowards(_rigidbody.position, networkPosition, Time.fixedDeltaTime);
         }
     }
 
     private void Update()
     {
-        if (!(bool) PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"])
-        {
-            AddForceMovement();
-            Shooting();
-        }
-        else
-        {
-            //_rigidbody.velocity = _selfVel;
-            //_rigidbody.position += _rigidbody.velocity * _lag / _rigidbody.drag ;
-        }
+        if (_isAttacker) return;
+        AddForceMovement();
+        Shooting();
     }
+    
     #endregion
 
 }
