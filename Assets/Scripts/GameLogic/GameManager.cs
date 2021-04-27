@@ -12,10 +12,6 @@ public class GameManager : MonoBehaviour
     public GameMode gameMode { get; set; }
     public MultiplayerPhase multiplayerPhase { get; set; }
     public SingleplayerPhase singleplayerPhase { get; set; }
-
-    private List<PlayerController> _playerList;
-    
-    private PlayerController _player;
     
     public void StartDeploy()
     {

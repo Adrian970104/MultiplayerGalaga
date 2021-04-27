@@ -11,8 +11,7 @@ public class PhotonDefenderPlayerBehaviour : MonoBehaviourPun, IPunObservable
 {
     [SerializeField]
     public GameObject bullet;
-    public PhotonView photonView;
-    
+
     private Vector3 _selfPos;
     private Rigidbody _rigidbody;
     private bool _isAttacker;
