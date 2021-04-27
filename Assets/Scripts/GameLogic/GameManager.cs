@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     
     public void StartDeploy()
     {
+        multiplayerPhase = MultiplayerPhase.InDeploy;
         PhotonNetwork.LoadLevel("InGame");
     }
     
@@ -34,10 +35,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        /*if (ReadyCheck())
-        {
-            Debug.Log("All users ready ");
-        }*/
     }
 
     #endregion

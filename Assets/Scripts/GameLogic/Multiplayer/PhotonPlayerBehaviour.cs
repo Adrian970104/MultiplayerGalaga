@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Security.Cryptography;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class PhotonPlayerBehaviour : MonoBehaviour
+public class PhotonPlayerBehaviour : MonoBehaviourPun, IPunObservable
 {
     [SerializeField]
     public GameObject bullet;
     public PhotonView photonView;
     private Vector3 _selfPos;
+    private Vector3 _selfVel;
+    private Rigidbody _rigidbody;
+    private float _lag;
 
     private void AddForceMovement()
     {
@@ -36,29 +41,47 @@ public class PhotonPlayerBehaviour : MonoBehaviour
     private void Shooting()
     {
         if (!Input.GetKeyDown(KeyCode.Space)) return;
-        var bulletClone = PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.Euler(90,0,0),0);
-        //bulletClone.transform.Rotate(new Vector3(1, 0, 0), 90);
+        var bulletClone = PhotonNetwork.Instantiate(bullet.name, _rigidbody.position, Quaternion.Euler(90,0,0),0);
         bulletClone.GetComponent<PhotonBulletBehaviour>().selfDirection = transform.forward;
     }
-    
-    
 
     #region Photon Methods
-    
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(_rigidbody.position);
+            //stream.SendNext(_rigidbody.velocity);
+        }
+        else
+        {
+            _selfPos = (Vector3)stream.ReceiveNext();
+            //_selfVel = (Vector3)stream.ReceiveNext();
+            
+            //_lag = Mathf.Abs((float) (PhotonNetwork.Time - info.SentServerTime));
+           /*_rigidbody.position = (Vector3) stream.ReceiveNext();
+           _rigidbody.velocity = (Vector3) stream.ReceiveNext();
+
+           float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.timestamp));
+           _rigidbody.position += _rigidbody.velocity * lag;*/
+        }
+    }
     #endregion
     
     
     #region Unity Methods
     void Start()
     {
+        _rigidbody = GetComponent<Rigidbody>();
     }
-    
-    void FixedUpdate()
+
+    private void FixedUpdate()
     {
-        if (!(bool)PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"])
+        if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"])
         {
-            AddForceMovement();
+            _rigidbody.position = Vector3.Lerp(_rigidbody.position, _selfPos, Time.fixedDeltaTime * 15);
+            //_rigidbody.position = Vector3.MoveTowards(_rigidbody.position, networkPosition, Time.fixedDeltaTime);
         }
     }
 
@@ -66,9 +89,15 @@ public class PhotonPlayerBehaviour : MonoBehaviour
     {
         if (!(bool) PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"])
         {
+            AddForceMovement();
             Shooting();
         }
+        else
+        {
+            //_rigidbody.velocity = _selfVel;
+            //_rigidbody.position += _rigidbody.velocity * _lag / _rigidbody.drag ;
+        }
     }
-
     #endregion
+
 }

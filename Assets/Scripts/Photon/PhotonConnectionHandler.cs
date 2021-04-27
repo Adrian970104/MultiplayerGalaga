@@ -345,15 +345,13 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
             return;
         }
-        /*TODO Ez csak azért van kimmentbe,hogy egy user is be tudjon jelentkezni
         if (!PlayerRoleCheck())
         {
             rcftc.SetMessage("Players must choose different role");
             return;
         }
-        */
-        gameManager.StartDeploy();
         
+        gameManager.StartDeploy();
     }
 
     #endregion
