@@ -36,6 +36,7 @@ MonoBehaviour:
   - ClickRpc
   - DestroyRpc
   - Refresh
+  - RPCDestroy
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

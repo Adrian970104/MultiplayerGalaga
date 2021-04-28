@@ -10,11 +10,32 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
     public Vector3 selfDirection;
 
     private Vector3 _selfPos;
+    private int _health = 100;
 
         
     public void Movement(Vector3 direction)
     {
         //transform.position += direction * (speed * Time.deltaTime);
+    }
+    
+    [PunRPC]
+    public void RPCDestroy()
+    {
+        if (!photonView.IsMine) return;
+        PhotonNetwork.Destroy(gameObject);
+    }
+
+    public void ChangeHealth(int amount)
+    {
+        _health += amount;
+        HealthCheck();
+    }
+
+    private void HealthCheck()
+    {
+        if (_health > 0) return;
+        gameObject.tag = "Untagged";
+        photonView.RPC("RPCDestroy", RpcTarget.All);
     }
 
     #region Photon Methods
@@ -33,6 +54,14 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
     #endregion
         
     #region Unity Methods
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        /*if (other.CompareTag("Bullet"))
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }*/
+    }
 
     private void Update()
     {

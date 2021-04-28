@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 010028c894874848828afbfdbb57639b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  photonView: {fileID: 3396197704998782641}
   speed: 10
+  _damage: 50
+  photonView: {fileID: 3396197704998782641}
   selfDirection: {x: 0, y: 0, z: 0}
