@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
-    public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
+using WebSocketSharp;
+
+public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
     {
         public int speed = 10;
         public int _damage = 50;
+        public string ownerTag;
         
         public PhotonView photonView;
         public Vector3 selfDirection;
@@ -29,16 +32,25 @@ using UnityEngine;
             }
         }
 
+        /*[PunRPC]
+        public void SetOwnerTag(string tag)
+        {
+            ownerTag = tag;
+        }*/
+
         #region Photon Methods
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)
             {
+                Debug.Log($"Owner tag to send: {ownerTag}");
+                stream.SendNext(ownerTag);
                 stream.SendNext(transform.position);
             }
             else
             {
+                ownerTag = (string) stream.ReceiveNext();
                 _selfPos = (Vector3)stream.ReceiveNext();
             }
         }
@@ -48,6 +60,9 @@ using UnityEngine;
 
         private void OnTriggerEnter(Collider other)
         {
+            if(ownerTag.IsNullOrEmpty()) return;
+            if(other.CompareTag(ownerTag)) return;
+            
             if (other.CompareTag("AttackerShip"))
             {
                 if (photonView.IsMine)
@@ -69,7 +84,7 @@ using UnityEngine;
             {
                 transform.position = Vector3.Lerp(transform.position, _selfPos, Time.deltaTime * 15);
             }
-
+            Debug.Log($"Owner is: {ownerTag}");
         }
 
         private void Start()

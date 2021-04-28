@@ -109,8 +109,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   photonView: {fileID: -1335695954109431}
-  speed: 1
   selfDirection: {x: 0, y: 0, z: 0}
+  bullet: {fileID: 3396197704998782655, guid: 19495bbd355ccfc42b52d705efba110c, type: 3}
+  speed: 1
+  isDeployed: 0
 --- !u!114 &-1335695954109431
 MonoBehaviour:
   m_ObjectHideFlags: 0

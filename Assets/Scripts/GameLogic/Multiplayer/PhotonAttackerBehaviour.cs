@@ -14,6 +14,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Return))
         {
+            shipToDeploy.GetComponent<AttackerShipBehaviour>().isDeployed = true;
             shipToDeploy = null;
         }
     }

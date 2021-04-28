@@ -41,7 +41,9 @@ public class PhotonDefenderBehaviour : MonoBehaviourPun, IPunObservable
     {
         if (!Input.GetKeyDown(KeyCode.Space)) return;
         var bulletClone = PhotonNetwork.Instantiate(bullet.name, _rigidbody.position, Quaternion.Euler(90,0,0),0);
-        bulletClone.GetComponent<PhotonBulletBehaviour>().selfDirection = transform.forward;
+        var bulletBehav = bulletClone.GetComponent<PhotonBulletBehaviour>();
+        bulletBehav.selfDirection = transform.forward;
+        bulletBehav.ownerTag = gameObject.tag;
     }
 
     #region Photon Methods

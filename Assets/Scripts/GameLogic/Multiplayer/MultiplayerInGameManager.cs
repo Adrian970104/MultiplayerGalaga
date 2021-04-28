@@ -13,7 +13,7 @@ public class MultiplayerInGameManager : MonoBehaviour
     public GameObject defenderPrefab;
     public GameObject attackerPrefab;
     
-    private Vector3 _attackerInstPos = new Vector3();
+    private Vector3 _attackerInstPos = new Vector3(20f,20f,20f);
     private readonly Vector3 _defenderInstPos = new Vector3(0f,0f,-15f);
     // Start is called before the first frame update
     void Start()
