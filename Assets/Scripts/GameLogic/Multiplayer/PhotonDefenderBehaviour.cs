@@ -7,7 +7,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class PhotonDefenderPlayerBehaviour : MonoBehaviourPun, IPunObservable
+public class PhotonDefenderBehaviour : MonoBehaviourPun, IPunObservable
 {
     [SerializeField]
     public GameObject bullet;

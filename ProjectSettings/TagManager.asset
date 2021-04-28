@@ -7,6 +7,8 @@ TagManager:
   - UIPlayerInstance
   - PlayerContainerCanvas
   - MultiplayerReadyButton
+  - AttackerShip
+  - Bullet
   layers:
   - Default
   - TransparentFX

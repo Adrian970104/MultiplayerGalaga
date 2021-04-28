@@ -32,24 +32,18 @@ public class PlayerContainerController : MonoBehaviour
         var UIPlayers = GameObject.FindGameObjectsWithTag("UIPlayerInstance");
         foreach (var UIPlayer in UIPlayers)
         {
-            Debug.Log($"Player Ui instance destroyed: {UIPlayer.name}");
             Destroy(UIPlayer);
         }
     }
     
     public void Fill()
     {
-        foreach (var plr in PhotonNetwork.PlayerList)
-        {
-            Debug.Log($"Player in playerList: {plr.NickName}");
-        }
-        
+       
         foreach (var player in PhotonNetwork.PlayerList)
         {
             if(player.NickName == PhotonNetwork.LocalPlayer.NickName && !player.Equals(PhotonNetwork.LocalPlayer))
                 return;
             
-            Debug.Log($"Player Ui instance created: {player.NickName}");
             var contentTransform = content.transform;
             //var UIPLayerInstance = PhotonNetwork.Instantiate(UIPlayerInstance.name, contentTransform.position, contentTransform.rotation, default,null);
             var UIPLayerInstance = Instantiate(UIPlayerInstance, contentTransform);
@@ -77,7 +71,6 @@ public class PlayerContainerController : MonoBehaviour
             //if (player.CustomProperties["IsAttacker"] is null)
             if (!player.CustomProperties.ContainsKey("IsAttacker"))
             {
-                Debug.Log($"Players {player.NickName} current state is null");
                 continue;
             }
             

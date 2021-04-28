@@ -10,7 +10,6 @@ public class IGameStart : MonoBehaviour
     {
         foreach (var player in PhotonNetwork.PlayerList)
         {
-            Debug.Log($"Player {player.NickName} is Attacker: {(bool)player.CustomProperties["IsAttacker"]}");
         }
     }
 

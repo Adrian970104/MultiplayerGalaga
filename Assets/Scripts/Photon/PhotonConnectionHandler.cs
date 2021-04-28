@@ -147,8 +147,6 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
     private bool PlayerCountCheck()
     {
-        Debug.Log($"PlayerListLength: {PhotonNetwork.PlayerList.Length}");
-        Debug.Log($"MaxPlayers: {_roomOptions.MaxPlayers}");
         return PhotonNetwork.PlayerList.Length == _roomOptions.MaxPlayers;
     }
 
@@ -179,17 +177,10 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         DontDestroyOnLoad(this);
         ConnectToPhoton(Guid.NewGuid().ToString());
         PhotonNetwork.GameVersion = _version;
-        /*
-        */
+
         gameManager = FindObjectOfType<GameManager>();
-        
-        /*
-        //DEBUG
-        gameManager = new GameManager();
-        */
-        //DEBUG
         gameManager.gameMode = GameMode.Multiplayer;
-        Debug.Log($"Current game mode: {gameManager.gameMode}");
+        
         ChangeToServerCreationCanvas();
         playerContainerController.Clear();
     }

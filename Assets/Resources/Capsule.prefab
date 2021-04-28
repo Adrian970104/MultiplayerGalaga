@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8265059151263534254}
   m_Layer: 0
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,7 +132,6 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
   - {fileID: 8265059151263534254}
   viewIdField: 0
   InstantiationId: 0

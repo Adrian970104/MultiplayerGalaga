@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public MultiplayerPhase multiplayerPhase { get; set; }
     public SingleplayerPhase singleplayerPhase { get; set; }
     
+    
     public void StartDeploy()
     {
         multiplayerPhase = MultiplayerPhase.InDeploy;
