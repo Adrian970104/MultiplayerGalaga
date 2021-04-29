@@ -312,8 +312,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         if(!changedProps.ContainsKey("IsReady")) return;
-        //TODO EZ AZÉRT KOMMENT HOGY KÖNNYEBB LEGYEN DEBUGOLNI!
-        
+
         if (!PlayerCountCheck())
         {
             rcftc.SetMessage($"At least {_roomOptions.MaxPlayers} players required");

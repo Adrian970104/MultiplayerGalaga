@@ -9,6 +9,7 @@ TagManager:
   - MultiplayerReadyButton
   - AttackerShip
   - Bullet
+  - DefenderShip
   layers:
   - Default
   - TransparentFX

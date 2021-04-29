@@ -14,19 +14,22 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
 
     private Vector3 _selfPos;
     private int _health = 100;
+    private GameObject _defenderShip;
 
 
 
     private void Shooting()
     { 
         if(!isDeployed) return;
-
-        //var _rigidbody = gameObject.GetComponent<Rigidbody>();
-        var bulletClone = PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.Euler(90,0,0),0);
-        //bulletClone.GetComponent<PhotonBulletBehaviour>().selfDirection = -1*transform.forward;
+        var dir = Vector3.Normalize(_defenderShip.transform.position - transform.position);
+        var rotation = Quaternion.FromToRotation(transform.forward, dir).eulerAngles;
+        //Quaternion.E
+        Debug.Log($"Rotation is : {rotation}");
+        rotation.x += 90;
+        var bulletClone = PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.Euler(rotation),0);
         var bulletBehav = bulletClone.GetComponent<PhotonBulletBehaviour>();
-        bulletBehav.selfDirection = -1*transform.forward;
-        //bulletBehav.photonView.RPC("SetOwnerTag",RpcTarget.All,gameObject.tag);
+        //bulletBehav.selfDirection = -1*transform.forward;
+        bulletBehav.selfDirection = Vector3.Normalize(_defenderShip.transform.position - transform.position);
         bulletBehav.ownerTag = gameObject.tag;
     }
     public void Movement(Vector3 direction)
@@ -89,9 +92,10 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
 
     private void Start()
     {
+        _defenderShip = GameObject.FindGameObjectWithTag("DefenderShip");
         _selfPos = transform.position;
         isDeployed = false;
-        InvokeRepeating(nameof(Shooting), Random.Range(2.0f, 4.0f), Random.Range(0.1f, 0.5f));
+        InvokeRepeating(nameof(Shooting), Random.Range(2.0f, 4.0f), Random.Range(0.5f, 1.5f));
     }
 
     #endregion

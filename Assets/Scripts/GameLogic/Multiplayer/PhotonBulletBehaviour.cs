@@ -19,7 +19,7 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
         private static int _maxDistance = 100;
 
 
-            private void Movement(Vector3 direction)
+        private void Movement(Vector3 direction)
         {
             transform.position += direction * (speed * Time.deltaTime);
         }
@@ -84,7 +84,6 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
             {
                 transform.position = Vector3.Lerp(transform.position, _selfPos, Time.deltaTime * 15);
             }
-            Debug.Log($"Owner is: {ownerTag}");
         }
 
         private void Start()
