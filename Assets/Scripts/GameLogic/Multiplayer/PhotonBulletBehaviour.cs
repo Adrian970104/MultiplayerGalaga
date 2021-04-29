@@ -44,7 +44,6 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
         {
             if (stream.IsWriting)
             {
-                Debug.Log($"Owner tag to send: {ownerTag}");
                 stream.SendNext(ownerTag);
                 stream.SendNext(transform.position);
             }
@@ -82,7 +81,7 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
             }
             else
             {
-                transform.position = Vector3.Lerp(transform.position, _selfPos, Time.deltaTime * 15);
+                transform.position = Vector3.Lerp(transform.position, _selfPos, Time.deltaTime * 10);
             }
         }
 

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4338782241277144353}
   - component: {fileID: -4512896837592689949}
   - component: {fileID: -1335695954109431}
+  - component: {fileID: 1795305060688434811}
   m_Layer: 0
   m_Name: AttackerShip1
   m_TagString: AttackerShip
@@ -110,6 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   photonView: {fileID: -1335695954109431}
   selfDirection: {x: 0, y: 0, z: 0}
+  triggerCount: 0
   bullet: {fileID: 3396197704998782655, guid: 19495bbd355ccfc42b52d705efba110c, type: 3}
   speed: 1
   isDeployed: 0
@@ -136,3 +138,19 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!54 &1795305060688434811
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95604125638773702}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
