@@ -10,6 +10,7 @@ TagManager:
   - AttackerShip
   - Bullet
   - DefenderShip
+  - SpawnSphere
   layers:
   - Default
   - TransparentFX

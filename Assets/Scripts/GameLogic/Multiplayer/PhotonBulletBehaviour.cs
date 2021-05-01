@@ -16,7 +16,8 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
         public Vector3 selfDirection;
 
         private Vector3 _selfPos;
-        private static int _maxDistance = 100;
+        private Vector3 _starPos;
+        private static int _maxDistance = 30;
 
 
         private void Movement(Vector3 direction)
@@ -26,18 +27,12 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
 
         private void DestroyCheck()
         {
-            if (Math.Abs(Vector3.Distance(transform.position, new Vector3(0f, 0f, 0f))) > _maxDistance)
+            if (Math.Abs(Vector3.Distance(transform.position, _starPos)) > _maxDistance)
             {
                 PhotonNetwork.Destroy(photonView);
             }
         }
-
-        /*[PunRPC]
-        public void SetOwnerTag(string tag)
-        {
-            ownerTag = tag;
-        }*/
-
+        
         #region Photon Methods
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -88,6 +83,7 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
         private void Start()
         {
             _selfPos = transform.position;
+            _starPos = _selfPos;
         }
 
         #endregion

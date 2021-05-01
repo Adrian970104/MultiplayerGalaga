@@ -16,24 +16,58 @@ public class PhotonDefenderBehaviour : MonoBehaviourPun, IPunObservable
     private Rigidbody _rigidbody;
     private bool _isAttacker;
 
+    private readonly int _leftBorder = -28;
+    private readonly int _rightBorder = 28;
+    private readonly int _upBorder = -13;
+    private readonly int _downBorder = -19;
+
     private void AddForceMovement()
     {
-        var rbody = GetComponent<Rigidbody>();
         if (Input.GetKey(KeyCode.D))
         {
-            rbody.AddForce(transform.right * (2000 * Time.deltaTime));
+            _rigidbody.AddForce(transform.right * (2000 * Time.deltaTime));
         }
+        
         if (Input.GetKey(KeyCode.A))
         {
-            rbody.AddForce(transform.right * (-2000 * Time.deltaTime));
+            _rigidbody.AddForce(transform.right * (-2000 * Time.deltaTime));
         }
+            
         if (Input.GetKey(KeyCode.W))
         {
-            rbody.AddForce(transform.forward * (2000 * Time.deltaTime));
+            _rigidbody.AddForce(transform.forward * (2000 * Time.deltaTime));
         }
+            
         if (Input.GetKey(KeyCode.S))
         {
-            rbody.AddForce(transform.forward * (-2000 * Time.deltaTime));
+            _rigidbody.AddForce(transform.forward * (-2000 * Time.deltaTime));
+        }
+    }
+
+    private void BorderCheck()
+    {
+        if (transform.position.x > _rightBorder)
+        {
+            _rigidbody.velocity = new Vector3(0,0,0);
+            transform.position = new Vector3(_rightBorder,transform.position.y,transform.position.z);
+        }
+        
+        if (transform.position.x < _leftBorder)
+        {
+            _rigidbody.velocity = new Vector3(0, 0, 0);
+            transform.position = new Vector3(_leftBorder, transform.position.y, transform.position.z);
+        }
+        
+        if (transform.position.z > _upBorder)
+        {
+            _rigidbody.velocity = new Vector3(0, 0, 0);
+            transform.position = new Vector3(transform.position.x, transform.position.y, _upBorder);
+        }
+        
+        if (transform.position.z < _downBorder)
+        {
+            _rigidbody.velocity = new Vector3(0,0,0);
+            transform.position = new Vector3(transform.position.x,transform.position.y,_downBorder);
         }
     }
 
@@ -73,7 +107,7 @@ public class PhotonDefenderBehaviour : MonoBehaviourPun, IPunObservable
     {
         if (_isAttacker)
         {
-            _rigidbody.position = Vector3.Lerp(_rigidbody.position, _selfPos, Time.fixedDeltaTime * 15);
+            _rigidbody.position = Vector3.Lerp(_rigidbody.position, _selfPos, Time.fixedDeltaTime * 12);
         }
     }
 
@@ -81,6 +115,7 @@ public class PhotonDefenderBehaviour : MonoBehaviourPun, IPunObservable
     {
         if (_isAttacker) return;
         AddForceMovement();
+        BorderCheck();
         Shooting();
     }
     

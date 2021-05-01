@@ -9,13 +9,14 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
 {
     public PhotonView photonView;
     public Vector3 selfDirection;
-    public int triggerCount = 0;
+    public int triggerCount = 1;
 
     public GameObject bullet;
     public int speed = 1;
     public bool isDeployed;
 
     private Vector3 _selfPos;
+    private Vector3 _deployPos = new Vector3(0,0,0);
     private int _health = 100;
     private GameObject _defenderShip;
     private GameManager _gameManager;
@@ -94,9 +95,8 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
             transform.position = Vector3.Lerp(transform.position, _selfPos, Time.deltaTime * 15);
         }
 
-        if (isDeployed)
+        if (!isDeployed)
         {
-            
         }
     }
 
@@ -111,11 +111,19 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
         {
             InvokeRepeating(nameof(Shooting), Random.Range(2.0f, 4.0f), Random.Range(0.5f, 1.5f));
         }
+
+        if (photonView.IsMine)
+        {
+            GetComponent<Renderer>().material.SetColor($"_Color", Color.blue);
+        }
     }
 
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!photonView.IsMine)
+            return;
+        
         if (other.CompareTag("DefenderShip"))
         {
             //TODO Itt A játék is véget ér, a defender hajó azonnal meghal!.
@@ -123,15 +131,16 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
             //RPCDestroy();
         }
         
-        if (other.CompareTag("AttackerShip"))
+        if (other.CompareTag("AttackerShip") || other.CompareTag("SpawnSphere"))
         {
+            
             Debug.Log("Entered Attacker ship");
             if(_gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
                 return;
             
             if(isDeployed)
                 return;
-
+            
             triggerCount++;
             GetComponent<Renderer>().material.SetColor($"_Color", Color.blue);
         }
@@ -139,6 +148,18 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
 
     private void OnTriggerExit(Collider other)
     {
+        
+        if (!photonView.IsMine)
+            return;
+        
+        if (other.CompareTag("SpawnSphere"))
+        {
+            if(_gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
+                return;
+            --triggerCount;
+            GetComponent<Renderer>().material.SetColor($"_Color", _baseColor);
+        }
+
         if (other.CompareTag("AttackerShip"))
         {
             Debug.Log("Exited Attacker ship");

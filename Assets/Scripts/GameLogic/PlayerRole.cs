@@ -1,4 +1,6 @@
-﻿namespace GameLogic
+﻿using UnityEngine;
+
+namespace GameLogic
 {
     public enum PlayerRole{
         Attacker,
