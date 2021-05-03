@@ -335,6 +335,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
             return;
         }
+        
         if (!PlayerRoleCheck())
         {
             rcftc.SetMessage("Players must choose different role");

@@ -18,6 +18,7 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
         private Vector3 _selfPos;
         private Vector3 _starPos;
         private static int _maxDistance = 30;
+        private GameManager _gameManager;
 
 
         private void Movement(Vector3 direction)
@@ -54,8 +55,12 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
 
         private void OnTriggerEnter(Collider other)
         {
-            if(ownerTag.IsNullOrEmpty()) return;
-            if(other.CompareTag(ownerTag)) return;
+            if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+                return;
+            if(ownerTag.IsNullOrEmpty())
+                return;
+            if(other.CompareTag(ownerTag)) 
+                return;
             
             if (other.CompareTag("AttackerShip"))
             {
@@ -82,6 +87,7 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
 
         private void Start()
         {
+            _gameManager = FindObjectOfType<GameManager>();
             _selfPos = transform.position;
             _starPos = _selfPos;
         }

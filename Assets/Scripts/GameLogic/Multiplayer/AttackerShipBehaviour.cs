@@ -30,13 +30,15 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
             return;
         
         //TODO Csak akkor kezdjen el lőni, ha már a deoploy phase véget ért.
-        //if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame) return;
+        if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+            return;
         
         var dir = Vector3.Normalize(_defenderShip.transform.position - transform.position);
         var rotation = Quaternion.FromToRotation(transform.forward, dir).eulerAngles;
         rotation.x += 90;
         var bulletClone = PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.Euler(rotation),0);
         var bulletBehav = bulletClone.GetComponent<PhotonBulletBehaviour>();
+        //TODO Egyenes lüvés lefelé:
         //bulletBehav.selfDirection = -1*transform.forward;
         bulletBehav.selfDirection = dir;
         bulletBehav.ownerTag = gameObject.tag;
@@ -94,10 +96,6 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
         {
             transform.position = Vector3.Lerp(transform.position, _selfPos, Time.deltaTime * 15);
         }
-
-        if (!isDeployed)
-        {
-        }
     }
 
     private void Start()
@@ -107,6 +105,7 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
         _selfPos = transform.position;
         _baseColor = GetComponent<Renderer>().material.color;
         isDeployed = false;
+        
         if(photonView.IsMine)
         {
             InvokeRepeating(nameof(Shooting), Random.Range(2.0f, 4.0f), Random.Range(0.5f, 1.5f));
