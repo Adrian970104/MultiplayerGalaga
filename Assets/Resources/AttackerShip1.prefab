@@ -109,12 +109,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42f5857b5ba63c942b8309659075b3a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  photonView: {fileID: -1335695954109431}
-  selfDirection: {x: 0, y: 0, z: 0}
-  triggerCount: 0
   bullet: {fileID: 3396197704998782655, guid: 19495bbd355ccfc42b52d705efba110c, type: 3}
-  speed: 1
+  photonView: {fileID: -1335695954109431}
+  selfPos: {x: 0, y: 0, z: 0}
+  health: 0
+  damage: 0
   isDeployed: 0
+  triggerCount: 0
 --- !u!114 &-1335695954109431
 MonoBehaviour:
   m_ObjectHideFlags: 0

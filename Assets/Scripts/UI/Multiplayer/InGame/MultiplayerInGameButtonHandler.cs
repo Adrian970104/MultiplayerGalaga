@@ -47,6 +47,9 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
         if(attacker.shipToDeploy != null)
             return;
         
+        if(_gameManager.multiplayerPhase == MultiplayerPhase.InGame)
+            return;
+        
         _gameManager.multiplayerPhase = MultiplayerPhase.InGame;
     }
 

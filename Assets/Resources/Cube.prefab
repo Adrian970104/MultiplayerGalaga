@@ -148,3 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 3396197704998782655, guid: 19495bbd355ccfc42b52d705efba110c, type: 3}
+  photonView: {fileID: 2673876069302134384}
+  selfPos: {x: 0, y: 0, z: 0}
+  health: 0
+  damage: 0

@@ -5,26 +5,17 @@ using Photon.Pun;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
+public class AttackerShipBehaviour : SpaceShip, IPunObservable
 {
-    public PhotonView photonView;
-    public Vector3 selfDirection;
-    public int triggerCount = 1;
-
-    public GameObject bullet;
-    public int speed = 1;
+#region deployment_variables
     public bool isDeployed;
-
-    private Vector3 _selfPos;
-    private Vector3 _deployPos = new Vector3(0,0,0);
-    private int _health = 100;
+    public int triggerCount = 1;
+    private Color _baseColor;
+#endregion
     private GameObject _defenderShip;
     private GameManager _gameManager;
-    private Color _baseColor;
 
-
-
-    private void Shooting()
+    public override void Shooting()
     {
         if(!isDeployed) 
             return;
@@ -43,34 +34,10 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
         bulletBehav.selfDirection = dir;
         bulletBehav.ownerTag = gameObject.tag;
     }
-    public void Movement(Vector3 direction)
-    {
-        //transform.position += direction * (speed * Time.deltaTime);
-    }
     
-    [PunRPC]
-    public void RPCDestroy()
-    {
-        if (!photonView.IsMine) return;
-        PhotonNetwork.Destroy(gameObject);
-    }
-
-    public void ChangeHealth(int amount)
-    {
-        _health += amount;
-        HealthCheck();
-    }
-
-    private void HealthCheck()
-    {
-        if (_health > 0) return;
-        gameObject.tag = "Untagged";
-        photonView.RPC("RPCDestroy", RpcTarget.All);
-    }
-
     #region Photon Methods
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
@@ -79,7 +46,7 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
         }
         else
         {
-            _selfPos = (Vector3)stream.ReceiveNext();
+            selfPos = (Vector3)stream.ReceiveNext();
             isDeployed = (bool)stream.ReceiveNext();
         }
     }
@@ -90,29 +57,27 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
     {
         if (photonView.IsMine)
         {
-            Movement(selfDirection);
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, _selfPos, Time.deltaTime * 15);
+            transform.position = Vector3.Lerp(transform.position, selfPos, Time.deltaTime * 15);
         }
     }
 
     private void Start()
     {
+        health = 100;
+        damage = 50;
+        
         _gameManager = FindObjectOfType<GameManager>();
         _defenderShip = GameObject.FindGameObjectWithTag("DefenderShip");
-        _selfPos = transform.position;
+        selfPos = transform.position;
         _baseColor = GetComponent<Renderer>().material.color;
         isDeployed = false;
         
         if(photonView.IsMine)
         {
             InvokeRepeating(nameof(Shooting), Random.Range(2.0f, 4.0f), Random.Range(0.5f, 1.5f));
-        }
-
-        if (photonView.IsMine)
-        {
             GetComponent<Renderer>().material.SetColor($"_Color", Color.blue);
         }
     }
@@ -132,7 +97,6 @@ public class AttackerShipBehaviour : MonoBehaviour, IPunObservable
         
         if (other.CompareTag("AttackerShip") || other.CompareTag("SpawnSphere"))
         {
-            
             Debug.Log("Entered Attacker ship");
             if(_gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
                 return;

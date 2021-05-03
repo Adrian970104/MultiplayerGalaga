@@ -55,20 +55,20 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
 
         private void OnTriggerEnter(Collider other)
         {
-            if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
-                return;
             if(ownerTag.IsNullOrEmpty())
                 return;
             if(other.CompareTag(ownerTag)) 
                 return;
+            /*if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+                return;*/
             
-            if (other.CompareTag("AttackerShip"))
+            if (other.CompareTag("AttackerShip") || other.CompareTag("DefenderShip"))
             {
                 if (photonView.IsMine)
                 {
                     PhotonNetwork.Destroy(photonView);
                 }
-                other.GetComponent<AttackerShipBehaviour>().ChangeHealth(-_damage);
+                other.GetComponent<SpaceShip>().TakeDamage(_damage);
             }
         }
 

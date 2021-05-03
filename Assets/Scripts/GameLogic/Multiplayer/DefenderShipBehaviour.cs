@@ -7,12 +7,8 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class PhotonDefenderBehaviour : MonoBehaviourPun, IPunObservable
+public class DefenderShipBehaviour : SpaceShip
 {
-    [SerializeField]
-    public GameObject bullet;
-
-    private Vector3 _selfPos;
     private Rigidbody _rigidbody;
     private bool _isAttacker;
 
@@ -71,9 +67,11 @@ public class PhotonDefenderBehaviour : MonoBehaviourPun, IPunObservable
         }
     }
 
-    private void Shooting()
+    public override void Shooting()
     {
-        if (!Input.GetKeyDown(KeyCode.Space)) return;
+        if (!Input.GetKeyDown(KeyCode.Space)) 
+            return;
+        
         var bulletClone = PhotonNetwork.Instantiate(bullet.name, _rigidbody.position, Quaternion.Euler(90,0,0),0);
         var bulletBehav = bulletClone.GetComponent<PhotonBulletBehaviour>();
         bulletBehav.selfDirection = transform.forward;
@@ -82,7 +80,7 @@ public class PhotonDefenderBehaviour : MonoBehaviourPun, IPunObservable
 
     #region Photon Methods
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
@@ -90,7 +88,7 @@ public class PhotonDefenderBehaviour : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            _selfPos = (Vector3)stream.ReceiveNext();
+            selfPos = (Vector3)stream.ReceiveNext();
         }
     }
     #endregion
@@ -101,13 +99,16 @@ public class PhotonDefenderBehaviour : MonoBehaviourPun, IPunObservable
     {
         _isAttacker = (bool) PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"];
         _rigidbody = GetComponent<Rigidbody>();
+
+        health = 300;
+        damage = 50;
     }
 
     private void FixedUpdate()
     {
         if (_isAttacker)
         {
-            _rigidbody.position = Vector3.Lerp(_rigidbody.position, _selfPos, Time.fixedDeltaTime * 12);
+            _rigidbody.position = Vector3.Lerp(_rigidbody.position, selfPos, Time.fixedDeltaTime * 12);
         }
     }
 
