@@ -17,7 +17,7 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
 
         private Vector3 _selfPos;
         private Vector3 _starPos;
-        private static int _maxDistance = 30;
+        private static int _maxDistance = 50;
         private GameManager _gameManager;
 
 
@@ -59,8 +59,11 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
                 return;
             if(other.CompareTag(ownerTag)) 
                 return;
-            /*if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
-                return;*/
+            if (_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+            {
+                Debug.Log($"Current multiplayer phase is {_gameManager.multiplayerPhase}");
+                return;
+            }
             
             if (other.CompareTag("AttackerShip") || other.CompareTag("DefenderShip"))
             {

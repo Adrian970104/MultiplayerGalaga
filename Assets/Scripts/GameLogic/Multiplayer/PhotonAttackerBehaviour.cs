@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class PhotonAttackerBehaviour : MonoBehaviour
@@ -20,14 +21,21 @@ public class PhotonAttackerBehaviour : MonoBehaviour
         BorderCheck(shipToDeploy);
         if (Input.GetKey(KeyCode.Return))
         {
-            /*if(Math.Abs(Vector3.Distance(shipToDeploy.transform.position,_deployPos)) < 10)
-                return;*/
-            
             var shipBehav = shipToDeploy.GetComponent<AttackerShipBehaviour>();
+            Debug.Log($"actual trigger count : {shipBehav.triggerCount}");
             if(shipBehav.triggerCount > 0)
                 return;
             
             shipBehav.isDeployed = true;
+            shipToDeploy = null;
+        }
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            if(shipToDeploy is null)
+                return;
+            
+            PhotonNetwork.Destroy(shipToDeploy);
             shipToDeploy = null;
         }
     }
