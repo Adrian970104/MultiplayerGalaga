@@ -7,6 +7,7 @@ using UnityEngine;
 public class PhotonAttackerBehaviour : MonoBehaviour
 {
     public GameObject shipToDeploy;
+    public int shipCount = 10;
     
     private readonly int _leftBorder = -28;
     private readonly int _rightBorder = 28;
@@ -37,6 +38,8 @@ public class PhotonAttackerBehaviour : MonoBehaviour
             
             PhotonNetwork.Destroy(shipToDeploy);
             shipToDeploy = null;
+            ++shipCount;
+            Debug.Log($"Remaining ships: {shipCount}");
         }
     }
 

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2235338213797721868}
   - component: {fileID: -7331562112716453074}
   m_Layer: 0
-  m_Name: AttackerPlayer
-  m_TagString: Untagged
+  m_Name: PhotonAttacker
+  m_TagString: AttackerPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipToDeploy: {fileID: 0}
+  shipCount: 10
 --- !u!114 &-7331562112716453074
 MonoBehaviour:
   m_ObjectHideFlags: 0

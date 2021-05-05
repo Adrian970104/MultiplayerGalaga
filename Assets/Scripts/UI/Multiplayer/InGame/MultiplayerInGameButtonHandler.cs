@@ -6,25 +6,30 @@ using UnityEngine;
 public class MultiplayerInGameButtonHandler : MonoBehaviour
 {
 
-    public PhotonAttackerBehaviour attacker { get; set; }
+    public MultiplayerInGameManager multiManager;
     public GameObject spaceShip1;
     public GameObject spaceShip2;
     public GameObject spaceShip3;
     
+    private PhotonAttackerBehaviour _attacker;
     private Vector3 _deployPos = new Vector3(0f, 0f, 0f);
     private GameManager _gameManager;
-    
+
     private void DeploySpaceShip(string shipName)
     {
-        if (!(attacker.shipToDeploy is null)) 
+        if (!(_attacker.shipToDeploy is null)) 
             return;
         
         if (_gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
             return;
         
-        var spaceShip = PhotonNetwork.Instantiate(shipName, _deployPos, Quaternion.identity);
-        attacker.shipToDeploy = spaceShip;
+        if(_attacker.shipCount <= 0)
+            return;
         
+        var spaceShip = PhotonNetwork.Instantiate(shipName, _deployPos, Quaternion.identity);
+        _attacker.shipToDeploy = spaceShip;
+        --_attacker.shipCount;
+        Debug.Log($"Remaining ships: {_attacker.shipCount}");
     }
 
     public void OnClickDeployShip1()
@@ -44,10 +49,10 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
 
     public void OnClickEndDeploy()
     {
-        if(attacker.shipToDeploy != null)
+        if(_gameManager.multiplayerPhase == MultiplayerPhase.InGame)
             return;
         
-        if(_gameManager.multiplayerPhase == MultiplayerPhase.InGame)
+        if(_attacker.shipToDeploy != null)
             return;
         
         _gameManager.multiplayerPhase = MultiplayerPhase.InGame;
@@ -58,6 +63,9 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
     public void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        if(!multiManager.isAttacker)
+            return;
+        _attacker = multiManager.attacker;
     }
 
     #endregion

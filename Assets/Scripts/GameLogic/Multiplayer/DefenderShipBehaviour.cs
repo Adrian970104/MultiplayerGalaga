@@ -71,7 +71,7 @@ public class DefenderShipBehaviour : SpaceShip
     {
         if (!Input.GetKeyDown(KeyCode.Space)) 
             return;
-        
+
         var bulletClone = PhotonNetwork.Instantiate(bullet.name, _rigidbody.position, Quaternion.Euler(90,0,0),0);
         var bulletBehav = bulletClone.GetComponent<PhotonBulletBehaviour>();
         bulletBehav.selfDirection = transform.forward;

@@ -8,7 +8,7 @@ using WebSocketSharp;
 
 public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
     {
-        public int speed = 10;
+        public int speed = 6;
         public int _damage = 50;
         public string ownerTag;
         

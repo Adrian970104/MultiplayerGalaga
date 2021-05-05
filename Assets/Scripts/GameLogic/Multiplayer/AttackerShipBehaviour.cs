@@ -14,26 +14,6 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
 #endregion
     public GameManager gameManager;
     public GameObject defenderShip;
-
-    /*public override void Shooting()
-    {
-        if(!isDeployed) 
-            return;
-        
-        //TODO Csak akkor kezdjen el lőni, ha már a deoploy phase véget ért.
-        if(gameManager.multiplayerPhase != MultiplayerPhase.InGame)
-            return;
-        
-        var dir = Vector3.Normalize(defenderShip.transform.position - transform.position);
-        var rotation = Quaternion.FromToRotation(transform.forward, dir).eulerAngles;
-        rotation.x += 90;
-        var bulletClone = PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.Euler(rotation),0);
-        var bulletBehav = bulletClone.GetComponent<PhotonBulletBehaviour>();
-        //TODO Egyenes lüvés lefelé:
-        //bulletBehav.selfDirection = -1*transform.forward;
-        bulletBehav.selfDirection = dir;
-        bulletBehav.ownerTag = gameObject.tag;
-    }*/
     
     #region Photon Methods
 
@@ -155,6 +135,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         if(gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
             return;
         GetComponent<Renderer>().material.SetColor($"_Color", _baseColor);
+        
     }
 
     private void OnMouseUp()
@@ -164,6 +145,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         if(gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
             return;
         PhotonNetwork.Destroy(gameObject);
+        FindObjectOfType<PhotonAttackerBehaviour>().shipCount++;
     }
 
     #endregion
