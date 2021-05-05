@@ -45,7 +45,6 @@ public class PlayerContainerController : MonoBehaviour
                 return;
             
             var contentTransform = content.transform;
-            //var UIPLayerInstance = PhotonNetwork.Instantiate(UIPlayerInstance.name, contentTransform.position, contentTransform.rotation, default,null);
             var UIPLayerInstance = Instantiate(UIPlayerInstance, contentTransform);
             UIPLayerInstance.transform.localScale = new Vector3(1.0f,1.0f,1.0f);
             var UIPIController = UIPLayerInstance.GetComponentInChildren<UIPlayerInstanceController>();
@@ -68,7 +67,6 @@ public class PlayerContainerController : MonoBehaviour
                 UIPIController.SetCbSelectable(false);
             }
             
-            //if (player.CustomProperties["IsAttacker"] is null)
             if (!player.CustomProperties.ContainsKey("IsAttacker"))
             {
                 continue;

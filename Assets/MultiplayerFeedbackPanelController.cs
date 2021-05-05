@@ -16,7 +16,6 @@ public class MultiplayerFeedbackPanelController : MonoBehaviour
     {
         if (!(bool) PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"])
             return;
-        //ShipCountText.SetText($"Ships remaining: {attacker.shipCount}");
         ShipCountText.SetText($"Ships remaining: {multiManager.attacker.shipCount}");
     }
 
@@ -26,8 +25,6 @@ public class MultiplayerFeedbackPanelController : MonoBehaviour
     {
         if (!(bool) PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"])
             return;
-        
-        //attacker = FindObjectOfType<MultiplayerInGameManager>().attacker;
     }
 
     // Update is called once per frame

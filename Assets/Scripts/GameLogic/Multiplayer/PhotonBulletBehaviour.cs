@@ -59,14 +59,16 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
                 return;
             if(other.CompareTag(ownerTag)) 
                 return;
-            if (_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
-            {
-                Debug.Log($"Current multiplayer phase is {_gameManager.multiplayerPhase}");
-                return;
-            }
-            
+
             if (other.CompareTag("AttackerShip") || other.CompareTag("DefenderShip"))
             {
+                var attacker = other.GetComponent<AttackerShipBehaviour>();
+                if (attacker != null)
+                {
+                    if(!attacker.isDeployed)
+                        return;
+                }
+                
                 if (photonView.IsMine)
                 {
                     PhotonNetwork.Destroy(photonView);

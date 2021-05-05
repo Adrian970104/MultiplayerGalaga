@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Photon.Pun;
+﻿using Photon.Pun;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class AttackerShipBehaviour : SpaceShip, IPunObservable
 {
@@ -13,6 +9,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     private Color _baseColor;
 #endregion
     public GameManager gameManager;
+    public PhotonAttackerBehaviour attackerPlayer;
     public GameObject defenderShip;
     
     #region Photon Methods
@@ -58,7 +55,6 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         
         if(photonView.IsMine)
         {
-            //InvokeRepeating(nameof(Shooting), Random.Range(2.0f, 4.0f), Random.Range(0.5f, 1.5f));
             GetComponent<Renderer>().material.SetColor($"_Color", Color.blue);
         }
     }
@@ -146,6 +142,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
             return;
         PhotonNetwork.Destroy(gameObject);
         FindObjectOfType<PhotonAttackerBehaviour>().shipCount++;
+        attackerPlayer.attackerShips.Remove(this);
     }
 
     #endregion

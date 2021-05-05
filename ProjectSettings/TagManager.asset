@@ -10,9 +10,7 @@ TagManager:
   - AttackerShip
   - Bullet
   - DefenderShip
-  - SpawnSphere
   - AttackerPlayer
-  - SpawnSphere
   - SpawnSphere
   layers:
   - Default

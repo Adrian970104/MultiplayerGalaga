@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipToDeploy: {fileID: 0}
   shipCount: 10
+  attackerShips: []
 --- !u!114 &-7331562112716453074
 MonoBehaviour:
   m_ObjectHideFlags: 0

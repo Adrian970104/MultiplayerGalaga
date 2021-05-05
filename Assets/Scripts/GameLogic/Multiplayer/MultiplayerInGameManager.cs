@@ -24,7 +24,6 @@ public class MultiplayerInGameManager : MonoBehaviour
     void Start()
     {
         Debug.Log($"InGAME Manager START running;");
-        //var buttonHandler = FindObjectOfType<MultiplayerInGameButtonHandler>();
         _gameManager = FindObjectOfType<GameManager>();
         _gameManager.multiplayerPhase = MultiplayerPhase.InDeploy;
         
@@ -36,7 +35,6 @@ public class MultiplayerInGameManager : MonoBehaviour
         {
             attacker = PhotonNetwork.Instantiate(attackerPrefab.name, _attackerInstPos, Quaternion.identity).GetComponent<PhotonAttackerBehaviour>();
             Debug.Log($"Attacker created: {attacker.name}");
-            //buttonHandler.attacker = PhotonNetwork.Instantiate(attackerPrefab.name, _attackerInstPos, Quaternion.identity).GetComponent<PhotonAttackerBehaviour>();
         }
         else
         {
