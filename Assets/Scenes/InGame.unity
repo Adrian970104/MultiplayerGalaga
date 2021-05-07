@@ -1546,6 +1546,7 @@ MonoBehaviour:
     type: 3}
   attackerPrefab: {fileID: 1416842033091909581, guid: b01f37b01178a0f4c8698f35133ae301,
     type: 3}
+  isAttacker: 0
   attacker: {fileID: 0}
   defender: {fileID: 0}
 --- !u!4 &1628732385

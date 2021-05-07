@@ -36,6 +36,7 @@ MonoBehaviour:
   isDeployed: 0
   triggerCount: 1
   gameManager: {fileID: 0}
+  attackerPlayer: {fileID: 0}
   defenderShip: {fileID: 0}
 --- !u!1001 &6163252200051745105
 PrefabInstance:
@@ -49,6 +50,11 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1335695954109431, guid: 4bb33ff65d3059c4c9a6eeaa069fd1a3,
+        type: 3}
+      propertyPath: ObservedComponents.Array.data[0]
+      value: 
+      objectReference: {fileID: -6902260443718554228}
     - target: {fileID: 95604125638773702, guid: 4bb33ff65d3059c4c9a6eeaa069fd1a3,
         type: 3}
       propertyPath: m_Name

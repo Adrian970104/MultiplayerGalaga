@@ -9,15 +9,16 @@ public class PhotonAttackerBehaviour : MonoBehaviour
     public int shipCount = 5;
     public List<AttackerShipBehaviour> attackerShips = new List<AttackerShipBehaviour>();
 
-    private const int ShipSpeed = 1;
+    private const int VerticalSpeed = 2;
+    private const int HorizontalSpeed = 1;
     private GameManager _gameManager;
     private Vector3 _verticalDirection = Vector3.right;
     private int _stepCounter = 0;
     
-    private readonly int _leftBorder = -28;
-    private readonly int _rightBorder = 28;
-    private readonly int _upBorder = 15;
-    private readonly int _downBorder = -10;
+    private readonly int _leftBorder = -20;
+    private readonly int _rightBorder = 8;
+    private readonly int _upBorder = 14;
+    private readonly int _downBorder = -3;
 
     public void Deploy()
     {
@@ -101,27 +102,27 @@ public class PhotonAttackerBehaviour : MonoBehaviour
 
         if (_stepCounter < 4)
         {
-            InGameStep(_verticalDirection, ShipSpeed);
+            InGameStep(_verticalDirection, VerticalSpeed);
             _stepCounter++;
             return;
         }
         
         if (_stepCounter == 4)
         {
-            InGameStep(_verticalDirection, ShipSpeed);
+            InGameStep(_verticalDirection, VerticalSpeed);
             _stepCounter = 10;
             return;
         }
 
         if (_stepCounter % 10 == 0)
         {
-            InGameStep(Vector3.down, ShipSpeed);
+            InGameStep(Vector3.back, HorizontalSpeed);
             ChangeVerticalDirection();
             _stepCounter++;
             return;
         }
         
-        InGameStep(_verticalDirection, ShipSpeed);
+        InGameStep(_verticalDirection, VerticalSpeed);
         _stepCounter++;
     }
 

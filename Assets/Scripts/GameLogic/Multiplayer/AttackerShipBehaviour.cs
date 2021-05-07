@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using System;
+using Photon.Pun;
 using UnityEngine;
 
 public class AttackerShipBehaviour : SpaceShip, IPunObservable
@@ -142,6 +143,18 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
             return;
         PhotonNetwork.Destroy(gameObject);
         FindObjectOfType<PhotonAttackerBehaviour>().shipCount++;
+        attackerPlayer.attackerShips.Remove(this);
+    }
+
+    private void OnDestroy()
+    {
+        if (!photonView.IsMine) 
+            return;
+        if(attackerPlayer is null)
+            return;
+        if(!attackerPlayer.attackerShips.Contains(this))
+            return;
+            
         attackerPlayer.attackerShips.Remove(this);
     }
 

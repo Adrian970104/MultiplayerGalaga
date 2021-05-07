@@ -12,6 +12,7 @@ public class DefenderShipBehaviour : SpaceShip
     private Rigidbody _rigidbody;
     private bool _isAttacker;
 
+    private readonly int _force = 1500;
     private readonly int _leftBorder = -28;
     private readonly int _rightBorder = 28;
     private readonly int _upBorder = -13;
@@ -21,22 +22,22 @@ public class DefenderShipBehaviour : SpaceShip
     {
         if (Input.GetKey(KeyCode.D))
         {
-            _rigidbody.AddForce(transform.right * (2000 * Time.deltaTime));
+            _rigidbody.AddForce(transform.right * (_force * Time.deltaTime));
         }
         
         if (Input.GetKey(KeyCode.A))
         {
-            _rigidbody.AddForce(transform.right * (-2000 * Time.deltaTime));
+            _rigidbody.AddForce(transform.right * (-_force * Time.deltaTime));
         }
             
         if (Input.GetKey(KeyCode.W))
         {
-            _rigidbody.AddForce(transform.forward * (2000 * Time.deltaTime));
+            _rigidbody.AddForce(transform.forward * (_force * Time.deltaTime));
         }
             
         if (Input.GetKey(KeyCode.S))
         {
-            _rigidbody.AddForce(transform.forward * (-2000 * Time.deltaTime));
+            _rigidbody.AddForce(transform.forward * (-_force * Time.deltaTime));
         }
     }
 
