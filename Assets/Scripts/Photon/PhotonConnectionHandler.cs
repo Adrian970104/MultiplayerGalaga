@@ -123,7 +123,8 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
             return;
         }
         
-        if(!PhotonNetwork.IsConnectedAndReady) return;
+        if(!PhotonNetwork.IsConnectedAndReady)
+            return;
 
         PhotonNetwork.LocalPlayer.NickName = string.Empty;
         PhotonNetwork.LeaveRoom();

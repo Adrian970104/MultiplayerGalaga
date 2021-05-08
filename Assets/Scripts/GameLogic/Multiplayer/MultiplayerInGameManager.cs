@@ -4,7 +4,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class MultiplayerInGameManager : MonoBehaviour
+public class MultiplayerInGameManager : MonoBehaviourPunCallbacks
 {
     public PhotonView photonView;
     public MultiplayerInGameCanvasManager CanvasManager;
@@ -27,7 +27,19 @@ public class MultiplayerInGameManager : MonoBehaviour
         CanvasManager.FillWinnerCanvas(winner);
         CanvasManager.SetWinnerCanvasVisible();
     }
-    
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+            return;
+        EndMultiplayer(PhotonNetwork.PlayerList[0].NickName);
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        Debug.Log($"New Master client is {newMasterClient.NickName}");
+    }
+
     #region Untiy Methods
     void Start()
     {

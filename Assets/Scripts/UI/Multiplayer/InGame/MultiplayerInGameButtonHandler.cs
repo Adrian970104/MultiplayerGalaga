@@ -58,6 +58,11 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
         _gameManager.multiplayerPhase = MultiplayerPhase.InGame;
     }
 
+    public void OnClickBackFromEnd()
+    {
+        _gameManager.EndMultiplayer();
+    }
+
     #region Unity Methods
 
     public void Start()
