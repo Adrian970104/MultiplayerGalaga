@@ -19,6 +19,14 @@ public class GameManager : MonoBehaviour
         multiplayerPhase = MultiplayerPhase.InDeploy;
         PhotonNetwork.LoadLevel("InGame");
     }
+
+    public void EndMultiplayer(Player winner)
+    {
+        Debug.Log($"Winner is {winner.NickName}");
+        //PhotonNetwork.Disconnect();
+        PhotonNetwork.LoadLevel("GameMode");
+        //PhotonNetwork.LeaveRoom();
+    }    
     
     #region UnityMethods
     private void Start()

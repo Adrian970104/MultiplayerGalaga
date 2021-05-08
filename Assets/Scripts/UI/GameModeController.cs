@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,6 +27,10 @@ public class GameModeController : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         gameManager.gameMode = GameMode.Undefined;
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.Disconnect();
+        }
     }
 
     #endregion

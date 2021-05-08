@@ -18,7 +18,7 @@ public abstract class SpaceShip : MonoBehaviour, IPunObservable
         HealthCheck();
     }
 
-    private void HealthCheck()
+    protected virtual void HealthCheck()
     {
         if (health > 0) return;
         gameObject.tag = "Untagged";

@@ -8,5 +8,6 @@ public enum MultiplayerPhase
     InLobby,
     InRoom,
     InDeploy,
-    InGame
+    InGame,
+    AfterGame
 }

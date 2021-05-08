@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Security.Cryptography;
+﻿using System.Linq;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -17,6 +13,8 @@ public class DefenderShipBehaviour : SpaceShip
     private readonly int _rightBorder = 28;
     private readonly int _upBorder = -13;
     private readonly int _downBorder = -19;
+    private GameManager _gameManager;
+    private MultiplayerInGameManager _multiManager;
 
     private void AddForceMovement()
     {
@@ -79,6 +77,20 @@ public class DefenderShipBehaviour : SpaceShip
         bulletBehav.ownerTag = gameObject.tag;
     }
 
+    protected override void HealthCheck()
+    {
+        base.HealthCheck();
+        Debug.Log($"This player is: {PhotonNetwork.LocalPlayer.NickName}");
+        Debug.Log($"Other player is: {PhotonNetwork.PlayerListOthers[0]}");
+        Defeated();
+    }
+
+    public void Defeated()
+    {
+        var winner = _isAttacker ? PhotonNetwork.LocalPlayer.NickName : PhotonNetwork.PlayerListOthers[0].NickName;
+        _multiManager.photonView.RPC("EndMultiplayer", RpcTarget.All, winner);
+    }
+
     #region Photon Methods
 
     public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -100,9 +112,15 @@ public class DefenderShipBehaviour : SpaceShip
     {
         _isAttacker = (bool) PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"];
         _rigidbody = GetComponent<Rigidbody>();
+        _gameManager = FindObjectOfType<GameManager>();
+        _multiManager = FindObjectOfType<MultiplayerInGameManager>();
 
-        health = 300;
+        health = 100;
         damage = 50;
+        
+             
+        Debug.Log($"Local player is: {PhotonNetwork.LocalPlayer}");
+        Debug.Log($"Other player is: {PhotonNetwork.PlayerListOthers[0].NickName}");
     }
 
     private void FixedUpdate()

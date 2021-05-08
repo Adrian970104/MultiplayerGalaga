@@ -68,14 +68,17 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         
         if (other.CompareTag("DefenderShip"))
         {
-            //TODO Itt A játék is véget ér, a defender hajó azonnal meghal!.
             Debug.Log("Entered the Defender ship");
-            //RPCDestroy();
+            /*gameObject.tag = "Untagged";
+            photonView.RPC("RPCDestroy", RpcTarget.All);*/
+            attackerPlayer.EndCheck();
+            defenderShip.GetComponent<DefenderShipBehaviour>().Defeated();
+            
+            
         }
         
         if (other.CompareTag("AttackerShip") || other.CompareTag("SpawnSphere"))
         {
-            Debug.Log("Entered Attacker ship");
             if(gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
                 return;
             
@@ -104,7 +107,6 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
 
         if (other.CompareTag("AttackerShip"))
         {
-            Debug.Log("Exited Attacker ship");
             if(gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
                 return;
 
@@ -116,20 +118,26 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         }
     }
 
-    private void OnMouseEnter()
+    private bool MouseInteractable()
     {
         if(!isDeployed)
-            return;
+            return false;
         if(gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
+            return false;
+        
+        return (bool) PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"];
+    }
+
+    private void OnMouseEnter()
+    {
+        if(!MouseInteractable())
             return;
         GetComponent<Renderer>().material.SetColor($"_Color", Color.cyan);
     }
 
     private void OnMouseExit()
     {
-        if(!isDeployed)
-            return;
-        if(gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
+        if(!MouseInteractable())
             return;
         GetComponent<Renderer>().material.SetColor($"_Color", _baseColor);
         
@@ -137,9 +145,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
 
     private void OnMouseUp()
     {
-        if(!isDeployed)
-            return;
-        if(gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
+        if(!MouseInteractable())
             return;
         PhotonNetwork.Destroy(gameObject);
         FindObjectOfType<PhotonAttackerBehaviour>().shipCount++;
@@ -156,6 +162,11 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
             return;
             
         attackerPlayer.attackerShips.Remove(this);
+        
+        if(gameManager.multiplayerPhase == MultiplayerPhase.InGame)
+        {
+            attackerPlayer.EndCheck();
+        }
     }
 
     #endregion

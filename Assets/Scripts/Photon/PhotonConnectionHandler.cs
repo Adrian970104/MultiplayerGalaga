@@ -28,7 +28,8 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     private void ConnectToPhoton(string connString)
     {
         Debug.Log("Connecting to Photon");
-        if(PhotonNetwork.IsConnected) return;
+        if(PhotonNetwork.IsConnected) 
+            return;
         
         PhotonNetwork.AuthValues = new AuthenticationValues(connString);
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -174,7 +175,13 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        DontDestroyOnLoad(this);
+        if (PhotonNetwork.IsConnected)
+        {
+            Debug.Log($"Already connected to photon!");
+            PhotonNetwork.Disconnect();
+        }
+        //DontDestroyOnLoad(this);
+        Debug.Log($"Photon connection Hndler Start, Not connected to photon yet!");
         ConnectToPhoton(Guid.NewGuid().ToString());
         PhotonNetwork.GameVersion = _version;
 
@@ -260,6 +267,9 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        var props = new[] {"IsAttacker","IsReady"};
+        PhotonNetwork.RemovePlayerCustomProperties(props);
+        Debug.Log($"CustomProperties reseted");
         
         if (PhotonNetwork.PlayerListOthers.Any(player => player.NickName.Equals(PhotonNetwork.LocalPlayer.NickName)))
         {
@@ -343,6 +353,16 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         }
         
         gameManager.StartDeploy();
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        Debug.Log($"Disconnected from photon with cause: {cause}");
+    }
+
+    public override void OnConnected()
+    {
+        Debug.Log($"On connected happend");
     }
 
     #endregion

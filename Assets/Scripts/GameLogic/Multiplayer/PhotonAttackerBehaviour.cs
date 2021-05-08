@@ -12,6 +12,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
     private const int VerticalSpeed = 2;
     private const int HorizontalSpeed = 1;
     private GameManager _gameManager;
+    private MultiplayerInGameManager _multiManager;
     private Vector3 _verticalDirection = Vector3.right;
     private int _stepCounter = 0;
     
@@ -29,6 +30,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
         
         DeployMovement(shipToDeploy);
         BorderCheck(shipToDeploy);
+        
         if (Input.GetKey(KeyCode.Return))
         {
             var shipBehav = shipToDeploy.GetComponent<AttackerShipBehaviour>();
@@ -89,7 +91,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
     {
         foreach (var ship in attackerShips)
         {
-            ship.transform.position += direction * speed;
+             ship.transform.position += direction * speed;
         }
     }
 
@@ -132,6 +134,20 @@ public class PhotonAttackerBehaviour : MonoBehaviour
         _verticalDirection = _verticalDirection == Vector3.right ? Vector3.left : Vector3.right;
     }
 
+    public void EndCheck()
+    {
+        if (attackerShips.Count == 0)
+        {
+            Defeated();
+        }
+    }
+
+    public void Defeated()
+    {
+        var winner = !(bool)PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"] ? PhotonNetwork.LocalPlayer.NickName : PhotonNetwork.PlayerListOthers[0].NickName;
+        _multiManager.photonView.RPC("EndMultiplayer", RpcTarget.All, winner);
+    }
+
     #region Unity Methods
 
     void Update()
@@ -143,6 +159,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
     {
         shipToDeploy = null;
         _gameManager = FindObjectOfType<GameManager>();
+        _multiManager = FindObjectOfType<MultiplayerInGameManager>();
         InvokeRepeating(nameof(InGameMovement), 5.0f, 2.0f);
     }
     #endregion

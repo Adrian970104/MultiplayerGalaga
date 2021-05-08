@@ -16,22 +16,28 @@ public class MultiplayerButtonHandler : MonoBehaviour
     
     public void OnClickJoinRoom()
     {
-        if(!PhotonNetwork.IsConnected) return;
+        if(!PhotonNetwork.IsConnected)
+            return;
         photonConnHandler.JoinRoom(roomnamField.text, usernameField.text);
         ActivateReadyButton(false);
     }
     
     public void OnClickCreateRoom()
     {
-        if(!PhotonNetwork.IsConnected) return;
+        if(!PhotonNetwork.IsConnected)
+            return;
         photonConnHandler.CreateRoom(roomnamField.text, usernameField.text);
         ActivateReadyButton(false);
     }
     
     public void OnClickBackFromMultiplayer()
     {
-        if(PhotonNetwork.InRoom) return;
-        
+        if (PhotonNetwork.InRoom)
+        {
+            Debug.Log($"Player still in room. {PhotonNetwork.CurrentRoom.Name}");
+            return;
+        }
+
         PhotonNetwork.Disconnect();
         SceneManager.LoadScene("GameMode");
     }

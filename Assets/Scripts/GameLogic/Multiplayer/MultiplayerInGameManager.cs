@@ -6,10 +6,9 @@ using UnityEngine;
 
 public class MultiplayerInGameManager : MonoBehaviour
 {
-
-    public Canvas attackerCanvas;
-    public Canvas defenderCanvas;
-
+    public PhotonView photonView;
+    public MultiplayerInGameCanvasManager CanvasManager;
+    
     public GameObject defenderPrefab;
     public GameObject attackerPrefab;
 
@@ -20,7 +19,16 @@ public class MultiplayerInGameManager : MonoBehaviour
     private GameManager _gameManager;
     private Vector3 _attackerInstPos = new Vector3(20f,20f,20f);
     private readonly Vector3 _defenderInstPos = new Vector3(0f,0f,-15f);
-    // Start is called before the first frame update
+
+    [PunRPC]
+    public void EndMultiplayer(string winner)
+    {
+        _gameManager.multiplayerPhase = MultiplayerPhase.AfterGame;
+        CanvasManager.FillWinnerCanvas(winner);
+        CanvasManager.SetWinnerCanvasVisible();
+    }
+    
+    #region Untiy Methods
     void Start()
     {
         Debug.Log($"InGAME Manager START running;");
@@ -28,24 +36,17 @@ public class MultiplayerInGameManager : MonoBehaviour
         _gameManager.multiplayerPhase = MultiplayerPhase.InDeploy;
         
         isAttacker  = (bool)PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"];
-        attackerCanvas.enabled = isAttacker;
-        defenderCanvas.enabled = !isAttacker;
 
         if (isAttacker)
         {
+            CanvasManager.SetAttackerCanvasVisible();
             attacker = PhotonNetwork.Instantiate(attackerPrefab.name, _attackerInstPos, Quaternion.identity).GetComponent<PhotonAttackerBehaviour>();
-            Debug.Log($"Attacker created: {attacker.name}");
         }
         else
         {
-            defender = PhotonNetwork.Instantiate(defenderPrefab.name, _defenderInstPos, Quaternion.identity)
-                .GetComponent<DefenderShipBehaviour>();
+            CanvasManager.SetDefenderCanvasVisible();
+            defender = PhotonNetwork.Instantiate(defenderPrefab.name, _defenderInstPos, Quaternion.identity).GetComponent<DefenderShipBehaviour>();
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    #endregion
 }
