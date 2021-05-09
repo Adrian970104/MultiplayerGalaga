@@ -57,6 +57,10 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
 
         private void OnTriggerEnter(Collider other)
         {
+            if(_gameManager is null)
+                return;
+            if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+                return;
             if(!photonView.IsMine)
                 return;
             if(ownerTag.IsNullOrEmpty())

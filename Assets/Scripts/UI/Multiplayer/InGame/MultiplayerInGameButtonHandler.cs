@@ -55,7 +55,7 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
         if(_attacker.shipToDeploy != null)
             return;
         
-        _gameManager.multiplayerPhase = MultiplayerPhase.InGame;
+        _gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InGame);
     }
 
     public void OnClickBackFromEnd()

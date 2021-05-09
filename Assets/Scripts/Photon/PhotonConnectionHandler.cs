@@ -182,13 +182,13 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
             PhotonNetwork.Disconnect();
         }
         //DontDestroyOnLoad(this);
-        Debug.Log($"Photon connection Hndler Start, Not connected to photon yet!");
         ConnectToPhoton(Guid.NewGuid().ToString());
         PhotonNetwork.GameVersion = _version;
 
         gameManager = FindObjectOfType<GameManager>();
         gameManager.gameMode = GameMode.Multiplayer;
-        
+        gameManager.multiplayerPhase = MultiplayerPhase.InServerCreation;
+
         ChangeToServerCreationCanvas();
         playerContainerController.Clear();
     }
@@ -290,6 +290,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         
         ChangeToLobbyCanvas();
         playerContainerController.Fill();
+        gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InRoom);
     }
 
     public override void OnLeftRoom()
@@ -300,6 +301,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         PhotonNetwork.RemovePlayerCustomProperties(props);
         ChangeToServerCreationCanvas();
         playerContainerController.Clear();
+        gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InServerCreation);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

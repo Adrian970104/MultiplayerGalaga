@@ -7,24 +7,44 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     public GameMode gameMode { get; set; }
     public MultiplayerPhase multiplayerPhase { get; set; }
     public SingleplayerPhase singleplayerPhase { get; set; }
-    
-    
+
+    public PhotonView photonView;
+
+
     public void StartDeploy()
     {
-        multiplayerPhase = MultiplayerPhase.InDeploy;
+        //multiplayerPhase = MultiplayerPhase.InDeploy;
+        photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InDeploy);
         PhotonNetwork.LoadLevel("InGame");
     }
 
     public void EndMultiplayer()
     {
         PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        //Debug.Log($"Current multiplayer phase is : {multiplayerPhase}");
+        if (multiplayerPhase != MultiplayerPhase.AfterGame)
+        {
+            Debug.Log($"Multiplayer phase is not After Game dont need the first scene : {multiplayerPhase}");
+            return;
+        }
+        Debug.Log($"Multiplayer phase is After Game we need the first scene : {multiplayerPhase}");
         SceneManager.LoadScene("GameMode");
-    }    
+    }
+
+    [PunRPC]
+    public void SetMultiplayerPhase(MultiplayerPhase newPhase)
+    {
+        multiplayerPhase = newPhase;
+    }
     
     #region UnityMethods
     private void Start()
@@ -35,10 +55,5 @@ public class GameManager : MonoBehaviour
         multiplayerPhase = MultiplayerPhase.Undefined;
         singleplayerPhase = SingleplayerPhase.Undefined;
     }
-
-    private void Update()
-    {
-    }
-
     #endregion
 }

@@ -23,7 +23,7 @@ public class MultiplayerInGameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void EndMultiplayer(string winner)
     {
-        _gameManager.multiplayerPhase = MultiplayerPhase.AfterGame;
+        _gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.AfterGame);
         CanvasManager.FillWinnerCanvas(winner);
         CanvasManager.SetWinnerCanvasVisible();
     }

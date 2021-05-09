@@ -5,7 +5,7 @@ using UnityEngine;
 public enum MultiplayerPhase
 {
     Undefined,
-    InLobby,
+    InServerCreation,
     InRoom,
     InDeploy,
     InGame,
