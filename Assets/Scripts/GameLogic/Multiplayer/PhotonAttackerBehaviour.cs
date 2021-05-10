@@ -15,6 +15,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
     private MultiplayerInGameManager _multiManager;
     private Vector3 _verticalDirection = Vector3.right;
     private int _stepCounter = 0;
+    private MultiplayerFeedbackPanelController _feedbackPanelController;
     
     private readonly int _leftBorder = -20;
     private readonly int _rightBorder = 8;
@@ -52,13 +53,14 @@ public class PhotonAttackerBehaviour : MonoBehaviour
             PhotonNetwork.Destroy(shipToDeploy);
             shipToDeploy = null;
             ++shipCount;
+            _feedbackPanelController.RefreshShipCountText();
         }
     }
 
     private void DeployMovement(GameObject ship)
     {
-        var translationV = Input.GetAxis("Vertical") * 10.0f * Time.deltaTime;
-        var translationH = Input.GetAxis("Horizontal") * 10.0f * Time.deltaTime;
+        var translationV = Input.GetAxis("Vertical") * 10.0f * -1 * Time.deltaTime;
+        var translationH = Input.GetAxis("Horizontal") * 10.0f * -1 * Time.deltaTime;
         ship.transform.Translate(translationH, 0, translationV);
     }
 
@@ -162,6 +164,8 @@ public class PhotonAttackerBehaviour : MonoBehaviour
         shipToDeploy = null;
         _gameManager = FindObjectOfType<GameManager>();
         _multiManager = FindObjectOfType<MultiplayerInGameManager>();
+        _feedbackPanelController = FindObjectOfType<MultiplayerFeedbackPanelController>();
+        _feedbackPanelController.RefreshShipCountText();
         InvokeRepeating(nameof(InGameMovement), 5.0f, 2.0f);
     }
     #endregion

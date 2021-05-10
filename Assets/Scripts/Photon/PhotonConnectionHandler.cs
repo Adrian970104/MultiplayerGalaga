@@ -80,7 +80,8 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     public void JoinRoom(string roomName, string nickname)
     {
         
-        if(PhotonNetwork.InRoom) return;
+        if(PhotonNetwork.InRoom)
+            return;
         
         if (!PhotonNetwork.IsConnected)
         {
@@ -262,16 +263,19 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
             return;
         }
         
+        if (message.Contains("Game closed"))
+        {
+            PhotonNetwork.JoinLobby();
+            ftc.SetPhotonError("Game is not ended yet", Color.red);
+            return;
+        }
+        
         PhotonNetwork.JoinLobby();
         ftc.SetPhotonError("Failed to join room", Color.red);
     }
 
     public override void OnJoinedRoom()
     {
-        var props = new[] {"IsAttacker","IsReady"};
-        PhotonNetwork.RemovePlayerCustomProperties(props);
-        Debug.Log($"CustomProperties reseted");
-        
         if (PhotonNetwork.PlayerListOthers.Any(player => player.NickName.Equals(PhotonNetwork.LocalPlayer.NickName)))
         {
             LeaveRoom();
@@ -295,10 +299,14 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        var props = new[] {"IsAttacker","IsReady"};
         Debug.Log($"Room left");
-        Debug.Log($"CustomProperties reseted");
+        
+        var props = new[] {"IsAttacker","IsReady"};
         PhotonNetwork.RemovePlayerCustomProperties(props);
+        PhotonNetwork.SetPlayerCustomProperties(PhotonNetwork.LocalPlayer.CustomProperties);
+        Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties.ToString());
+        Debug.Log($"CustomProperties reseted");
+        
         ChangeToServerCreationCanvas();
         playerContainerController.Clear();
         gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InServerCreation);

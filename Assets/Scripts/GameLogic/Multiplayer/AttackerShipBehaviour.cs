@@ -9,6 +9,8 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     public int triggerCount;
     private Color _baseColor;
 #endregion
+
+    private MultiplayerFeedbackPanelController _feedbackPanelController;
     public GameManager gameManager;
     public PhotonAttackerBehaviour attackerPlayer;
     public GameObject defenderShip;
@@ -53,10 +55,11 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         selfPos = transform.position;
         _baseColor = GetComponent<Renderer>().material.color;
         isDeployed = false;
+        _feedbackPanelController = FindObjectOfType<MultiplayerFeedbackPanelController>();
         
         if(photonView.IsMine)
         {
-            GetComponent<Renderer>().material.SetColor($"_Color", Color.blue);
+            GetComponent<Renderer>().material.SetColor($"_Color", Color.red);
         }
     }
 
@@ -69,16 +72,18 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         if (other.CompareTag("DefenderShip"))
         {
             Debug.Log("Entered the Defender ship");
-            /*gameObject.tag = "Untagged";
-            photonView.RPC("RPCDestroy", RpcTarget.All);*/
+            if(gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+                return;
+            
+            gameObject.tag = "Untagged";
+            photonView.RPC("RPCDestroy", RpcTarget.All);
             attackerPlayer.EndCheck();
             defenderShip.GetComponent<DefenderShipBehaviour>().Defeated();
-            
-            
         }
         
         if (other.CompareTag("AttackerShip") || other.CompareTag("SpawnSphere"))
         {
+            Debug.Log($"Other ship or Spawn point entered");
             if(gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
                 return;
             
@@ -86,7 +91,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
                 return;
             
             triggerCount++;
-            GetComponent<Renderer>().material.SetColor($"_Color", Color.blue);
+            GetComponent<Renderer>().material.SetColor($"_Color", Color.red);
         }
     }
 
@@ -148,7 +153,8 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         if(!MouseInteractable())
             return;
         PhotonNetwork.Destroy(gameObject);
-        FindObjectOfType<PhotonAttackerBehaviour>().shipCount++;
+        attackerPlayer.shipCount++;
+        _feedbackPanelController.RefreshShipCountText();
         attackerPlayer.attackerShips.Remove(this);
     }
 

@@ -59,6 +59,8 @@ public class MultiplayerInGameManager : MonoBehaviourPunCallbacks
             CanvasManager.SetDefenderCanvasVisible();
             defender = PhotonNetwork.Instantiate(defenderPrefab.name, _defenderInstPos, Quaternion.identity).GetComponent<DefenderShipBehaviour>();
         }
+        
+        PhotonNetwork.CurrentRoom.IsOpen = false;
     }
     #endregion
 }

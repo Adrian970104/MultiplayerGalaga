@@ -10,9 +10,9 @@ public class DefenderShipBehaviour : SpaceShip
 
     private readonly int _force = 1500;
     private readonly int _leftBorder = -28;
-    private readonly int _rightBorder = 28;
-    private readonly int _upBorder = -13;
-    private readonly int _downBorder = -19;
+    private readonly int _rightBorder = 16;
+    private readonly int _upBorder = -10;
+    private readonly int _downBorder = -18;
     private GameManager _gameManager;
     private MultiplayerInGameManager _multiManager;
 
@@ -69,6 +69,9 @@ public class DefenderShipBehaviour : SpaceShip
     public override void Shooting()
     {
         if (!Input.GetKeyDown(KeyCode.Space)) 
+            return;
+        
+        if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
             return;
 
         var bulletClone = PhotonNetwork.Instantiate(bullet.name, _rigidbody.position, Quaternion.Euler(90,0,0),0);

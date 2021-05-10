@@ -7,6 +7,7 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
 {
 
     public MultiplayerInGameManager multiManager;
+    public MultiplayerFeedbackPanelController _FeedbackPanelController;
     public GameObject spaceShip1;
     public GameObject spaceShip2;
     public GameObject spaceShip3;
@@ -26,9 +27,10 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
         if(_attacker.shipCount <= 0)
             return;
         
-        var spaceShip = PhotonNetwork.Instantiate(shipName, _deployPos, Quaternion.identity);
+        var spaceShip = PhotonNetwork.Instantiate(shipName, _deployPos, new Quaternion(0,180,0,0));
         _attacker.shipToDeploy = spaceShip;
         --_attacker.shipCount;
+        _FeedbackPanelController.RefreshShipCountText();
         Debug.Log($"Remaining ships: {_attacker.shipCount}");
     }
 
@@ -53,6 +55,9 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
             return;
         
         if(_attacker.shipToDeploy != null)
+            return;
+        
+        if(_attacker.attackerShips.Count < 1)
             return;
         
         _gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InGame);

@@ -15,7 +15,7 @@ public class Attacker1Behaviour : AttackerShipBehaviour
         
         var bulletClone = PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.Euler(90,0,0),0);
         var bulletBehav = bulletClone.GetComponent<PhotonBulletBehaviour>();
-        bulletBehav.selfDirection = -1*transform.forward;
+        bulletBehav.selfDirection = transform.forward;
         bulletBehav.ownerTag = gameObject.tag;
     }
     

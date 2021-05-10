@@ -574,9 +574,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   multiManager: {fileID: 1628732384}
-  spaceShip1: {fileID: 95604125638773702, guid: 4bb33ff65d3059c4c9a6eeaa069fd1a3,
+  _FeedbackPanelController: {fileID: 632003302}
+  spaceShip1: {fileID: 7191163089010825858, guid: cce9971add15a44418d6e61d7a42eec2,
     type: 3}
-  spaceShip2: {fileID: 6114729729342335639, guid: 39e94bb23f5396f4f9d7da9c5361349a,
+  spaceShip2: {fileID: 6036493471044831520, guid: 0a3ed1c5b2e96da4a87262cff3995dd8,
     type: 3}
   spaceShip3: {fileID: 0}
 --- !u!4 &364644045
@@ -1109,7 +1110,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ship1
+  m_Text: Target Attacker Ship
 --- !u!222 &762392187
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1924,7 +1925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   photonView: {fileID: 1628732386}
   CanvasManager: {fileID: 460175688}
-  defenderPrefab: {fileID: 2673876069302134390, guid: 88e628a629321c84f841eb9c8aaf582f,
+  defenderPrefab: {fileID: 7003423436027758462, guid: 6b0ead7f64a0c29408476fb1d40afea4,
     type: 3}
   attackerPrefab: {fileID: 1416842033091909581, guid: b01f37b01178a0f4c8698f35133ae301,
     type: 3}
@@ -2367,7 +2368,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2552,7 +2553,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ship1
+  m_Text: Simple Attacker Ship
 --- !u!222 &1906644718
 CanvasRenderer:
   m_ObjectHideFlags: 0

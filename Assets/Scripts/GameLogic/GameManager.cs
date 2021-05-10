@@ -37,6 +37,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             return;
         }
         Debug.Log($"Multiplayer phase is After Game we need the first scene : {multiplayerPhase}");
+        var props = new[] {"IsAttacker","IsReady"};
+        PhotonNetwork.RemovePlayerCustomProperties(props);
+        Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties.ToString());
+        PhotonNetwork.SetPlayerCustomProperties(PhotonNetwork.LocalPlayer.CustomProperties);
+        Debug.Log($"CustomProperties reseted");
         SceneManager.LoadScene("GameMode");
     }
 

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipToDeploy: {fileID: 0}
-  shipCount: 10
+  shipCount: 5
   attackerShips: []
 --- !u!114 &-7331562112716453074
 MonoBehaviour:

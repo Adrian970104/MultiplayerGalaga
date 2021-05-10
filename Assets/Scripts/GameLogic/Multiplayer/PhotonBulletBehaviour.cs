@@ -65,12 +65,13 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
                 return;
             if(ownerTag.IsNullOrEmpty())
                 return;
-            if(other.CompareTag(ownerTag)) 
+            if (other.CompareTag(ownerTag))
                 return;
 
+            Debug.Log($"Collided with: {other.tag}");
             if (other.CompareTag("AttackerShip") || other.CompareTag("DefenderShip"))
             {
-                var attacker = other.GetComponent<AttackerShipBehaviour>();
+                var attacker = other.GetComponentInParent<AttackerShipBehaviour>();
                 if (attacker != null)
                 {
                     if(!attacker.isDeployed)
@@ -81,7 +82,7 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
                 {
                     PhotonNetwork.Destroy(photonView);
                 }
-                other.GetComponent<SpaceShip>().TakeDamage(_damage);
+                other.GetComponentInParent<SpaceShip>().TakeDamage(_damage);
             }
         }
 
