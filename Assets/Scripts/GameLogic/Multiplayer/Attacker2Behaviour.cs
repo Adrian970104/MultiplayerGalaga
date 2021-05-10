@@ -12,15 +12,9 @@ public class Attacker2Behaviour : AttackerShipBehaviour
         
         if (gameManager.multiplayerPhase != MultiplayerPhase.InGame)
             return;
-
-        var position = transform.position;
-        var dir = Vector3.Normalize(defenderShip.transform.position - position);
-        var rotation = Quaternion.FromToRotation(transform.forward, dir).eulerAngles;
-        rotation.x += 90;
-        var bulletClone = PhotonNetwork.Instantiate(bullet.name, position, Quaternion.Euler(rotation), 0);
-        var bulletBehav = bulletClone.GetComponent<PhotonBulletBehaviour>();
-        bulletBehav.selfDirection = dir;
-        bulletBehav.ownerTag = gameObject.tag;
+        
+        var dir = Vector3.Normalize(defenderShip.transform.position - transform.position);
+        InstBullet(dir);
     }
 
     public override void Start()

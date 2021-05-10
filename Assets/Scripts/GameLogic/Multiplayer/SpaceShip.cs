@@ -25,6 +25,17 @@ public abstract class SpaceShip : MonoBehaviour, IPunObservable
         photonView.RPC("RPCDestroy", RpcTarget.All);
     }
     
+    public PhotonBulletBehaviour InstBullet(Vector3 dir)
+    {
+        var rotation = Quaternion.FromToRotation(transform.forward, dir).eulerAngles;
+        rotation.x += 90;
+        var bulletClone = PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.Euler(rotation), 0);
+        var bulletBehav = bulletClone.GetComponent<PhotonBulletBehaviour>();
+        bulletBehav.selfDirection = dir;
+        bulletBehav.ownerTag = gameObject.tag;
+        return bulletBehav;
+    }
+    
     [PunRPC]
     public void RPCDestroy()
     {

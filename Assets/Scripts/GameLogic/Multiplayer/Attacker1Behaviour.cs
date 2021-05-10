@@ -13,10 +13,7 @@ public class Attacker1Behaviour : AttackerShipBehaviour
         if(gameManager.multiplayerPhase != MultiplayerPhase.InGame)
             return;
         
-        var bulletClone = PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.Euler(90,0,0),0);
-        var bulletBehav = bulletClone.GetComponent<PhotonBulletBehaviour>();
-        bulletBehav.selfDirection = transform.forward;
-        bulletBehav.ownerTag = gameObject.tag;
+        InstBullet(transform.forward);
     }
     
     public override void Start()

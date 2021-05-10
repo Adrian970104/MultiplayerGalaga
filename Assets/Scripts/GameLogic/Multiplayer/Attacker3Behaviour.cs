@@ -12,19 +12,20 @@ public class Attacker3Behaviour : AttackerShipBehaviour
         
         if(gameManager.multiplayerPhase != MultiplayerPhase.InGame)
             return;
-        
-        var bulletClone = PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.Euler(90,0,0),0);
-        var bulletBehav = bulletClone.GetComponent<PhotonBulletBehaviour>();
-        bulletBehav.selfDirection = transform.forward;
-        bulletBehav.ownerTag = gameObject.tag;
+
+        for (var i = 1; i <= 6; i++)
+        {
+            var degrees = i * 60;
+            var dir = Quaternion.Euler(0, degrees, 0) * transform.forward;
+            InstBullet(dir);
+        }
     }
-    
     public override void Start()
     {
         base.Start();
         if(photonView.IsMine)
         {
-            InvokeRepeating(nameof(Shooting), Random.Range(2.0f, 4.0f), Random.Range(1f, 2f));
+            InvokeRepeating(nameof(Shooting), Random.Range(2.0f, 4.0f), Random.Range(2f, 4f));
         }
         Debug.Log($"trigger count: {triggerCount}");
     }

@@ -73,11 +73,8 @@ public class DefenderShipBehaviour : SpaceShip
         
         if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
             return;
-
-        var bulletClone = PhotonNetwork.Instantiate(bullet.name, _rigidbody.position, Quaternion.Euler(90,0,0),0);
-        var bulletBehav = bulletClone.GetComponent<PhotonBulletBehaviour>();
-        bulletBehav.selfDirection = transform.forward;
-        bulletBehav.ownerTag = gameObject.tag;
+        
+        InstBullet(transform.forward);
     }
 
     protected override void HealthCheck()
@@ -118,7 +115,7 @@ public class DefenderShipBehaviour : SpaceShip
         _gameManager = FindObjectOfType<GameManager>();
         _multiManager = FindObjectOfType<MultiplayerInGameManager>();
 
-        health = 100;
+        health = 300;
         damage = 50;
         
              
