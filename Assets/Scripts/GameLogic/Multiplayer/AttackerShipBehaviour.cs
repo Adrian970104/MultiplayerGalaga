@@ -14,18 +14,6 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     public GameManager gameManager;
     public PhotonAttackerBehaviour attackerPlayer;
     public GameObject defenderShip;
-
-
-    /*public PhotonBulletBehaviour InstBullet(Vector3 dir)
-    {
-        var rotation = Quaternion.FromToRotation(transform.forward, dir).eulerAngles;
-        rotation.x += 90;
-        var bulletClone = PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.Euler(rotation), 0);
-        var bulletBehav = bulletClone.GetComponent<PhotonBulletBehaviour>();
-        bulletBehav.selfDirection = dir;
-        bulletBehav.ownerTag = gameObject.tag;
-        return bulletBehav;
-    }*/
     
     #region Photon Methods
 
@@ -59,7 +47,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     public virtual void Start()
     {
         triggerCount = 0;
-        health = 100;
+        health = 150;
         damage = 50;
         
         gameManager = FindObjectOfType<GameManager>();
