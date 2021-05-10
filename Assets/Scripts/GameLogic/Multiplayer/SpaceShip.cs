@@ -20,7 +20,8 @@ public abstract class SpaceShip : MonoBehaviour, IPunObservable
 
     protected virtual void HealthCheck()
     {
-        if (health > 0) return;
+        if (health > 0)
+            return;
         gameObject.tag = "Untagged";
         photonView.RPC("RPCDestroy", RpcTarget.All);
     }

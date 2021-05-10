@@ -89,7 +89,6 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
             
             gameObject.tag = "Untagged";
             photonView.RPC("RPCDestroy", RpcTarget.All);
-            attackerPlayer.EndCheck();
             defenderShip.GetComponent<DefenderShipBehaviour>().Defeated();
         }
         
@@ -149,7 +148,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     {
         if(!MouseInteractable())
             return;
-        GetComponent<Renderer>().material.SetColor($"_Color", Color.cyan);
+        GetComponent<Renderer>().material.SetColor($"_Color", Color.black);
     }
 
     private void OnMouseExit()

@@ -80,8 +80,8 @@ public class DefenderShipBehaviour : SpaceShip
     protected override void HealthCheck()
     {
         base.HealthCheck();
-        Debug.Log($"This player is: {PhotonNetwork.LocalPlayer.NickName}");
-        Debug.Log($"Other player is: {PhotonNetwork.PlayerListOthers[0]}");
+        if (health > 0)
+            return;
         Defeated();
     }
 
