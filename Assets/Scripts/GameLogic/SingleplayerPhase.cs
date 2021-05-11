@@ -5,5 +5,6 @@ using UnityEngine;
 public enum SingleplayerPhase
 {
     Undefined,
-    InGame
+    InGame,
+    AfterGame
 }

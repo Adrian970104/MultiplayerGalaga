@@ -12,6 +12,8 @@ public class SingleplayerInGameManager : MonoBehaviour
     public GameObject attackerShip1;
     public GameObject attackerShip2;
     public GameObject attackerShip3;
+
+    public SingleplayerInGameCanvasManager CanvasManager;
     
     private const int VerticalSpeed = 2;
     private const int HorizontalSpeed = 1;
@@ -91,15 +93,31 @@ public class SingleplayerInGameManager : MonoBehaviour
     {
         _verticalDirection = _verticalDirection == Vector3.right ? Vector3.left : Vector3.right;
     }
+    
+    public void EndSingleplayer(bool win)
+    {
+        //_gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.AfterGame);
+        _gameManager.singleplayerPhase = SingleplayerPhase.AfterGame;
+        CanvasManager.FillWinnerCanvas(win);
+        CanvasManager.SetWinnerCanvasVisible();
+    }
 
     #region Unity Methods
     // Start is called before the first frame update
     void Start()
     {
+        CanvasManager.SetInGameCanvasVisible();
+        
         PhotonNetwork.OfflineMode = true;
+        
+        if (PhotonNetwork.InRoom)
+            PhotonNetwork.LeaveRoom();
+        
         PhotonNetwork.JoinRandomRoom();
+        
         _gameManager = FindObjectOfType<GameManager>();
         _gameManager.singleplayerPhase = SingleplayerPhase.InGame;
+        
         PhotonNetwork.Instantiate(defenderShip.name, _defenderPos, Quaternion.identity);
         AttackerStartPosFill();
         AttackerSetup();

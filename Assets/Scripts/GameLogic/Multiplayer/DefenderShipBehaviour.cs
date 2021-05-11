@@ -87,8 +87,16 @@ public class DefenderShipBehaviour : SpaceShip
 
     public void Defeated()
     {
-        var winner = _isAttacker ? PhotonNetwork.LocalPlayer.NickName : PhotonNetwork.PlayerListOthers[0].NickName;
-        _multiManager.photonView.RPC("EndMultiplayer", RpcTarget.All, winner);
+        if (_gameManager.gameMode == GameMode.Multiplayer)
+        {
+            var winner = _isAttacker ? PhotonNetwork.LocalPlayer.NickName : PhotonNetwork.PlayerListOthers[0].NickName;
+            _multiManager.photonView.RPC("EndMultiplayer", RpcTarget.All, winner);
+        }
+
+        if (_gameManager.gameMode == GameMode.Singleplayer)
+        {
+            FindObjectOfType<SingleplayerInGameManager>().EndSingleplayer(false);
+        }
     }
 
     #region Photon Methods
