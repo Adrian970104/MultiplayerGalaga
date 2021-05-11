@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
-  _damage: 50
-  ownerTag: 
   photonView: {fileID: 3396197704998782641}
   selfDirection: {x: 0, y: 0, z: 0}
+  _damage: 50
+  ownerTag: 

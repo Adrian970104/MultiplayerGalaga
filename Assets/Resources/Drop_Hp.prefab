@@ -213,11 +213,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3995c16b088c0f942b35819d15e5d3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 2
+  photonView: {fileID: 4589169986857765335}
+  selfDirection: {x: 0, y: 0, z: 0}
   type: 1
   value: 50
-  photonView: {fileID: 4589169986857765335}
-  speed: 2
-  selfDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &1805178272778014
 GameObject:
   m_ObjectHideFlags: 0

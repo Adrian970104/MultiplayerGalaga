@@ -107,11 +107,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e5a725eade4c634ab8c836ef7e5ec20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 2
+  photonView: {fileID: -6302426418028441864}
+  selfDirection: {x: 0, y: 0, z: 0}
   type: 3
   value: 150
-  photonView: {fileID: -6302426418028441864}
-  speed: 2
-  selfDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &-6302426418028441864
 MonoBehaviour:
   m_ObjectHideFlags: 0
