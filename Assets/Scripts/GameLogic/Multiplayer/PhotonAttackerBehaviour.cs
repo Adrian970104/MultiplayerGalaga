@@ -132,7 +132,6 @@ public class PhotonAttackerBehaviour : MonoBehaviour
 
     private void ChangeVerticalDirection()
     {
-
         _verticalDirection = _verticalDirection == Vector3.right ? Vector3.left : Vector3.right;
     }
 

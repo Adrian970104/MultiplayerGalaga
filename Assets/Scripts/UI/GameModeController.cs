@@ -12,12 +12,14 @@ public class GameModeController : MonoBehaviour
     public void OnClickSingelplayer()
     {
         gameManager.gameMode = GameMode.Singleplayer;
+        gameManager.multiplayerPhase = MultiplayerPhase.Undefined;
         SceneManager.LoadScene("SingleplayerMenu");
     }
 
     public void OnClickMultiplayer()
     {
         gameManager.gameMode = GameMode.Multiplayer;
+        gameManager.singleplayerPhase = SingleplayerPhase.Undefined;
         SceneManager.LoadScene("MultiplayerMenu");
     }
 
