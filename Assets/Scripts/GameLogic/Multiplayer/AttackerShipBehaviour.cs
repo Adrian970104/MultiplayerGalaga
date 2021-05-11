@@ -10,6 +10,8 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     private Color _baseColor;
 #endregion
 
+    public SingleplayerInGameManager singleManager;
+    
     private MultiplayerFeedbackPanelController _feedbackPanelController;
     public GameManager gameManager;
     public PhotonAttackerBehaviour attackerPlayer;
@@ -162,16 +164,37 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     {
         if (!photonView.IsMine) 
             return;
-        if(attackerPlayer is null)
-            return;
-        if(!attackerPlayer.attackerShips.Contains(this))
-            return;
-            
-        attackerPlayer.attackerShips.Remove(this);
         
-        if(gameManager.multiplayerPhase == MultiplayerPhase.InGame)
+        switch (gameManager.gameMode)
         {
-            attackerPlayer.EndCheck();
+            case GameMode.Singleplayer:
+            {
+                if(gameManager.singleplayerPhase != SingleplayerPhase.InGame)
+                    return;
+                
+                if (singleManager.attackerShips.Contains(this))
+                    singleManager.attackerShips.Remove(this);
+                
+                singleManager.EndCheck();
+                break;
+            }
+            case GameMode.Multiplayer:
+            {
+                if(attackerPlayer is null)
+                    return;
+                
+                if(!attackerPlayer.attackerShips.Contains(this))
+                    return;
+                
+                attackerPlayer.attackerShips.Remove(this);
+
+                if (gameManager.multiplayerPhase == MultiplayerPhase.InGame)
+                {
+                    attackerPlayer.EndCheck();
+                }
+
+                break;
+            }
         }
     }
 

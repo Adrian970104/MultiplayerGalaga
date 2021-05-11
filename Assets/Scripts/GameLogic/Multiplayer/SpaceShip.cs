@@ -40,7 +40,8 @@ public abstract class SpaceShip : MonoBehaviour, IPunObservable
     [PunRPC]
     public void RPCDestroy()
     {
-        if (!photonView.IsMine) return;
+        if (!photonView.IsMine)
+            return;
         PhotonNetwork.Destroy(gameObject);
     }
     

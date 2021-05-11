@@ -118,6 +118,7 @@ MonoBehaviour:
   damage: 0
   isDeployed: 0
   triggerCount: 1
+  singleManager: {fileID: 0}
   gameManager: {fileID: 0}
   attackerPlayer: {fileID: 0}
   defenderShip: {fileID: 0}

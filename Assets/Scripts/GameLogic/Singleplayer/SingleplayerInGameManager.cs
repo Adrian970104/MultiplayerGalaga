@@ -20,7 +20,7 @@ public class SingleplayerInGameManager : MonoBehaviour
     private Vector3 _verticalDirection = Vector3.right;
     private int _stepCounter = 0;
     
-    private List<SpaceShip> attackerShips = new List<SpaceShip>();
+    public List<SpaceShip> attackerShips = new List<SpaceShip>();
     private GameManager _gameManager;
     private Vector3 _defenderPos = new Vector3(0,0,-15);
     private List<Vector3> _attackerStartPos = new List<Vector3>();
@@ -44,14 +44,17 @@ public class SingleplayerInGameManager : MonoBehaviour
         {
             var shipVariant = Random.Range(0, 3);
             var att = PhotonNetwork.Instantiate(attackers[shipVariant].name, pos, rot);
+            att.GetComponent<AttackerShipBehaviour>().singleManager = this;
             attackerShips.Add(att.GetComponent<SpaceShip>());
         }
     }
-    
-    public void InGameStep(Vector3 direction, int speed)
+
+    private void InGameStep(Vector3 direction, int speed)
     {
         foreach (var ship in attackerShips)
         {
+            if(ship is null)
+                return;
             ship.transform.position += direction * speed;
         }
     }
@@ -100,6 +103,13 @@ public class SingleplayerInGameManager : MonoBehaviour
         _gameManager.singleplayerPhase = SingleplayerPhase.AfterGame;
         CanvasManager.FillWinnerCanvas(win);
         CanvasManager.SetWinnerCanvasVisible();
+    }
+
+    public void EndCheck()
+    {
+        if(attackerShips.Count > 0)
+            return;
+        EndSingleplayer(true);
     }
 
     #region Unity Methods
