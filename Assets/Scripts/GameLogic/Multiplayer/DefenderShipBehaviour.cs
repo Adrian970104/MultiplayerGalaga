@@ -71,7 +71,7 @@ public class DefenderShipBehaviour : SpaceShip
         if (!Input.GetKeyDown(KeyCode.Space)) 
             return;
         
-        if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+        if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame && _gameManager.singleplayerPhase != SingleplayerPhase.InGame)
             return;
         
         InstBullet(transform.forward);
@@ -110,17 +110,21 @@ public class DefenderShipBehaviour : SpaceShip
     #region Unity Methods
     void Start()
     {
-        _isAttacker = (bool) PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"];
         _rigidbody = GetComponent<Rigidbody>();
         _gameManager = FindObjectOfType<GameManager>();
-        _multiManager = FindObjectOfType<MultiplayerInGameManager>();
+        
+        if (_gameManager.gameMode == GameMode.Multiplayer)
+        {
+            _isAttacker = (bool) PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"];
+            _multiManager = FindObjectOfType<MultiplayerInGameManager>();
+        }
+        else
+        {
+            _isAttacker = false;
+        }
 
         health = 300;
         damage = 50;
-        
-             
-        Debug.Log($"Local player is: {PhotonNetwork.LocalPlayer}");
-        Debug.Log($"Other player is: {PhotonNetwork.PlayerListOthers[0].NickName}");
     }
 
     private void FixedUpdate()

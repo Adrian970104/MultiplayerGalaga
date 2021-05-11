@@ -10,7 +10,7 @@ public class Attacker2Behaviour : AttackerShipBehaviour
         if (!isDeployed)
             return;
         
-        if (gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+        if (gameManager.multiplayerPhase != MultiplayerPhase.InGame && gameManager.singleplayerPhase != SingleplayerPhase.InGame)
             return;
         
         var dir = Vector3.Normalize(defenderShip.transform.position - transform.position);

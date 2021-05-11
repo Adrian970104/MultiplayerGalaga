@@ -10,7 +10,7 @@ public class Attacker3Behaviour : AttackerShipBehaviour
         if(!isDeployed) 
             return;
         
-        if(gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+        if(gameManager.multiplayerPhase != MultiplayerPhase.InGame && gameManager.singleplayerPhase != SingleplayerPhase.InGame)
             return;
 
         for (var i = 1; i <= 6; i++)

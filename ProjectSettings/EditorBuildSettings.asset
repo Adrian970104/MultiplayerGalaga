@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/InGame.unity
     guid: fe18fc454a2a6b844a0a14d8a7afe309
+  - enabled: 1
+    path: Assets/Scenes/SingleplayerInGame.unity
+    guid: 3f9e0847aa4564348ad940a8aa159ca7
   m_configObjects: {}

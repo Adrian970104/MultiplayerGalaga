@@ -59,7 +59,7 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
         {
             if(_gameManager is null)
                 return;
-            if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+            if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame && _gameManager.singleplayerPhase != SingleplayerPhase.InGame)
                 return;
             if(!photonView.IsMine)
                 return;

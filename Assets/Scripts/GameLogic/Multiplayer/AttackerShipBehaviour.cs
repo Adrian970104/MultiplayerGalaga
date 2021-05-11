@@ -35,6 +35,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     #region Unity Methods
     private void Update()
     {
+        //TODO Adrian Ez így nem túl szép!
         if (photonView.IsMine)
         {
         }
@@ -54,10 +55,11 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         defenderShip = GameObject.FindGameObjectWithTag("DefenderShip");
         selfPos = transform.position;
         _baseColor = GetComponent<Renderer>().material.color;
-        isDeployed = false;
         _feedbackPanelController = FindObjectOfType<MultiplayerFeedbackPanelController>();
         
-        if(photonView.IsMine)
+        isDeployed = gameManager.gameMode == GameMode.Singleplayer;
+        
+        if(photonView.IsMine && gameManager.gameMode == GameMode.Multiplayer)
         {
             GetComponent<Renderer>().material.SetColor($"_Color", Color.red);
         }
@@ -82,7 +84,6 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         
         if (other.CompareTag("AttackerShip") || other.CompareTag("SpawnSphere"))
         {
-            Debug.Log($"Other ship or Spawn point entered");
             if(gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
                 return;
             

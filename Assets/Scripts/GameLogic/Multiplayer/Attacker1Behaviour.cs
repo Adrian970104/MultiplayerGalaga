@@ -10,8 +10,9 @@ public class Attacker1Behaviour : AttackerShipBehaviour
         if(!isDeployed) 
             return;
         
-        if(gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+        if(gameManager.multiplayerPhase != MultiplayerPhase.InGame && gameManager.singleplayerPhase != SingleplayerPhase.InGame)
             return;
+        
         
         InstBullet(transform.forward);
     }
