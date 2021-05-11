@@ -12,6 +12,7 @@ TagManager:
   - DefenderShip
   - AttackerPlayer
   - SpawnSphere
+  - Drop
   layers:
   - Default
   - TransparentFX

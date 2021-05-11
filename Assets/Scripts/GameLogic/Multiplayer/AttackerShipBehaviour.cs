@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using GameLogic;
 using Photon.Pun;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AttackerShipBehaviour : SpaceShip, IPunObservable
 {
@@ -10,15 +13,33 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     private Color _baseColor;
 #endregion
 
-    public SingleplayerInGameManager singleManager;
+    public List<GameObject> Drops = new List<GameObject>();
     
+    [SerializeField]
+    private int _dropChance = 90;
     private MultiplayerFeedbackPanelController _feedbackPanelController;
+    public SingleplayerInGameManager singleManager;
     public GameManager gameManager;
     public PhotonAttackerBehaviour attackerPlayer;
     public GameObject defenderShip;
+
+
+    public void Drop()
+    {
+        var isDropping = _dropChance >= Random.Range(-1, 100) ? true : false;
+        Debug.Log($"Dropping is : {isDropping}");
+        if(!isDropping)
+            return;
+        
+        var index = Random.Range(0, Drops.Count);
+        Debug.Log($"Randomed index is : {index}");
+        var choosedDrop = Drops[index];
+        Debug.Log($"Choosed drop is : {choosedDrop.name}");
+        var drop = PhotonNetwork.Instantiate(choosedDrop.name, transform.position, Quaternion.identity);
+        drop.GetComponent<PhotonDropBehaviour>().selfDirection = transform.forward;
+    }
     
     #region Photon Methods
-
     public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -75,7 +96,6 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         
         if (other.CompareTag("DefenderShip"))
         {
-            Debug.Log("Entered the Defender ship");
             if(gameManager.multiplayerPhase != MultiplayerPhase.InGame)
                 return;
             
@@ -175,6 +195,8 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
                 if (singleManager.attackerShips.Contains(this))
                     singleManager.attackerShips.Remove(this);
                 
+                Drop();
+                
                 singleManager.EndCheck();
                 break;
             }
@@ -187,9 +209,10 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
                     return;
                 
                 attackerPlayer.attackerShips.Remove(this);
-
+                
                 if (gameManager.multiplayerPhase == MultiplayerPhase.InGame)
                 {
+                    Drop();
                     attackerPlayer.EndCheck();
                 }
 

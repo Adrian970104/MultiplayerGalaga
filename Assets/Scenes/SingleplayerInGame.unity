@@ -1443,6 +1443,7 @@ MonoBehaviour:
   attackerShip3: {fileID: 1917106948373238, guid: c79905ec17c169a49b75177b6cf0d524,
     type: 3}
   CanvasManager: {fileID: 1766380909}
+  attackerShips: []
 --- !u!4 &2061312455
 Transform:
   m_ObjectHideFlags: 0

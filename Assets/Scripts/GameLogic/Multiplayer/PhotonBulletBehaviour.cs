@@ -19,7 +19,7 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
         private Vector3 _starPos;
         private static int _maxDistance = 50;
         private GameManager _gameManager;
-        private float lag;
+        private float _lag;
 
 
         private void Movement(Vector3 direction)
@@ -48,7 +48,7 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
             {
                 ownerTag = (string) stream.ReceiveNext();
                 _selfPos = (Vector3) stream.ReceiveNext();
-                lag = Mathf.Abs((float) (PhotonNetwork.Time - info.SentServerTime));
+                _lag = Mathf.Abs((float) (PhotonNetwork.Time - info.SentServerTime));
             }
         }
         #endregion
@@ -67,8 +67,7 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
                 return;
             if (other.CompareTag(ownerTag))
                 return;
-
-            Debug.Log($"Collided with: {other.tag}");
+            
             if (other.CompareTag("AttackerShip") || other.CompareTag("DefenderShip"))
             {
                 var attacker = other.GetComponentInParent<AttackerShipBehaviour>();
@@ -95,7 +94,7 @@ public class PhotonBulletBehaviour : MonoBehaviour, IPunObservable
             }
             else
             {
-                transform.position = Vector3.Lerp(transform.position, _selfPos, Time.deltaTime*10 + lag);
+                transform.position = Vector3.Lerp(transform.position, _selfPos, Time.deltaTime*10 + _lag);
             }
         }
 

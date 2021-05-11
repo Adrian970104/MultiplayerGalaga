@@ -9,6 +9,7 @@ public class SingleplayerInGameManager : MonoBehaviour
 {
     public GameObject defenderShip;
     
+    //TODO Adrián ezt Listával kell megoldani!
     public GameObject attackerShip1;
     public GameObject attackerShip2;
     public GameObject attackerShip3;

@@ -118,6 +118,11 @@ MonoBehaviour:
   damage: 0
   isDeployed: 0
   triggerCount: 1
+  Drops:
+  - {fileID: 1685670519410544, guid: d8172bda315fd2648b7e82672873a6d0, type: 3}
+  - {fileID: 1041803199959140, guid: 5f7d5f60379571b4ab916f85aae80a71, type: 3}
+  - {fileID: 1142887363737176, guid: 90a8f0af0be89c04eb22578b3dae859c, type: 3}
+  _dropChance: 90
   singleManager: {fileID: 0}
   gameManager: {fileID: 0}
   attackerPlayer: {fileID: 0}
