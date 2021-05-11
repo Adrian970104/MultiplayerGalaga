@@ -1,18 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class AttackerHealthPanelController : MonoBehaviour
+public class MultiplayerDefenderHealthPanelController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public Slider healthBar;
+    public TextMeshProUGUI healthText;
+
+    public void Refresh(int actualHealth, int maxHealth)
     {
-        
+        Debug.Log($"Refreshing hp panel with values: {actualHealth}/{maxHealth}");
+        healthBar.value = (float)actualHealth / maxHealth;
+        healthText.SetText($"Health: {actualHealth}/{maxHealth}");
     }
 }

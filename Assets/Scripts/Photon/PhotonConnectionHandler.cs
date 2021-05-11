@@ -375,6 +375,5 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     {
         Debug.Log($"On connected happend");
     }
-
     #endregion
 }

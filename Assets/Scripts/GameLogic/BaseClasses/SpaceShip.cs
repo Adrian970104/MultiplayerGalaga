@@ -8,19 +8,25 @@ public abstract class SpaceShip : MonoBehaviour, IPunObservable
     public GameObject bullet;
     public PhotonView photonView;
     public Vector3 selfPos;
-    public int health;
+    public int maxHealth;
+    public int actualHealth;
     public int damage;
 
-    
-    public void TakeDamage(int dam)
+
+    public virtual void Heal(int amount)
     {
-        health -= dam;
+        var healed = actualHealth + amount;
+        actualHealth = healed >= maxHealth ? maxHealth : healed;
+    }
+    public virtual void TakeDamage(int dam)
+    {
+        actualHealth -= dam;
         HealthCheck();
     }
 
     protected virtual void HealthCheck()
     {
-        if (health > 0)
+        if (actualHealth > 0)
             return;
         gameObject.tag = "Untagged";
         photonView.RPC("RPCDestroy", RpcTarget.All);

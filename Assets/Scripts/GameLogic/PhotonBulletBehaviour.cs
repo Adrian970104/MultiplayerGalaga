@@ -41,21 +41,30 @@ public class PhotonBulletBehaviour : SpaceObject
                 return;
             if (other.CompareTag(ownerTag))
                 return;
-            
-            if (other.CompareTag("AttackerShip") || other.CompareTag("DefenderShip"))
+
+            if (other.CompareTag("AttackerShip"))
             {
                 var attacker = other.GetComponentInParent<AttackerShipBehaviour>();
-                if (attacker != null)
-                {
-                    if(!attacker.isDeployed)
+                
+                if(!attacker.isDeployed)
                         return;
-                }
                 
                 if (photonView.IsMine)
                 {
                     PhotonNetwork.Destroy(photonView);
                 }
-                other.GetComponentInParent<SpaceShip>().TakeDamage(_damage);
+                
+                attacker.TakeDamage(_damage);
+            }
+
+            if (other.CompareTag("DefenderShip"))
+            {
+                if (photonView.IsMine)
+                {
+                    PhotonNetwork.Destroy(photonView);
+                }
+                //other.GetComponentInParent<DefenderShipBehaviour>().TakeDamage(_damage);
+                other.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("TakeDamage",RpcTarget.All,_damage);
             }
         }
         

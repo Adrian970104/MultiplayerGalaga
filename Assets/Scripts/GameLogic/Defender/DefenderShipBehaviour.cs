@@ -15,6 +15,7 @@ public class DefenderShipBehaviour : SpaceShip
     private readonly int _downBorder = -18;
     private GameManager _gameManager;
     private MultiplayerInGameManager _multiManager;
+    private MultiplayerDefenderCanvasController _canvasController;
 
     private void AddForceMovement()
     {
@@ -77,10 +78,28 @@ public class DefenderShipBehaviour : SpaceShip
         InstBullet(transform.forward);
     }
 
+    public override void Heal(int amount)
+    {
+        base.Heal(amount);
+        if(!photonView.IsMine)
+            return;
+        _canvasController.RefreshHealthPanel(actualHealth,maxHealth);
+    }
+
+    [PunRPC]
+    public override void TakeDamage(int dam)
+    {
+        base.TakeDamage(dam);
+        Debug.Log($"Damage taken {dam}");
+        if(!photonView.IsMine)
+            return;
+        _canvasController.RefreshHealthPanel(actualHealth,maxHealth);
+    }
+
     protected override void HealthCheck()
     {
         base.HealthCheck();
-        if (health > 0)
+        if (actualHealth > 0)
             return;
         Defeated();
     }
@@ -121,18 +140,26 @@ public class DefenderShipBehaviour : SpaceShip
         _rigidbody = GetComponent<Rigidbody>();
         _gameManager = FindObjectOfType<GameManager>();
         
+        maxHealth = 300;
+        actualHealth = maxHealth;
+        damage = 50;
+        
         if (_gameManager.gameMode == GameMode.Multiplayer)
         {
             _isAttacker = (bool) PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"];
             _multiManager = FindObjectOfType<MultiplayerInGameManager>();
+
+            if (photonView.IsMine)
+            {
+                _canvasController = FindObjectOfType<MultiplayerDefenderCanvasController>();
+                _canvasController.RefreshHealthPanel(actualHealth,maxHealth);
+            }
         }
         else
         {
             _isAttacker = false;
         }
 
-        health = 300;
-        damage = 50;
     }
 
     private void FixedUpdate()
@@ -145,7 +172,8 @@ public class DefenderShipBehaviour : SpaceShip
 
     private void Update()
     {
-        if (_isAttacker) return;
+        if (_isAttacker)
+            return;
         AddForceMovement();
         BorderCheck();
         Shooting();

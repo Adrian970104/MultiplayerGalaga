@@ -71,7 +71,8 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     public virtual void Start()
     {
         triggerCount = 0;
-        health = 150;
+        maxHealth = 150;
+        actualHealth = maxHealth;
         damage = 50;
         
         gameManager = FindObjectOfType<GameManager>();
