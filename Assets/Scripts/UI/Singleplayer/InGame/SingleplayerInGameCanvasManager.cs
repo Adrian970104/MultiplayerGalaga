@@ -18,9 +18,10 @@ public class SingleplayerInGameCanvasManager : MonoBehaviour
     {
         HealthPanelController.Refresh(actualHealth, maxHealth);
     }
-    public void RefreshDataPanel(int actualDam)
+    public void RefreshDataPanel(int actualDam, int score)
     {
-        DataPanelController.Refresh(actualDam);
+        DataPanelController.RefreshDamage(actualDam);
+        DataPanelController.RefreshScore(score);
     }
     public void FillWinnerCanvas(bool win)
     {

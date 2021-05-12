@@ -20,6 +20,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     private MultiplayerFeedbackPanelController _feedbackPanelController;
 
     public int cost;
+    public int value;
     public SingleplayerInGameManager singleManager;
     public GameManager gameManager;
     public PhotonAttackerBehaviour attackerPlayer;
@@ -35,10 +36,8 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
             return;
         
         var index = Random.Range(0, Drops.Count);
-        Debug.Log($"Randomed index is : {index}");
-        var choosedDrop = Drops[index];
-        Debug.Log($"Choosed drop is : {choosedDrop.name}");
-        var drop = PhotonNetwork.Instantiate(choosedDrop.name, transform.position, Quaternion.identity);
+        var chosenDrop = Drops[index];
+        var drop = PhotonNetwork.Instantiate(chosenDrop.name, transform.position, Quaternion.identity);
         drop.GetComponent<PhotonDropBehaviour>().selfDirection = transform.forward;
     }
     
@@ -202,6 +201,8 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
                 
                 Drop();
                 
+                defenderShip.GetComponentInParent<DefenderShipBehaviour>().AddScore(value);
+                
                 singleManager.EndCheck();
                 break;
             }
@@ -222,6 +223,10 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
                 }
                 break;
             }
+            case GameMode.Undefined:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
         
         PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.identity);

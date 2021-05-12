@@ -7,16 +7,21 @@ public class DefenderShipBehaviour : SpaceShip
 {
     private Rigidbody _rigidbody;
     private bool _isAttacker;
-
-    private readonly int _force = 1500;
-    private readonly int _leftBorder = -28;
-    private readonly int _rightBorder = 16;
-    private readonly int _upBorder = -10;
-    private readonly int _downBorder = -18;
+    
     private GameManager _gameManager;
     private MultiplayerInGameManager _multiManager;
     private MultiplayerDefenderCanvasController _multiCanvasController;
     private SingleplayerInGameCanvasManager _singleCanvasController;
+    
+    private readonly int _force = 1500;
+    
+    private readonly int _leftBorder = -28;
+    private readonly int _rightBorder = 16;
+    private readonly int _upBorder = -10;
+    private readonly int _downBorder = -18;
+
+    public int score;
+    
 
     private void AddForceMovement()
     {
@@ -79,6 +84,19 @@ public class DefenderShipBehaviour : SpaceShip
         InstBullet(transform.forward);
     }
 
+
+    public void IncreaseMaxHealth(int amount)
+    {
+        maxHealth += amount;
+        actualHealth += amount;
+        _singleCanvasController.RefreshHealthPanel(actualHealth, maxHealth);
+    }
+    public void AddScore(int amount)
+    {
+        score += amount;
+        _singleCanvasController.RefreshDataPanel(actualDamage, score);
+    }
+    
     [PunRPC]
     public override void ResetDamage()
     {
@@ -92,7 +110,7 @@ public class DefenderShipBehaviour : SpaceShip
         }
         else
         {
-            _singleCanvasController.RefreshDataPanel(actualDamage);
+            _singleCanvasController.RefreshDataPanel(actualDamage, score);
         }
     }
 
@@ -109,7 +127,7 @@ public class DefenderShipBehaviour : SpaceShip
         }
         else
         {
-            _singleCanvasController.RefreshDataPanel(actualDamage);
+            _singleCanvasController.RefreshDataPanel(actualDamage, score);
         }
     }
 
@@ -215,7 +233,7 @@ public class DefenderShipBehaviour : SpaceShip
             _isAttacker = false;
             _singleCanvasController = FindObjectOfType<SingleplayerInGameCanvasManager>();
             _singleCanvasController.RefreshHealthPanel(actualHealth, maxHealth);
-            _singleCanvasController.RefreshDataPanel(actualDamage);
+            _singleCanvasController.RefreshDataPanel(actualDamage, score);
         }
 
     }
