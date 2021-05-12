@@ -11,7 +11,6 @@ public class SingleplayerHealthPanelController : MonoBehaviour
 
     public void Refresh(int actualHealth, int maxHealth)
     {
-        Debug.Log($"Refreshing hp panel with values: {actualHealth}/{maxHealth}");
         healthBar.value = (float)actualHealth / maxHealth;
         healthText.SetText($"Health: {actualHealth}/{maxHealth}");
     }

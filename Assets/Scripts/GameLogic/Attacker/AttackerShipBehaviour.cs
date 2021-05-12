@@ -24,6 +24,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     public GameManager gameManager;
     public PhotonAttackerBehaviour attackerPlayer;
     public GameObject defenderShip;
+    public ParticleSystem explosion;
 
 
     public void Drop()
@@ -206,23 +207,24 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
             }
             case GameMode.Multiplayer:
             {
-                if(attackerPlayer is null)
+                if (attackerPlayer is null)
                     return;
-                
-                if(!attackerPlayer.attackerShips.Contains(this))
+
+                if (!attackerPlayer.attackerShips.Contains(this))
                     return;
-                
+
                 attackerPlayer.attackerShips.Remove(this);
-                
+
                 if (gameManager.multiplayerPhase == MultiplayerPhase.InGame)
                 {
                     Drop();
                     attackerPlayer.WaveEndCheck();
                 }
-
                 break;
             }
         }
+        
+        PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.identity);
     }
 
     #endregion

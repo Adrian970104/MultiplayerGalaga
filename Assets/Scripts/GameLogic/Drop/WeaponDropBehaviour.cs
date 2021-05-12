@@ -19,10 +19,11 @@ public class WeaponDropBehaviour : PhotonDropBehaviour
             return;
         if(!other.CompareTag("DefenderShip"))
             return;
-        if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame && _gameManager.singleplayerPhase != SingleplayerPhase.InGame)
+        if(_gameManager.multiplayerPhase != MultiplayerPhase.InDeploy && _gameManager.multiplayerPhase != MultiplayerPhase.InGame && _gameManager.singleplayerPhase != SingleplayerPhase.InGame)
             return;
 
         other.gameObject.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("IncreaseDamage", RpcTarget.All, value);
+        
         if(photonView.IsMine)
             PhotonNetwork.Destroy(photonView);
     }

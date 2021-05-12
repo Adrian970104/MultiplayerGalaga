@@ -47,7 +47,6 @@ public class PhotonDropBehaviour : SpaceObject
     {
         _selfRot = transform.rotation;
         _gameManager = FindObjectOfType<GameManager>();
-        Debug.Log($"Game manager found: {_gameManager.name}");
     }
 
     #endregion
