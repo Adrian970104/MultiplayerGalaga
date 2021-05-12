@@ -7,6 +7,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
 {
     public GameObject shipToDeploy;
     public int shipCount = 5;
+    public int material = 1500;
     public List<AttackerShipBehaviour> attackerShips = new List<AttackerShipBehaviour>();
 
     private const int VerticalSpeed = 2;
@@ -53,7 +54,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
             PhotonNetwork.Destroy(shipToDeploy);
             shipToDeploy = null;
             ++shipCount;
-            _feedbackPanelController.RefreshShipCountText();
+            _feedbackPanelController.RefreshFeedbackPanel();
         }
     }
 
@@ -135,12 +136,30 @@ public class PhotonAttackerBehaviour : MonoBehaviour
         _verticalDirection = _verticalDirection == Vector3.right ? Vector3.left : Vector3.right;
     }
 
-    public void EndCheck()
+    public void WaveEndCheck()
     {
         if (attackerShips.Count == 0)
         {
-            Defeated();
+            EndWave();
         }
+    }
+
+    public void EndWave()
+    {
+        EndCheck();
+        
+        if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+            return;
+
+        _gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InDeploy);
+        shipCount = 5;
+        _feedbackPanelController.RefreshFeedbackPanel();
+    }
+
+    public void EndCheck()
+    {
+        if(material <= 0)
+            Defeated();
     }
 
     public void Defeated()
@@ -164,7 +183,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
         _gameManager = FindObjectOfType<GameManager>();
         _multiManager = FindObjectOfType<MultiplayerInGameManager>();
         _feedbackPanelController = FindObjectOfType<MultiplayerFeedbackPanelController>();
-        _feedbackPanelController.RefreshShipCountText();
+        _feedbackPanelController.RefreshFeedbackPanel();
         InvokeRepeating(nameof(InGameMovement), 5.0f, 2.0f);
     }
     #endregion

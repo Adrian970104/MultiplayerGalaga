@@ -27,6 +27,6 @@ public class Attacker3Behaviour : AttackerShipBehaviour
         {
             InvokeRepeating(nameof(Shooting), Random.Range(2.0f, 4.0f), Random.Range(2f, 4f));
         }
-        Debug.Log($"trigger count: {triggerCount}");
+        cost = 300;
     }
 }

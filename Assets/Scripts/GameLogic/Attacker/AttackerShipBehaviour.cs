@@ -18,6 +18,8 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     [SerializeField]
     private int _dropChance = 90;
     private MultiplayerFeedbackPanelController _feedbackPanelController;
+
+    public int cost;
     public SingleplayerInGameManager singleManager;
     public GameManager gameManager;
     public PhotonAttackerBehaviour attackerPlayer;
@@ -177,7 +179,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
             return;
         PhotonNetwork.Destroy(gameObject);
         attackerPlayer.shipCount++;
-        _feedbackPanelController.RefreshShipCountText();
+        _feedbackPanelController.RefreshFeedbackPanel();
         attackerPlayer.attackerShips.Remove(this);
     }
 
@@ -214,7 +216,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
                 if (gameManager.multiplayerPhase == MultiplayerPhase.InGame)
                 {
                     Drop();
-                    attackerPlayer.EndCheck();
+                    attackerPlayer.WaveEndCheck();
                 }
 
                 break;

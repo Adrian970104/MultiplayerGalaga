@@ -8,18 +8,22 @@ using UnityEngine;
 public class MultiplayerFeedbackPanelController : MonoBehaviour
 {
     public TextMeshProUGUI ShipCountText;
+    public TextMeshProUGUI MaterialText;
     public MultiplayerInGameManager multiManager;
 
     private GameManager _gameManager;
     private PhotonAttackerBehaviour attacker;
 
-    public void RefreshShipCountText()
+    public void RefreshFeedbackPanel()
     {
         if(_gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
             return;
+        
         if (!(bool) PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"])
             return;
-        ShipCountText.SetText($"Ships remaining: {multiManager.attacker.shipCount}");
+        
+        ShipCountText.SetText($"Remaining ships: {multiManager.attacker.shipCount}");
+        MaterialText.SetText($"Remaining material: {multiManager.attacker.material}");
     }
 
     #region Unity Methods

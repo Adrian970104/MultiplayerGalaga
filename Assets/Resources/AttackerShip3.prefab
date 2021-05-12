@@ -337,6 +337,7 @@ MonoBehaviour:
   - {fileID: 1041803199959140, guid: 5f7d5f60379571b4ab916f85aae80a71, type: 3}
   - {fileID: 1142887363737176, guid: 90a8f0af0be89c04eb22578b3dae859c, type: 3}
   _dropChance: 90
+  cost: 300
   singleManager: {fileID: 0}
   gameManager: {fileID: 0}
   attackerPlayer: {fileID: 0}

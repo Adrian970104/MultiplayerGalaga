@@ -16,7 +16,7 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
     private Vector3 _deployPos = new Vector3(0f, 0f, 0f);
     private GameManager _gameManager;
 
-    private void DeploySpaceShip(string shipName)
+    private void DeploySpaceShip(GameObject ship)
     {
         if (!(_attacker.shipToDeploy is null)) 
             return;
@@ -26,27 +26,39 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
         
         if(_attacker.shipCount <= 0)
             return;
+
+        var shipBehav = ship.GetComponent<AttackerShipBehaviour>();
         
-        var spaceShip = PhotonNetwork.Instantiate(shipName, _deployPos, new Quaternion(0,180,0,0));
+        if(shipBehav is null)
+            return;
+
+        if (shipBehav.cost > _attacker.material)
+            return;
+        
+        var spaceShip = PhotonNetwork.Instantiate(ship.name, _deployPos, new Quaternion(0,180,0,0));
         _attacker.shipToDeploy = spaceShip;
         --_attacker.shipCount;
-        _FeedbackPanelController.RefreshShipCountText();
+        Debug.Log($"Choosed ships {shipBehav.name} cost is : {shipBehav.cost}");
+        _attacker.material -= shipBehav.cost;
+        
+        _FeedbackPanelController.RefreshFeedbackPanel();
         Debug.Log($"Remaining ships: {_attacker.shipCount}");
+        Debug.Log($"Remaining resource: {_attacker.material}");
     }
 
     public void OnClickDeployShip1()
     {
-        DeploySpaceShip(spaceShip1.name);
+        DeploySpaceShip(spaceShip1);
     }
     
     public void OnClickDeployShip2()
     {
-        DeploySpaceShip(spaceShip2.name);
+        DeploySpaceShip(spaceShip2);
     }
     
     public void OnClickDeployShip3()
     {
-        DeploySpaceShip(spaceShip3.name);
+        DeploySpaceShip(spaceShip3);
     }
 
     public void OnClickEndDeploy()
