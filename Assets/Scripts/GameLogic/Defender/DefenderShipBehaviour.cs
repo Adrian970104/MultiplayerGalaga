@@ -15,7 +15,8 @@ public class DefenderShipBehaviour : SpaceShip
     private readonly int _downBorder = -18;
     private GameManager _gameManager;
     private MultiplayerInGameManager _multiManager;
-    private MultiplayerDefenderCanvasController _canvasController;
+    private MultiplayerDefenderCanvasController _multiCanvasController;
+    private SingleplayerInGameCanvasManager _singleCanvasController;
 
     private void AddForceMovement()
     {
@@ -84,7 +85,15 @@ public class DefenderShipBehaviour : SpaceShip
         base.ResetDamage();
         if(!photonView.IsMine)
             return;
-        _canvasController.RefreshDataPanel(actualDamage);
+        
+        if (_gameManager.gameMode == GameMode.Multiplayer)
+        {
+            _multiCanvasController.RefreshDataPanel(actualDamage);
+        }
+        else
+        {
+            _singleCanvasController.RefreshDataPanel(actualDamage);
+        }
     }
 
     [PunRPC]
@@ -93,7 +102,15 @@ public class DefenderShipBehaviour : SpaceShip
         base.IncreaseDamage(amount);
         if(!photonView.IsMine)
             return;
-        _canvasController.RefreshDataPanel(actualDamage);
+
+        if (_gameManager.gameMode == GameMode.Multiplayer)
+        {
+            _multiCanvasController.RefreshDataPanel(actualDamage);
+        }
+        else
+        {
+            _singleCanvasController.RefreshDataPanel(actualDamage);
+        }
     }
 
     [PunRPC]
@@ -103,7 +120,15 @@ public class DefenderShipBehaviour : SpaceShip
         Debug.Log($"Healed with {amount} hp");
         if(!photonView.IsMine)
             return;
-        _canvasController.RefreshHealthPanel(actualHealth,maxHealth);
+        
+        if (_gameManager.gameMode == GameMode.Multiplayer)
+        {
+            _multiCanvasController.RefreshHealthPanel(actualHealth,maxHealth);
+        }
+        else
+        {
+            _singleCanvasController.RefreshHealthPanel(actualHealth, maxHealth);
+        }
     }
 
     [PunRPC]
@@ -113,7 +138,15 @@ public class DefenderShipBehaviour : SpaceShip
         Debug.Log($"Damage taken {dam}");
         if(!photonView.IsMine)
             return;
-        _canvasController.RefreshHealthPanel(actualHealth,maxHealth);
+        
+        if (_gameManager.gameMode == GameMode.Multiplayer)
+        {
+            _multiCanvasController.RefreshHealthPanel(actualHealth,maxHealth);
+        }
+        else
+        {
+            _singleCanvasController.RefreshHealthPanel(actualHealth, maxHealth);
+        }
     }
 
     protected override void HealthCheck()
@@ -172,14 +205,17 @@ public class DefenderShipBehaviour : SpaceShip
 
             if (photonView.IsMine)
             {
-                _canvasController = FindObjectOfType<MultiplayerDefenderCanvasController>();
-                _canvasController.RefreshHealthPanel(actualHealth,maxHealth);
-                _canvasController.RefreshDataPanel(actualDamage);
+                _multiCanvasController = FindObjectOfType<MultiplayerDefenderCanvasController>();
+                _multiCanvasController.RefreshHealthPanel(actualHealth, maxHealth);
+                _multiCanvasController.RefreshDataPanel(actualDamage);
             }
         }
         else
         {
             _isAttacker = false;
+            _singleCanvasController = FindObjectOfType<SingleplayerInGameCanvasManager>();
+            _singleCanvasController.RefreshHealthPanel(actualHealth, maxHealth);
+            _singleCanvasController.RefreshDataPanel(actualDamage);
         }
 
     }

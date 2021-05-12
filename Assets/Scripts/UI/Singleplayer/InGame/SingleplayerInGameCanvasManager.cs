@@ -5,12 +5,23 @@ using UnityEngine;
 
 public class SingleplayerInGameCanvasManager : MonoBehaviour
 {
-
+    
     public Canvas InGameCanvas;
+    public SingleplayerHealthPanelController HealthPanelController;
+    public SingleplayerDataPanelController DataPanelController;
+    
     public Canvas WinnerCanvas;
-
     public TextMeshProUGUI winnerText;
 
+
+    public void RefreshHealthPanel(int actualHealth, int maxHealth)
+    {
+        HealthPanelController.Refresh(actualHealth, maxHealth);
+    }
+    public void RefreshDataPanel(int actualDam)
+    {
+        DataPanelController.Refresh(actualDam);
+    }
     public void FillWinnerCanvas(bool win)
     {
         var text = win ? "Congratulation!" : "Loose!";

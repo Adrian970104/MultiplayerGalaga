@@ -23,8 +23,8 @@ public class MineDropBehaviour : PhotonDropBehaviour
         if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame && _gameManager.singleplayerPhase != SingleplayerPhase.InGame)
             return;
 
-        other.gameObject.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("TakeDamage", RpcTarget.All, value);
         other.gameObject.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("ResetDamage", RpcTarget.All);
+        other.gameObject.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("TakeDamage", RpcTarget.All, value);
         
         if(photonView.IsMine)
             PhotonNetwork.Destroy(photonView);
