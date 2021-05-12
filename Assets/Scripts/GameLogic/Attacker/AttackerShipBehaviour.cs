@@ -72,8 +72,8 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     {
         triggerCount = 0;
         maxHealth = 150;
-        actualHealth = maxHealth;
-        damage = 50;
+        baseDamage = 40;
+        actualDamage = baseDamage;
         
         gameManager = FindObjectOfType<GameManager>();
         defenderShip = GameObject.FindGameObjectWithTag("DefenderShip");

@@ -336,7 +336,8 @@ MonoBehaviour:
   selfPos: {x: 0, y: 0, z: 0}
   maxHealth: 0
   actualHealth: 0
-  damage: 0
+  baseDamage: 0
+  actualDamage: 0
 --- !u!114 &-2514482220680288583
 MonoBehaviour:
   m_ObjectHideFlags: 0

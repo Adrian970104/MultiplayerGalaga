@@ -78,9 +78,29 @@ public class DefenderShipBehaviour : SpaceShip
         InstBullet(transform.forward);
     }
 
+    [PunRPC]
+    public override void ResetDamage()
+    {
+        base.ResetDamage();
+        if(!photonView.IsMine)
+            return;
+        _canvasController.RefreshDataPanel(actualDamage);
+    }
+
+    [PunRPC]
+    public override void IncreaseDamage(int amount)
+    {
+        base.IncreaseDamage(amount);
+        if(!photonView.IsMine)
+            return;
+        _canvasController.RefreshDataPanel(actualDamage);
+    }
+
+    [PunRPC]
     public override void Heal(int amount)
     {
         base.Heal(amount);
+        Debug.Log($"Healed with {amount} hp");
         if(!photonView.IsMine)
             return;
         _canvasController.RefreshHealthPanel(actualHealth,maxHealth);
@@ -142,7 +162,8 @@ public class DefenderShipBehaviour : SpaceShip
         
         maxHealth = 300;
         actualHealth = maxHealth;
-        damage = 50;
+        baseDamage = 50;
+        actualDamage = baseDamage;
         
         if (_gameManager.gameMode == GameMode.Multiplayer)
         {
@@ -153,6 +174,7 @@ public class DefenderShipBehaviour : SpaceShip
             {
                 _canvasController = FindObjectOfType<MultiplayerDefenderCanvasController>();
                 _canvasController.RefreshHealthPanel(actualHealth,maxHealth);
+                _canvasController.RefreshDataPanel(actualDamage);
             }
         }
         else

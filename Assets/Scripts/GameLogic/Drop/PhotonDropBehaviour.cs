@@ -12,6 +12,7 @@ public class PhotonDropBehaviour : SpaceObject
 
     protected Quaternion _selfRot;
     protected Vector3 _rotSpeed = new Vector3(0,0.2f,0);
+    protected GameManager _gameManager;
 
     
     #region Photon Methods
@@ -45,6 +46,8 @@ public class PhotonDropBehaviour : SpaceObject
     public override void Start()
     {
         _selfRot = transform.rotation;
+        _gameManager = FindObjectOfType<GameManager>();
+        Debug.Log($"Game manager found: {_gameManager.name}");
     }
 
     #endregion

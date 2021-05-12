@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using GameLogic;
+using Photon.Pun;
 using UnityEngine;
 
 public class HpDropBehaviour : PhotonDropBehaviour
@@ -9,6 +11,20 @@ public class HpDropBehaviour : PhotonDropBehaviour
     {
         base.Start();
         type = DropType.Hp;
-        value = 50;
+        value = 20;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if(!photonView.IsMine)
+            return;
+        if(!other.CompareTag("DefenderShip"))
+            return;
+        if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame && _gameManager.singleplayerPhase != SingleplayerPhase.InGame)
+            return;
+
+        other.gameObject.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("Heal", RpcTarget.All, value);
+        if(photonView.IsMine)
+            PhotonNetwork.Destroy(photonView);
     }
 }

@@ -10,9 +10,21 @@ public abstract class SpaceShip : MonoBehaviour, IPunObservable
     public Vector3 selfPos;
     public int maxHealth;
     public int actualHealth;
-    public int damage;
+    public int baseDamage;
+    public int actualDamage;
 
 
+
+    public virtual void IncreaseDamage(int amount)
+    {
+        actualDamage += amount;
+    }
+    
+    public virtual void ResetDamage()
+    {
+        actualDamage = baseDamage;
+    }
+    
     public virtual void Heal(int amount)
     {
         var healed = actualHealth + amount;
