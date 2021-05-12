@@ -52,8 +52,9 @@ public class PhotonAttackerBehaviour : MonoBehaviour
                 return;
             
             PhotonNetwork.Destroy(shipToDeploy);
-            shipToDeploy = null;
             ++shipCount;
+            material += shipToDeploy.GetComponent<AttackerShipBehaviour>().cost;
+            shipToDeploy = null;
             _feedbackPanelController.RefreshFeedbackPanel();
         }
     }

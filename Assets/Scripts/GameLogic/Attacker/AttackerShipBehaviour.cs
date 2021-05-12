@@ -179,6 +179,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
             return;
         PhotonNetwork.Destroy(gameObject);
         attackerPlayer.shipCount++;
+        attackerPlayer.material += cost;
         _feedbackPanelController.RefreshFeedbackPanel();
         attackerPlayer.attackerShips.Remove(this);
     }
