@@ -12,11 +12,16 @@ public class Attacker1Behaviour : AttackerShipBehaviour
         
         if(gameManager.multiplayerPhase != MultiplayerPhase.InGame && gameManager.singleplayerPhase != SingleplayerPhase.InGame)
             return;
-        
-        
+
         InstBullet(transform.forward);
     }
-    
+
+    public override void TakeDamage(int dam)
+    {
+        Shooting();
+        base.TakeDamage(dam);
+    }
+
     public override void Start()
     {
         base.Start();
