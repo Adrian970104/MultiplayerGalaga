@@ -206,6 +206,8 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
                 if (singleManager.attackerShips.Contains(this))
                     singleManager.attackerShips.Remove(this);
                 
+                PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.identity);
+                
                 Drop();
                 
                 defenderShip.GetComponentInParent<DefenderShipBehaviour>().AddScore(value);
@@ -225,6 +227,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
 
                 if (gameManager.multiplayerPhase == MultiplayerPhase.InGame)
                 {
+                    PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.identity);
                     Drop();
                     attackerPlayer.WaveEndCheck();
                 }
@@ -236,7 +239,6 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
                 throw new ArgumentOutOfRangeException();
         }
         
-        PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.identity);
     }
 
     #endregion
