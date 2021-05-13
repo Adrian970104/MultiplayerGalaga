@@ -11,9 +11,9 @@ public class SingleplayerDataPanelController : MonoBehaviour
 
     private DefenderShipBehaviour _defender;
 
-    private int _plusDamage = 10;
-    private int _plusHp = 30;
-    private int _scoreCost = 100;
+    private readonly int _plusDamage = 10;
+    private readonly int _plusHp = 30;
+    private readonly int _scoreCost = 100;
     
     public void RefreshDamage(int dam)
     {
@@ -37,7 +37,7 @@ public class SingleplayerDataPanelController : MonoBehaviour
         if(_defender.score < _scoreCost)
             return;
         _defender.AddScore(-_scoreCost);
-        _defender.IncreaseDamage(10);
+        _defender.IncreaseDamage(_plusDamage);
     }
 
     #region Unity Methods

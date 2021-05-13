@@ -15,7 +15,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
     private GameManager _gameManager;
     private MultiplayerInGameManager _multiManager;
     private Vector3 _verticalDirection = Vector3.right;
-    private int _stepCounter = 0;
+    private int _stepCounter;
     private MultiplayerFeedbackPanelController _feedbackPanelController;
     
     private readonly int _leftBorder = -20;
@@ -155,6 +155,8 @@ public class PhotonAttackerBehaviour : MonoBehaviour
         _gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InDeploy);
         shipCount = 5;
         _feedbackPanelController.RefreshFeedbackPanel();
+        _stepCounter = 0;
+        _verticalDirection = Vector3.right;
     }
 
     public void EndCheck()
