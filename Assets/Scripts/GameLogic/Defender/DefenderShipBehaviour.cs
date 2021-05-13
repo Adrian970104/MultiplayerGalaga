@@ -83,8 +83,7 @@ public class DefenderShipBehaviour : SpaceShip
         
         InstBullet(transform.forward);
     }
-
-
+    
     public void IncreaseMaxHealth(int amount)
     {
         maxHealth += amount;

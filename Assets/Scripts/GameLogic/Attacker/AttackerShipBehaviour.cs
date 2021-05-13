@@ -13,14 +13,18 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     private Color _baseColor;
 #endregion
 
-    public List<GameObject> Drops = new List<GameObject>();
     
     [SerializeField]
     private int _dropChance = 90;
     private MultiplayerFeedbackPanelController _feedbackPanelController;
 
+    protected float ShootingDelay;
+    protected float ShootingSpeed;
+    
+    
     public int cost;
     public int value;
+    public List<GameObject> drops = new List<GameObject>();
     public SingleplayerInGameManager singleManager;
     public GameManager gameManager;
     public PhotonAttackerBehaviour attackerPlayer;
@@ -35,8 +39,8 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         if(!isDropping)
             return;
         
-        var index = Random.Range(0, Drops.Count);
-        var chosenDrop = Drops[index];
+        var index = Random.Range(0, drops.Count);
+        var chosenDrop = drops[index];
         var drop = PhotonNetwork.Instantiate(chosenDrop.name, transform.position, Quaternion.identity);
         drop.GetComponent<PhotonDropBehaviour>().selfDirection = transform.forward;
     }
@@ -76,6 +80,9 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         maxHealth = 150;
         baseDamage = 40;
         actualDamage = baseDamage;
+        
+        ShootingDelay = Random.Range(2f, 4f);
+        ShootingSpeed = Random.Range(2f, 4f);
         
         gameManager = FindObjectOfType<GameManager>();
         defenderShip = GameObject.FindGameObjectWithTag("DefenderShip");

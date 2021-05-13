@@ -237,19 +237,19 @@ MonoBehaviour:
   bullet: {fileID: 3396197704998782655, guid: 19495bbd355ccfc42b52d705efba110c, type: 3}
   photonView: {fileID: -4757697677379720810}
   selfPos: {x: 0, y: 0, z: 0}
-  maxHealth: 0
-  actualHealth: 0
-  baseDamage: 0
-  actualDamage: 0
+  maxHealth: 150
+  actualHealth: 150
+  baseDamage: 50
+  actualDamage: 50
   isDeployed: 0
   triggerCount: 0
-  Drops:
-  - {fileID: 1685670519410544, guid: d8172bda315fd2648b7e82672873a6d0, type: 3}
-  - {fileID: 1041803199959140, guid: 5f7d5f60379571b4ab916f85aae80a71, type: 3}
-  - {fileID: 1142887363737176, guid: 90a8f0af0be89c04eb22578b3dae859c, type: 3}
   _dropChance: 90
   cost: 200
   value: 40
+  drops:
+  - {fileID: 1685670519410544, guid: d8172bda315fd2648b7e82672873a6d0, type: 3}
+  - {fileID: 1041803199959140, guid: 5f7d5f60379571b4ab916f85aae80a71, type: 3}
+  - {fileID: 1142887363737176, guid: 90a8f0af0be89c04eb22578b3dae859c, type: 3}
   singleManager: {fileID: 0}
   gameManager: {fileID: 0}
   attackerPlayer: {fileID: 0}

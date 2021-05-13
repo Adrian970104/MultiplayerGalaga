@@ -13,9 +13,11 @@ public class Attacker3Behaviour : AttackerShipBehaviour
         if(gameManager.multiplayerPhase != MultiplayerPhase.InGame && gameManager.singleplayerPhase != SingleplayerPhase.InGame)
             return;
 
-        for (var i = 1; i <= 6; i++)
+        var n = actualHealth > (maxHealth / 3) ? 4 : 6;
+
+        for (var i = 1; i <= n; i++)
         {
-            var degrees = i * 60;
+            var degrees = i * (360/n);
             var dir = Quaternion.Euler(0, degrees, 0) * transform.forward;
             InstBullet(dir);
         }
@@ -25,7 +27,7 @@ public class Attacker3Behaviour : AttackerShipBehaviour
         base.Start();
         if(photonView.IsMine)
         {
-            InvokeRepeating(nameof(Shooting), Random.Range(2.0f, 4.0f), Random.Range(2f, 4f));
+            InvokeRepeating(nameof(Shooting), ShootingDelay, ShootingSpeed);
         }
         cost = 300;
     }

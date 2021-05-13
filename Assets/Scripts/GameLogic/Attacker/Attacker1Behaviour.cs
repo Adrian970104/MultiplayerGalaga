@@ -22,7 +22,7 @@ public class Attacker1Behaviour : AttackerShipBehaviour
         base.Start();
         if(photonView.IsMine)
         {
-            InvokeRepeating(nameof(Shooting), Random.Range(2.0f, 4.0f), Random.Range(1f, 2f));
+            InvokeRepeating(nameof(Shooting), ShootingDelay, ShootingSpeed);
         }
         
         cost = 100;
