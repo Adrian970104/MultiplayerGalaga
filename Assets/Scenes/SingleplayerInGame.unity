@@ -441,7 +441,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1899459793}
+      - m_Target: {fileID: 752596278}
         m_MethodName: OnClickUpgradeDamage
         m_Mode: 1
         m_Arguments:
@@ -1385,7 +1385,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1899459793}
+      - m_Target: {fileID: 752596278}
         m_MethodName: OnClickUpgradeHealth
         m_Mode: 1
         m_Arguments:

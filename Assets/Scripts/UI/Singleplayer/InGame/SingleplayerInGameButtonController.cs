@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 public class SingleplayerInGameButtonController : MonoBehaviour
 {
     private GameManager _gameManager;
+    private DefenderShipBehaviour _defender;
+    
+    private readonly int _plusDamage = 10;
+    private readonly int _plusHp = 30;
+    private readonly int _scoreCost = 100;
 
     public void OnClickRestart()
     {
@@ -16,11 +21,31 @@ public class SingleplayerInGameButtonController : MonoBehaviour
     {
         SceneManager.LoadScene("GameMode");
     }
+    
+    public void OnClickUpgradeHealth()
+    {
+        if(_defender.score < _scoreCost)
+            return;
+        
+        _defender.AddScore(-_scoreCost);
+        _defender.IncreaseMaxHealth(_plusHp);
+    }
+
+    public void OnClickUpgradeDamage()
+    {
+        if(_defender.score < _scoreCost)
+            return;
+        
+        _defender.AddScore(-_scoreCost);
+        _defender.IncreaseDamage(_plusDamage);
+    }
+    
 
     #region Unty Methods
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        _defender = GameObject.FindGameObjectWithTag("DefenderShip").GetComponentInParent<DefenderShipBehaviour>();
     }
     #endregion
 }
