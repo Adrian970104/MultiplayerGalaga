@@ -11,12 +11,12 @@ public class SingleplayerDataPanelController : MonoBehaviour
     
     public void RefreshDamage(int dam)
     {
-        damageText.SetText($"Current Damage: {dam}");
+        damageText.SetText($"Damage: {dam}");
     }
     
     public void RefreshScore(int score)
     {
-        scoreText.SetText($"Current Score: {score}");
+        scoreText.SetText($"Score: {score}");
     }
 
 }
