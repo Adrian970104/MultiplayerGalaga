@@ -25,14 +25,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void EndMultiplayer()
     {
+        photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.AfterGame);
         PhotonNetwork.LeaveRoom();
     }
 
     public override void OnLeftRoom()
     {
-        if (multiplayerPhase != MultiplayerPhase.AfterGame)
-            return;
-        
         var props = new[] {"IsAttacker","IsReady"};
         PhotonNetwork.RemovePlayerCustomProperties(props);
         PhotonNetwork.SetPlayerCustomProperties(PhotonNetwork.LocalPlayer.CustomProperties);

@@ -38,12 +38,8 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
         var spaceShip = PhotonNetwork.Instantiate(ship.name, _deployPos, new Quaternion(0,180,0,0));
         _attacker.shipToDeploy = spaceShip;
         --_attacker.shipCount;
-        Debug.Log($"Choosed ships {shipBehav.name} cost is : {shipBehav.cost}");
         _attacker.material -= shipBehav.cost;
-        
         _FeedbackPanelController.RefreshFeedbackPanel();
-        Debug.Log($"Remaining ships: {_attacker.shipCount}");
-        Debug.Log($"Remaining resource: {_attacker.material}");
     }
 
     public void OnClickDeployShip1()
@@ -74,6 +70,12 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
         
         _gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InGame);
     }
+
+    public void OnClickExit()
+    {
+        _gameManager.EndMultiplayer();
+    }
+
 
     public void OnClickBackFromEnd()
     {

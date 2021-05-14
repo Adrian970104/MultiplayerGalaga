@@ -23,16 +23,14 @@ public class MultiplayerInGameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void EndMultiplayer(string winner)
     {
-        _gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.AfterGame);
+        if(_gameManager.multiplayerPhase != MultiplayerPhase.AfterGame)
+            _gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.AfterGame);
         CanvasManager.FillWinnerCanvas(winner);
         CanvasManager.SetWinnerCanvasVisible();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame && _gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
-            return;
-        
         EndMultiplayer(PhotonNetwork.PlayerList[0].NickName);
     }
 
