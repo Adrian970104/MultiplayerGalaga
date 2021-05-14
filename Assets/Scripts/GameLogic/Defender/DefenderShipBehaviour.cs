@@ -82,6 +82,7 @@ public class DefenderShipBehaviour : SpaceShip
             return;
         
         InstBullet(transform.forward);
+        //bulletc.GetComponentInParent<Renderer>().material.SetColor($"_Color", Color.green);
     }
     
     public void IncreaseMaxHealth(int amount)
@@ -209,6 +210,8 @@ public class DefenderShipBehaviour : SpaceShip
     {
         _rigidbody = GetComponent<Rigidbody>();
         _gameManager = FindObjectOfType<GameManager>();
+        
+        //bullet.GetComponent<Renderer>().sharedMaterial.SetColor("_Color",Color.green);
         
         maxHealth = 300;
         actualHealth = maxHealth;
