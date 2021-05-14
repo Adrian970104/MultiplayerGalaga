@@ -39,6 +39,12 @@ public class SingleplayerInGameButtonController : MonoBehaviour
         _defender.AddScore(-_scoreCost);
         _defender.IncreaseDamage(_plusDamage);
     }
+
+    public void OnClickExit()
+    {
+        _gameManager.singleplayerPhase = SingleplayerPhase.AfterGame;
+        SceneManager.LoadScene("GameMode");
+    }
     
 
     #region Unty Methods
