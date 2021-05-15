@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -16,6 +17,7 @@ public class SingleplayerInGameManager : MonoBehaviour
 
     public SingleplayerInGameCanvasManager CanvasManager;
     
+    private const int DeadLine = -18;
     private const int VerticalSpeed = 2;
     private const int HorizontalSpeed = 1;
     private Vector3 _verticalDirection = Vector3.right;
@@ -86,6 +88,7 @@ public class SingleplayerInGameManager : MonoBehaviour
             InGameStep(Vector3.back, HorizontalSpeed);
             ChangeVerticalDirection();
             _stepCounter++;
+            EndCheck();
             return;
         }
         
@@ -108,9 +111,16 @@ public class SingleplayerInGameManager : MonoBehaviour
 
     public void EndCheck()
     {
-        if(attackerShips.Count > 0)
+        if (attackerShips.Count <= 0)
+        {
+            EndSingleplayer(true);
             return;
-        EndSingleplayer(true);
+        }
+        
+        if (attackerShips.Any(attacker => attacker.transform.position.z <= DeadLine))
+        {
+            EndSingleplayer(false);
+        }
     }
 
     #region Unity Methods

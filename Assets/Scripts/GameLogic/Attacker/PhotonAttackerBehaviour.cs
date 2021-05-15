@@ -18,6 +18,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
     private int _stepCounter;
     private MultiplayerFeedbackPanelController _feedbackPanelController;
     
+    private const int DeadLine = -18;
     private readonly int _leftBorder = -20;
     private readonly int _rightBorder = 8;
     private readonly int _upBorder = 14;
@@ -125,6 +126,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
             InGameStep(Vector3.back, HorizontalSpeed);
             ChangeVerticalDirection();
             _stepCounter++;
+            EndCheck();
             return;
         }
         
@@ -161,8 +163,11 @@ public class PhotonAttackerBehaviour : MonoBehaviour
 
     public void EndCheck()
     {
-        if(material <= 0)
-            Defeated();
+        if (material <= 0)
+            Ended(false);
+        if(attackerShips.Any(attacker => attacker.transform.position.z <= DeadLine))
+            Ended(true);
+        //Defeated();
     }
 
     public void Defeated()
@@ -171,6 +176,24 @@ public class PhotonAttackerBehaviour : MonoBehaviour
             return;
         var winner = !(bool)PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"] ? PhotonNetwork.LocalPlayer.NickName : PhotonNetwork.PlayerListOthers[0].NickName;
         _multiManager.photonView.RPC("EndMultiplayer", RpcTarget.All, winner);
+    }
+
+    public void Ended(bool win)
+    {
+        if(PhotonNetwork.PlayerListOthers.Length < 1)
+            return;
+
+        if (win)
+        {
+            var winner = (bool)PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"] ? PhotonNetwork.LocalPlayer.NickName : PhotonNetwork.PlayerListOthers[0].NickName;
+            _multiManager.photonView.RPC("EndMultiplayer", RpcTarget.All, winner);
+        }
+
+        if (!win)
+        {
+            var winner = !(bool)PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"] ? PhotonNetwork.LocalPlayer.NickName : PhotonNetwork.PlayerListOthers[0].NickName;
+            _multiManager.photonView.RPC("EndMultiplayer", RpcTarget.All, winner);
+        }
     }
 
     #region Unity Methods
