@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
+        if(gameMode == GameMode.Singleplayer)
+            return;
+        
         var props = new[] {"IsAttacker","IsReady"};
         PhotonNetwork.RemovePlayerCustomProperties(props);
         PhotonNetwork.SetPlayerCustomProperties(PhotonNetwork.LocalPlayer.CustomProperties);
