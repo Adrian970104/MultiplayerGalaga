@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 using UnityEngine;
 using WebSocketSharp;
 
@@ -11,6 +12,12 @@ public class PhotonBulletBehaviour : SpaceObject
         public int _damage = 50;
         public string ownerTag;
         private GameManager _gameManager;
+
+        [PunRPC]
+        public void SetColor(float r, float g, float b)
+        {
+            GetComponent<Renderer>().material.color = new Color(r,g,b);
+        }
         
         #region Photon Methods
         public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -63,7 +70,6 @@ public class PhotonBulletBehaviour : SpaceObject
                 {
                     PhotonNetwork.Destroy(photonView);
                 }
-                //other.GetComponentInParent<DefenderShipBehaviour>().TakeDamage(_damage);
                 other.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("TakeDamage",RpcTarget.All,_damage);
             }
         }

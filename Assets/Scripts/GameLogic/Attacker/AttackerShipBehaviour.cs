@@ -123,7 +123,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
                 return;
             
             triggerCount++;
-            GetComponent<Renderer>().material.SetColor($"_Color", Color.red);
+            GetComponent<Renderer>().material.color = Color.red;
         }
     }
 
@@ -139,7 +139,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
                 return;
             
             --triggerCount;
-            GetComponent<Renderer>().material.SetColor($"_Color", _baseColor);
+            GetComponent<Renderer>().material.color = _baseColor;
         }
 
         if (other.CompareTag("AttackerShip"))
@@ -151,7 +151,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
             if(triggerCount > 0) 
                 return;
             
-            GetComponent<Renderer>().material.SetColor($"_Color", _baseColor);
+            GetComponent<Renderer>().material.color = _baseColor;
         }
     }
 
@@ -169,24 +169,16 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     {
         if(!MouseInteractable())
             return;
-        Debug.Log($"Color new way : {GetComponent<Renderer>().sharedMaterial.color}");
-        Debug.Log($"Color old way : { GetComponent<Renderer>().material.color}");
-        GetComponent<Renderer>().sharedMaterial.SetColor("_Color", Color.black);
-        GetComponent<Renderer>().material.SetColor($"_Color", Color.black);
-        
-        Debug.Log($"After change/*/*/*/*/*/*/*/");
-        Debug.Log($"Color new way : {GetComponent<Renderer>().sharedMaterial.color}");
-        Debug.Log($"Color old way : { GetComponent<Renderer>().material.color}");
-        Debug.Log($"BAse Color : {_baseColor}");
+
+        GetComponent<Renderer>().material.color = Color.red;
     }
 
     private void OnMouseExit()
     {
         if(!MouseInteractable())
             return;
-        GetComponent<Renderer>().sharedMaterial.SetColor("_Color", _baseColor);
-        GetComponent<Renderer>().material.SetColor($"_Color", _baseColor);
         
+        GetComponent<Renderer>().material.color = _baseColor;
     }
 
     private void OnMouseUp()

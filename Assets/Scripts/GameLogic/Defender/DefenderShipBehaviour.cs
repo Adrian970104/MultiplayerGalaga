@@ -2,6 +2,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using WebSocketSharp;
 
 public class DefenderShipBehaviour : SpaceShip
 {
@@ -82,8 +83,10 @@ public class DefenderShipBehaviour : SpaceShip
         if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame && _gameManager.singleplayerPhase != SingleplayerPhase.InGame)
             return;
         
-        InstBullet(transform.forward);
-        //bulletc.GetComponentInParent<Renderer>().material.SetColor($"_Color", Color.green);
+        var bulletc = InstBullet(transform.forward);
+        
+        //bulletc.GetComponentInParent<Renderer>().material.color = Color.green;
+        bulletc.photonView.RPC("SetColor", RpcTarget.All, Color.cyan.r,Color.cyan.g, Color.cyan.b);
     }
 
     [PunRPC]
