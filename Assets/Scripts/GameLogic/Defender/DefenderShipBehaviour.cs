@@ -84,14 +84,7 @@ public class DefenderShipBehaviour : SpaceShip
         InstBullet(transform.forward);
         //bulletc.GetComponentInParent<Renderer>().material.SetColor($"_Color", Color.green);
     }
-    
-    public void IncreaseMaxHealth(int amount)
-    {
-        maxHealth += amount;
-        actualHealth += amount;
-        _singleCanvasController.RefreshHealthPanel(actualHealth, maxHealth);
-    }
-    
+
     [PunRPC]
     public void AddScore(int amount)
     {
@@ -111,6 +104,7 @@ public class DefenderShipBehaviour : SpaceShip
     public override void ResetDamage()
     {
         base.ResetDamage();
+        
         if(!photonView.IsMine)
             return;
         
@@ -134,6 +128,22 @@ public class DefenderShipBehaviour : SpaceShip
         
         if(_gameManager.gameMode == GameMode.Singleplayer)
             _singleCanvasController.RefreshDataPanel(actualDamage, score);
+    }
+    
+    [PunRPC]
+    public void IncreaseMaxHealth(int amount)
+    {
+        maxHealth += amount;
+        actualHealth += amount;
+        
+        if(!photonView.IsMine)
+            return;
+        
+        if (_gameManager.gameMode == GameMode.Multiplayer)
+            _multiCanvasController.RefreshHealthPanel(actualHealth,maxHealth);
+        
+        if(_gameManager.gameMode == GameMode.Singleplayer)
+            _singleCanvasController.RefreshHealthPanel(actualHealth, maxHealth);
     }
 
     [PunRPC]

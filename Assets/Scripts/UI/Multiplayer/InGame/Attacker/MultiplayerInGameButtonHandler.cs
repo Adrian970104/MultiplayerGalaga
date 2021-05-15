@@ -8,14 +8,22 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
 
     public MultiplayerInGameManager multiManager;
     public MultiplayerFeedbackPanelController _FeedbackPanelController;
+    
+    //TODO Adrián ezt listával megoldani !
     public GameObject spaceShip1;
     public GameObject spaceShip2;
     public GameObject spaceShip3;
     
     private PhotonAttackerBehaviour _attacker;
+    private DefenderShipBehaviour _defender;
     private Vector3 _deployPos = new Vector3(0f, 0f, 0f);
     private GameManager _gameManager;
+    
+    private readonly int _plusDamage = 10;
+    private readonly int _plusHp = 30;
+    private readonly int _scoreCost = 100;
 
+    #region Attackers button
     private void DeploySpaceShip(GameObject ship)
     {
         if (!(_attacker.shipToDeploy is null)) 
@@ -70,25 +78,55 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
         
         _gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InGame);
     }
+    #endregion
 
+    #region Defender buttons
+
+    public void OnClickUpgradeHealth()
+    {
+        if(_defender.score < _scoreCost)
+            return;
+        
+        _defender.photonView.RPC("AddScore", RpcTarget.All, -_scoreCost);
+        _defender.photonView.RPC("IncreaseMaxHealth", RpcTarget.All, _plusHp);
+        
+        //_defender.AddScore(-_scoreCost);
+        //_defender.IncreaseMaxHealth(_plusHp);
+    }
+
+    public void OnClickUpgradeDamage()
+    {
+        if(_defender.score < _scoreCost)
+            return;
+        
+        _defender.photonView.RPC("AddScore", RpcTarget.All, -_scoreCost);
+        _defender.photonView.RPC("IncreaseDamage", RpcTarget.All, _plusDamage);
+        
+        //_defender.AddScore(-_scoreCost);
+        //_defender.IncreaseDamage(_plusDamage);
+    }
+    #endregion
+
+    #region Common buttons
     public void OnClickExit()
     {
         _gameManager.EndMultiplayer();
     }
 
-
     public void OnClickBackFromEnd()
     {
         _gameManager.EndMultiplayer();
     }
+    #endregion
 
     #region Unity Methods
 
     public void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
-        if(!multiManager.isAttacker)
-            return;
+        /*if(!multiManager.isAttacker)
+            return;*/
+        _defender = multiManager.defender;
         _attacker = multiManager.attacker;
     }
 
