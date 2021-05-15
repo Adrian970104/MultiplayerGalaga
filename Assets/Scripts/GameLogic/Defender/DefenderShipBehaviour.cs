@@ -91,10 +91,20 @@ public class DefenderShipBehaviour : SpaceShip
         actualHealth += amount;
         _singleCanvasController.RefreshHealthPanel(actualHealth, maxHealth);
     }
+    
+    [PunRPC]
     public void AddScore(int amount)
     {
         score += amount;
-        _singleCanvasController.RefreshDataPanel(actualDamage, score);
+        
+        if(!photonView.IsMine)
+            return;
+        
+        if(_gameManager.gameMode == GameMode.Multiplayer)
+            _multiCanvasController.RefreshDataPanel(actualDamage, score);
+            
+        if(_gameManager.gameMode == GameMode.Singleplayer)
+            _singleCanvasController.RefreshDataPanel(actualDamage, score);
     }
     
     [PunRPC]
@@ -105,13 +115,11 @@ public class DefenderShipBehaviour : SpaceShip
             return;
         
         if (_gameManager.gameMode == GameMode.Multiplayer)
-        {
-            _multiCanvasController.RefreshDataPanel(actualDamage);
-        }
-        else
-        {
+            _multiCanvasController.RefreshDataPanel(actualDamage, score);
+        
+        if(_gameManager.gameMode == GameMode.Singleplayer)
             _singleCanvasController.RefreshDataPanel(actualDamage, score);
-        }
+        
     }
 
     [PunRPC]
@@ -122,13 +130,10 @@ public class DefenderShipBehaviour : SpaceShip
             return;
 
         if (_gameManager.gameMode == GameMode.Multiplayer)
-        {
-            _multiCanvasController.RefreshDataPanel(actualDamage);
-        }
-        else
-        {
+            _multiCanvasController.RefreshDataPanel(actualDamage, score);
+        
+        if(_gameManager.gameMode == GameMode.Singleplayer)
             _singleCanvasController.RefreshDataPanel(actualDamage, score);
-        }
     }
 
     [PunRPC]
@@ -140,13 +145,10 @@ public class DefenderShipBehaviour : SpaceShip
             return;
         
         if (_gameManager.gameMode == GameMode.Multiplayer)
-        {
             _multiCanvasController.RefreshHealthPanel(actualHealth,maxHealth);
-        }
-        else
-        {
+        
+        if(_gameManager.gameMode == GameMode.Singleplayer)
             _singleCanvasController.RefreshHealthPanel(actualHealth, maxHealth);
-        }
     }
 
     [PunRPC]
@@ -158,13 +160,10 @@ public class DefenderShipBehaviour : SpaceShip
             return;
         
         if (_gameManager.gameMode == GameMode.Multiplayer)
-        {
             _multiCanvasController.RefreshHealthPanel(actualHealth,maxHealth);
-        }
-        else
-        {
+        
+        if(_gameManager.gameMode == GameMode.Singleplayer)
             _singleCanvasController.RefreshHealthPanel(actualHealth, maxHealth);
-        }
     }
 
     protected override void HealthCheck()
@@ -227,7 +226,7 @@ public class DefenderShipBehaviour : SpaceShip
             {
                 _multiCanvasController = FindObjectOfType<MultiplayerDefenderCanvasController>();
                 _multiCanvasController.RefreshHealthPanel(actualHealth, maxHealth);
-                _multiCanvasController.RefreshDataPanel(actualDamage);
+                _multiCanvasController.RefreshDataPanel(actualDamage, score);
             }
         }
         else

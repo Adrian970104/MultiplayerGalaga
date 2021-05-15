@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class MultiplayerDefenderDataPanelController : MonoBehaviour
 {
+    public TextMeshProUGUI scoreText;
     public TextMeshProUGUI damageText;
 
-    public void Refresh(int damage)
+    public void Refresh(int damage, int score)
     {
-        Debug.Log($"Refreshing hp panel with damage values: {damage}");
-        damageText.SetText($"Current Damage: {damage}");
+        Debug.Log($"Refreshing hp panel with damage values: {damage}, {score}");
+        damageText.SetText($"Damage: {damage}");
+        scoreText.SetText($"Score: {score}");
     }
 }

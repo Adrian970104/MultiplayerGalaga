@@ -12,8 +12,8 @@ public class MultiplayerDefenderCanvasController : MonoBehaviour
         hpController.Refresh(actualHealth,maxHealth);
     }
 
-    public void RefreshDataPanel(int actualDamage)
+    public void RefreshDataPanel(int dam, int score)
     {
-        dataController.Refresh(actualDamage);
+        dataController.Refresh(dam, score);
     }
 }

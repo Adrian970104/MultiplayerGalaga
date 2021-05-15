@@ -3070,6 +3070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 107c8e5e490b40c408048143e4d04311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreText: {fileID: 910884533}
   damageText: {fileID: 34745641}
 --- !u!114 &1265608280
 MonoBehaviour:

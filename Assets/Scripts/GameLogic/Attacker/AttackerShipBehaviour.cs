@@ -35,7 +35,6 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     public void Drop()
     {
         var isDropping = _dropChance >= Random.Range(-1, 100) ? true : false;
-        Debug.Log($"Dropping is : {isDropping}");
         if(!isDropping)
             return;
         
@@ -169,13 +168,22 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     {
         if(!MouseInteractable())
             return;
+        Debug.Log($"Color new way : {GetComponent<Renderer>().sharedMaterial.color}");
+        Debug.Log($"Color old way : { GetComponent<Renderer>().material.color}");
+        GetComponent<Renderer>().sharedMaterial.SetColor("_Color", Color.black);
         GetComponent<Renderer>().material.SetColor($"_Color", Color.black);
+        
+        Debug.Log($"After change/*/*/*/*/*/*/*/");
+        Debug.Log($"Color new way : {GetComponent<Renderer>().sharedMaterial.color}");
+        Debug.Log($"Color old way : { GetComponent<Renderer>().material.color}");
+        Debug.Log($"BAse Color : {_baseColor}");
     }
 
     private void OnMouseExit()
     {
         if(!MouseInteractable())
             return;
+        GetComponent<Renderer>().sharedMaterial.SetColor("_Color", _baseColor);
         GetComponent<Renderer>().material.SetColor($"_Color", _baseColor);
         
     }
@@ -200,9 +208,9 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         {
             case GameMode.Singleplayer:
             {
-                if(gameManager.singleplayerPhase != SingleplayerPhase.InGame)
+                if (gameManager.singleplayerPhase != SingleplayerPhase.InGame)
                     return;
-                
+
                 if (singleManager.attackerShips.Contains(this))
                     singleManager.attackerShips.Remove(this);
                 
@@ -210,7 +218,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
                 
                 Drop();
                 
-                defenderShip.GetComponentInParent<DefenderShipBehaviour>().AddScore(value);
+                defenderShip.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("AddScore",RpcTarget.All,value);
                 
                 singleManager.EndCheck();
                 break;
@@ -229,6 +237,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
                 {
                     PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.identity);
                     Drop();
+                    defenderShip.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("AddScore",RpcTarget.All,value);
                     attackerPlayer.WaveEndCheck();
                 }
                 break;
