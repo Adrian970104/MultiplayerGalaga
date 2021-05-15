@@ -5094,6 +5094,7 @@ MonoBehaviour:
   baseDamage: 0
   actualDamage: 0
   score: 0
+  baseHealth: 0
 --- !u!114 &-2514482220680288583
 MonoBehaviour:
   m_ObjectHideFlags: 0

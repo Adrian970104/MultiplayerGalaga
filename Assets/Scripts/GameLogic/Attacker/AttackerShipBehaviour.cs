@@ -105,12 +105,13 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         
         if (other.CompareTag("DefenderShip"))
         {
-            if(gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+            
+            if(gameManager.multiplayerPhase != MultiplayerPhase.InGame && gameManager.singleplayerPhase != SingleplayerPhase.InGame)
                 return;
             
             gameObject.tag = "Untagged";
             photonView.RPC("RPCDestroy", RpcTarget.All);
-            defenderShip.GetComponent<DefenderShipBehaviour>().Defeated();
+            defenderShip.GetComponentInParent<DefenderShipBehaviour>().Defeated();
         }
         
         if (other.CompareTag("AttackerShip") || other.CompareTag("SpawnSphere"))
