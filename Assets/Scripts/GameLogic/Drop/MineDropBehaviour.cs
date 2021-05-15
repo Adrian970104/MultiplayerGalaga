@@ -24,8 +24,9 @@ public class MineDropBehaviour : PhotonDropBehaviour
             return;
 
         var defenderShip = other.gameObject.GetComponentInParent<DefenderShipBehaviour>();
-        defenderShip.photonView.RPC("ResetDamage", RpcTarget.All);
         defenderShip.photonView.RPC("TakeDamage", RpcTarget.All, value);
+        defenderShip.photonView.RPC("ResetDamage", RpcTarget.All);
+        defenderShip.photonView.RPC("ResetHealth", RpcTarget.All);
         
         if(photonView.IsMine)
             PhotonNetwork.Destroy(photonView);

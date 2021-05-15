@@ -21,6 +21,7 @@ public class DefenderShipBehaviour : SpaceShip
     private readonly int _downBorder = -18;
 
     public int score;
+    public int baseHealth;
     
 
     private void AddForceMovement()
@@ -147,6 +148,23 @@ public class DefenderShipBehaviour : SpaceShip
     }
 
     [PunRPC]
+    public void ResetHealth()
+    {
+        maxHealth = baseHealth;
+        if (actualHealth > baseHealth)
+            actualHealth = baseHealth;
+        
+        if(!photonView.IsMine)
+            return;
+        
+        if (_gameManager.gameMode == GameMode.Multiplayer)
+            _multiCanvasController.RefreshHealthPanel(actualHealth,maxHealth);
+        
+        if(_gameManager.gameMode == GameMode.Singleplayer)
+            _singleCanvasController.RefreshHealthPanel(actualHealth, maxHealth);
+    }
+
+    [PunRPC]
     public override void Heal(int amount)
     {
         base.Heal(amount);
@@ -221,9 +239,10 @@ public class DefenderShipBehaviour : SpaceShip
         _gameManager = FindObjectOfType<GameManager>();
         
         //bullet.GetComponent<Renderer>().sharedMaterial.SetColor("_Color",Color.green);
-        
-        maxHealth = 300;
-        actualHealth = maxHealth;
+
+        baseHealth = 300;
+        maxHealth = baseHealth;
+        actualHealth = baseHealth;
         baseDamage = 50;
         actualDamage = baseDamage;
         
