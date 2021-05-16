@@ -30,10 +30,15 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         Debug.Log("Connecting to Photon");
         if(PhotonNetwork.IsConnected) 
             return;
-        
+
         PhotonNetwork.AuthValues = new AuthenticationValues(connString);
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
+    }
+
+    private bool HaveInternet()
+    {
+        return Application.internetReachability != NetworkReachability.NotReachable;
     }
 
     private bool CheckUserInput(string input)
@@ -126,6 +131,8 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         
         if(!PhotonNetwork.IsConnectedAndReady)
             return;
+        
+        Debug.Log("Leaving room");
 
         PhotonNetwork.LocalPlayer.NickName = string.Empty;
         PhotonNetwork.LeaveRoom();
@@ -177,6 +184,20 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
+        gameManager.gameMode = GameMode.Multiplayer;
+        gameManager.multiplayerPhase = MultiplayerPhase.InServerCreation;
+        
+        ChangeToServerCreationCanvas();
+        playerContainerController.Clear();
+        
+        if (!HaveInternet())
+        {
+            Debug.Log("No internet connection");
+            ftc.SetPhotonStatus("No Internet Connection",Color.red);
+            return;
+        }
+        
         if (PhotonNetwork.IsConnected)
         {
             Debug.Log($"Already connected to photon!");
@@ -186,12 +207,6 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         ConnectToPhoton(Guid.NewGuid().ToString());
         PhotonNetwork.GameVersion = _version;
 
-        gameManager = FindObjectOfType<GameManager>();
-        gameManager.gameMode = GameMode.Multiplayer;
-        gameManager.multiplayerPhase = MultiplayerPhase.InServerCreation;
-
-        ChangeToServerCreationCanvas();
-        playerContainerController.Clear();
     }
 
     private void Awake()
@@ -209,17 +224,17 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         ftc.SetPhotonStatus("Connected To Photon Master Server",Color.green);
         if (PhotonNetwork.InLobby)
         {
-            ftc.SetPhotonStatus("Connected To Photon Lobby",Color.green);
+            ftc.SetPhotonStatus("Connected To Photon",Color.green);
             return;
         }
-        ftc.SetPhotonStatus("Connecting To Photon Lobby...",Color.yellow);
+        ftc.SetPhotonStatus("Connecting To Photon...",Color.yellow);
         PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedLobby()
     {
         Debug.Log("Connected to Photon Lobby");
-        ftc.SetPhotonStatus("Connected To Photon Lobby",Color.green);
+        ftc.SetPhotonStatus("Connected To Photon",Color.green);
         //CreateRoom("room1");
     }
 
@@ -304,9 +319,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         var props = new[] {"IsAttacker","IsReady"};
         PhotonNetwork.RemovePlayerCustomProperties(props);
         PhotonNetwork.SetPlayerCustomProperties(PhotonNetwork.LocalPlayer.CustomProperties);
-        Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties.ToString());
-        Debug.Log($"CustomProperties reseted");
-        
+
         ChangeToServerCreationCanvas();
         playerContainerController.Clear();
         gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InServerCreation);
@@ -369,6 +382,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.Log($"Disconnected from photon with cause: {cause}");
+        ftc.SetPhotonStatus("Disconnected From Photon", Color.red);
     }
 
     public override void OnConnected()

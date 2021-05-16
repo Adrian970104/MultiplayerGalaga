@@ -130,7 +130,9 @@ public class SingleplayerInGameManager : MonoBehaviour
         CanvasManager.SetInGameCanvasVisible();
         
         PhotonNetwork.OfflineMode = true;
-        
+        //Need to fix a bug: If coming from multiplayer while no internet!
+        PhotonNetwork.Reconnect();
+
         if (PhotonNetwork.InRoom)
             PhotonNetwork.LeaveRoom();
         

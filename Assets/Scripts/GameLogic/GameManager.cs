@@ -34,6 +34,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         if(gameMode == GameMode.Singleplayer)
             return;
         
+        if(multiplayerPhase != MultiplayerPhase.AfterGame)
+            return;
+        
         var props = new[] {"IsAttacker","IsReady"};
         PhotonNetwork.RemovePlayerCustomProperties(props);
         PhotonNetwork.SetPlayerCustomProperties(PhotonNetwork.LocalPlayer.CustomProperties);
