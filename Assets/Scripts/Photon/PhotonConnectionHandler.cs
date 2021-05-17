@@ -43,7 +43,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
     private bool CheckUserInput(string input)
     {
-        var regex = new Regex("[a-zA-Z0-9]+");
+        var regex = new Regex("^[a-zA-Z0-9]+$");
         
         return regex.IsMatch(input);
     }

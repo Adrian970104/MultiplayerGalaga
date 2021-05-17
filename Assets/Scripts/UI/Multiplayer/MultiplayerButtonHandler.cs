@@ -9,8 +9,8 @@ using UnityEngine.UI;
 
 public class MultiplayerButtonHandler : MonoBehaviour
 {
-    public TextMeshProUGUI usernameField;
-    public TextMeshProUGUI roomnamField;
+    public TMP_InputField usernameField;
+    public TMP_InputField roomnameField;
     public PhotonConnectionHandler photonConnHandler;
     public Button readyButton;
     
@@ -18,7 +18,7 @@ public class MultiplayerButtonHandler : MonoBehaviour
     {
         if(!PhotonNetwork.IsConnected)
             return;
-        photonConnHandler.JoinRoom(roomnamField.text, usernameField.text);
+        photonConnHandler.JoinRoom(roomnameField.text, usernameField.text);
         ActivateReadyButton(false);
     }
     
@@ -26,7 +26,7 @@ public class MultiplayerButtonHandler : MonoBehaviour
     {
         if(!PhotonNetwork.IsConnected)
             return;
-        photonConnHandler.CreateRoom(roomnamField.text, usernameField.text);
+        photonConnHandler.CreateRoom(roomnameField.text, usernameField.text);
         ActivateReadyButton(false);
     }
     
@@ -51,7 +51,7 @@ public class MultiplayerButtonHandler : MonoBehaviour
     public void ClearButtonTexts()
     {
         usernameField.text = string.Empty;
-        roomnamField.text = string.Empty;
+        roomnameField.text = string.Empty;
     }
 
     public void OnClickReady()
