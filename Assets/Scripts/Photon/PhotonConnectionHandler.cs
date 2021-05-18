@@ -349,7 +349,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
         if (!PlayerCountCheck())
         {
-            rcftc.SetMessage($"At least {_roomOptions.MaxPlayers} players required");
+            rcftc.SetMessage($"Two players required");
             return;
         }
 
@@ -372,7 +372,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         
         if (!PlayerRoleCheck())
         {
-            rcftc.SetMessage("Players must choose different role");
+            rcftc.SetMessage("Players must choose different roles");
             return;
         }
         

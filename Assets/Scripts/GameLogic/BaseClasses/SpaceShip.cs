@@ -12,9 +12,7 @@ public abstract class SpaceShip : MonoBehaviour, IPunObservable
     public int actualHealth;
     public int baseDamage;
     public int actualDamage;
-
-
-
+    
     public virtual void IncreaseDamage(int amount)
     {
         actualDamage += amount;
