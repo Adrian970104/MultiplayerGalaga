@@ -16,7 +16,7 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
     
     private PhotonAttackerBehaviour _attacker;
     private DefenderShipBehaviour _defender;
-    private Vector3 _deployPos = new Vector3(0f, 0f, 0f);
+    private Vector3 _deployPos = new Vector3(-16f, 0f, 0f);
     private GameManager _gameManager;
     
     private readonly int _plusDamage = 10;
@@ -89,9 +89,6 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
         
         _defender.photonView.RPC("AddScore", RpcTarget.All, -_scoreCost);
         _defender.photonView.RPC("IncreaseMaxHealth", RpcTarget.All, _plusHp);
-        
-        //_defender.AddScore(-_scoreCost);
-        //_defender.IncreaseMaxHealth(_plusHp);
     }
 
     public void OnClickUpgradeDamage()
@@ -101,9 +98,6 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
         
         _defender.photonView.RPC("AddScore", RpcTarget.All, -_scoreCost);
         _defender.photonView.RPC("IncreaseDamage", RpcTarget.All, _plusDamage);
-        
-        //_defender.AddScore(-_scoreCost);
-        //_defender.IncreaseDamage(_plusDamage);
     }
     #endregion
 

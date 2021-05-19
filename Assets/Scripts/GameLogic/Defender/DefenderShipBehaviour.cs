@@ -14,12 +14,12 @@ public class DefenderShipBehaviour : SpaceShip
     private MultiplayerDefenderCanvasController _multiCanvasController;
     private SingleplayerInGameCanvasManager _singleCanvasController;
     
-    private readonly int _force = 1500;
+    private readonly int _force = 3000;
     
-    private readonly int _leftBorder = -28;
-    private readonly int _rightBorder = 16;
-    private readonly int _upBorder = -10;
-    private readonly int _downBorder = -18;
+    private readonly int _leftBorder = -64;
+    private readonly int _rightBorder = 36;
+    private readonly int _upBorder = -25;
+    private readonly int _downBorder = -39;
 
     public int score;
     public int baseHealth;
@@ -85,8 +85,7 @@ public class DefenderShipBehaviour : SpaceShip
         
         var bulletc = InstBullet(transform.forward);
         
-        //bulletc.GetComponentInParent<Renderer>().material.color = Color.green;
-        bulletc.photonView.RPC("SetColor", RpcTarget.All, Color.cyan.r,Color.cyan.g, Color.cyan.b);
+        bulletc.photonView.RPC("SetColor", RpcTarget.All, Color.green.r, Color.green.g, Color.green.b);
     }
 
     [PunRPC]

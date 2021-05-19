@@ -10,19 +10,19 @@ public class PhotonAttackerBehaviour : MonoBehaviour
     public int material = 1500;
     public List<AttackerShipBehaviour> attackerShips = new List<AttackerShipBehaviour>();
 
-    private const int VerticalSpeed = 2;
-    private const int HorizontalSpeed = 1;
+    private const int VerticalSpeed = 4;
+    private const int HorizontalSpeed = 2;
     private GameManager _gameManager;
     private MultiplayerInGameManager _multiManager;
     private Vector3 _verticalDirection = Vector3.right;
     private int _stepCounter;
     private MultiplayerFeedbackPanelController _feedbackPanelController;
     
-    private const int DeadLine = -18;
-    private readonly int _leftBorder = -20;
-    private readonly int _rightBorder = 8;
-    private readonly int _upBorder = 14;
-    private readonly int _downBorder = -3;
+    private const int DeadLine = -39;
+    private readonly int _leftBorder = -58;
+    private readonly int _rightBorder = 17;
+    private readonly int _upBorder = 25;
+    private readonly int _downBorder = -16;
 
     public void Deploy()
     {

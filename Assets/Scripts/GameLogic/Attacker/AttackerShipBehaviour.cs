@@ -38,8 +38,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         if(!isDropping)
             return;
         
-        var index = Random.Range(0, drops.Count);
-        var chosenDrop = drops[index];
+        var chosenDrop = drops[Random.Range(0, drops.Count)];
         var drop = PhotonNetwork.Instantiate(chosenDrop.name, transform.position, Quaternion.identity);
         drop.GetComponent<PhotonDropBehaviour>().selfDirection = transform.forward;
     }
@@ -116,6 +115,9 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         
         if (other.CompareTag("AttackerShip") || other.CompareTag("SpawnSphere"))
         {
+            if(gameManager.gameMode == GameMode.Singleplayer)
+                return;
+            
             if(gameManager.multiplayerPhase != MultiplayerPhase.InDeploy)
                 return;
             

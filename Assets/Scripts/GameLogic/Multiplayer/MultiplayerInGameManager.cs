@@ -18,7 +18,7 @@ public class MultiplayerInGameManager : MonoBehaviourPunCallbacks
 
     private GameManager _gameManager;
     private Vector3 _attackerInstPos = new Vector3(20f,20f,20f);
-    private readonly Vector3 _defenderInstPos = new Vector3(0f,0f,-15f);
+    private readonly Vector3 _defenderInstPos = new Vector3(-14f,0f,-32f);
 
     [PunRPC]
     public void EndMultiplayer(string winner)

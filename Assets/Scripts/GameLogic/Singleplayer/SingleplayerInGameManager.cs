@@ -17,9 +17,9 @@ public class SingleplayerInGameManager : MonoBehaviour
 
     public SingleplayerInGameCanvasManager CanvasManager;
     
-    private const int DeadLine = -18;
-    private const int VerticalSpeed = 2;
-    private const int HorizontalSpeed = 1;
+    private const int DeadLine = -39;
+    private const int VerticalSpeed = 4;
+    private const int HorizontalSpeed = 2;
     private Vector3 _verticalDirection = Vector3.right;
     private int _stepCounter = 0;
     
@@ -30,8 +30,8 @@ public class SingleplayerInGameManager : MonoBehaviour
 
     private void AttackerStartPosFill()
     {
-        for (var z = 10; z >= 0; z -= 5)
-            for (var x = -20; x <= 10; x += 15)
+        for (var z = 20; z >= 0; z -= 10)
+            for (var x = -55f; x <= 15f; x += 17.5f)
             {
                 _attackerStartPos.Add(new Vector3(x,0,z));
             }
@@ -131,7 +131,7 @@ public class SingleplayerInGameManager : MonoBehaviour
         
         PhotonNetwork.OfflineMode = true;
         //Need to fix a bug: If coming from multiplayer while no internet!
-        PhotonNetwork.Reconnect();
+        //PhotonNetwork.Reconnect();
 
         if (PhotonNetwork.InRoom)
             PhotonNetwork.LeaveRoom();

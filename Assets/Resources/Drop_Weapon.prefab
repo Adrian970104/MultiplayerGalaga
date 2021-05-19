@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1142887363737176}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4706590723485860}
   - {fileID: 4185637136580150}
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ec4a4bd7a40b74bb69abaa80089dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 4
   photonView: {fileID: 9137260856542691100}
   selfDirection: {x: 0, y: 0, z: 0}
   type: 2

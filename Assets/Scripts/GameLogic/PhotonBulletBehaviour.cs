@@ -9,7 +9,7 @@ using WebSocketSharp;
 
 public class PhotonBulletBehaviour : SpaceObject
     {
-        public int _damage = 50;
+        public int damage = 50;
         public string ownerTag;
         private GameManager _gameManager;
 
@@ -61,7 +61,7 @@ public class PhotonBulletBehaviour : SpaceObject
                     PhotonNetwork.Destroy(photonView);
                 }
                 
-                attacker.TakeDamage(_damage);
+                attacker.TakeDamage(damage);
             }
 
             if (other.CompareTag("DefenderShip"))
@@ -70,7 +70,7 @@ public class PhotonBulletBehaviour : SpaceObject
                 {
                     PhotonNetwork.Destroy(photonView);
                 }
-                other.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("TakeDamage",RpcTarget.All,_damage);
+                other.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("TakeDamage",RpcTarget.All,damage);
             }
         }
         

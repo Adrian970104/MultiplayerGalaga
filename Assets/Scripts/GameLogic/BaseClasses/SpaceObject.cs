@@ -12,7 +12,7 @@ public class SpaceObject : MonoBehaviour, IPunObservable
     
     protected Vector3 _selfPos;
     protected Vector3 _starPos;
-    protected static int _maxDistance = 50;
+    protected static int _maxDistance = 160;
     protected float _lag;
     
     
