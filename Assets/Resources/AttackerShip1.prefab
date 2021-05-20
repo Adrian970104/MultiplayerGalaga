@@ -441,7 +441,7 @@ Transform:
   m_GameObject: {fileID: 7561542783764367533}
   m_LocalRotation: {x: 0, y: 1, z: 0.000000021855694, w: 0}
   m_LocalPosition: {x: 5.35, y: 0.06, z: -5.5}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7189453592661271296}
   m_RootOrder: 3
@@ -5195,7 +5195,7 @@ Transform:
   m_GameObject: {fileID: 8127431127525137412}
   m_LocalRotation: {x: 0, y: 1, z: 0.000000021855694, w: 0}
   m_LocalPosition: {x: -5.34, y: 0.08, z: -5.5}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7189453592661271296}
   m_RootOrder: 2
@@ -9949,7 +9949,7 @@ Transform:
   m_GameObject: {fileID: 8630767787173070365}
   m_LocalRotation: {x: 0, y: 1, z: 0.000000021855694, w: 0}
   m_LocalPosition: {x: 0, y: 0.000000091028966, z: -7.02}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7189453592661271296}
   m_RootOrder: 1
@@ -10027,7 +10027,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 1
+  moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
