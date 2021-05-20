@@ -13,8 +13,6 @@ public class SingleplayerMenuButtonHandler : MonoBehaviour
     
     public void OnClickStart()
     {
-        if(usern.text == String.Empty)
-            return;
         SceneManager.LoadScene("SingleplayerInGame");
     }
 
