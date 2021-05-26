@@ -64,7 +64,7 @@ public class SingleplayerInGameManager : MonoBehaviour
 
     public void InGameMovement()
     {
-        if (_gameManager.singleplayerPhase != SingleplayerPhase.InGame)
+        if (_gameManager.singleplayerPhase != SingleplayerPhase.InAttack)
         {
             return;
         }
@@ -139,7 +139,7 @@ public class SingleplayerInGameManager : MonoBehaviour
         PhotonNetwork.JoinRandomRoom();
         
         _gameManager = FindObjectOfType<GameManager>();
-        _gameManager.singleplayerPhase = SingleplayerPhase.InGame;
+        _gameManager.singleplayerPhase = SingleplayerPhase.InAttack;
         
         PhotonNetwork.Instantiate(defenderShip.name, _defenderPos, Quaternion.identity);
         AttackerStartPosFill();

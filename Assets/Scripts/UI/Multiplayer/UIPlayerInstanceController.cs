@@ -24,18 +24,6 @@ public class UIPlayerInstanceController : MonoBehaviour
         PhotonNetwork.LocalPlayer.CustomProperties = _myCustomProperties;
         _playerContainerController.photonView.RPC("Refresh",RpcTarget.All);
     }
-    public void SelectedUpdate()
-    {
-        attackerToggle.onValueChanged.AddListener(delegate
-        {
-            defenderToggle.isOn = !attackerToggle.isOn;
-        });
-        
-        defenderToggle.onValueChanged.AddListener(delegate
-        {
-            attackerToggle.isOn = !defenderToggle.isOn;
-        });
-    }
 
     public void SetUsername(string usern)
     {
@@ -58,8 +46,11 @@ public class UIPlayerInstanceController : MonoBehaviour
         defenderToggle.enabled = isEnabled;
     }
 
-    public void ActivateReadyButton()
+    private void ActivateReadyButton()
     {
+        if(readyButton.interactable)
+            return;
+        
         readyButton.interactable = true;
     }
     
@@ -70,6 +61,7 @@ public class UIPlayerInstanceController : MonoBehaviour
 
         readyButton = GameObject.FindGameObjectWithTag("MultiplayerReadyButton").GetComponent<Button>();
         _playerContainerController = gameObject.GetComponentInParent<PlayerContainerController>();
+        
         attackerToggle.onValueChanged.AddListener(delegate
         {
             defenderToggle.isOn = !attackerToggle.isOn;

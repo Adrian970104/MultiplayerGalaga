@@ -7,10 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class SingleplayerMenuButtonHandler : MonoBehaviour
 {
-    public TMP_InputField usern;
     private GameManager _gameManager;
-    
-    
+
     public void OnClickStart()
     {
         SceneManager.LoadScene("SingleplayerInGame");

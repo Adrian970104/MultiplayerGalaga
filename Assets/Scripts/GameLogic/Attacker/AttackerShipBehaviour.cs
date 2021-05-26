@@ -105,7 +105,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         if (other.CompareTag("DefenderShip"))
         {
             
-            if(gameManager.multiplayerPhase != MultiplayerPhase.InGame && gameManager.singleplayerPhase != SingleplayerPhase.InGame)
+            if(gameManager.multiplayerPhase != MultiplayerPhase.InAttack && gameManager.singleplayerPhase != SingleplayerPhase.InAttack)
                 return;
             
             gameObject.tag = "Untagged";
@@ -203,7 +203,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
         {
             case GameMode.Singleplayer:
             {
-                if (gameManager.singleplayerPhase != SingleplayerPhase.InGame)
+                if (gameManager.singleplayerPhase != SingleplayerPhase.InAttack)
                     return;
 
                 if (singleManager.attackerShips.Contains(this))
@@ -228,7 +228,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
 
                 attackerPlayer.attackerShips.Remove(this);
 
-                if (gameManager.multiplayerPhase == MultiplayerPhase.InGame)
+                if (gameManager.multiplayerPhase == MultiplayerPhase.InAttack)
                 {
                     PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.identity);
                     Drop();

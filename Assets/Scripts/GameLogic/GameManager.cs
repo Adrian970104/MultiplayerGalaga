@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region UnityMethods
     private void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
         SceneManager.LoadScene("GameMode");
         gameMode = GameMode.Undefined;
         multiplayerPhase = MultiplayerPhase.Undefined;

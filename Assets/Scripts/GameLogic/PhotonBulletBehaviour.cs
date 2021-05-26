@@ -40,7 +40,7 @@ public class PhotonBulletBehaviour : SpaceObject
         {
             if(_gameManager is null)
                 return;
-            if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame && _gameManager.singleplayerPhase != SingleplayerPhase.InGame)
+            if(_gameManager.multiplayerPhase != MultiplayerPhase.InAttack && _gameManager.singleplayerPhase != SingleplayerPhase.InAttack)
                 return;
             if(!photonView.IsMine)
                 return;

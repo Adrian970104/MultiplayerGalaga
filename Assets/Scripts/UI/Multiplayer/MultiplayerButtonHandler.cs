@@ -56,8 +56,6 @@ public class MultiplayerButtonHandler : MonoBehaviour
 
     public void OnClickReady()
     {
-        //ExitGames.Client.Photon.Hashtable _myCustomProperties = new ExitGames.Client.Photon.Hashtable();
-        
         if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("IsReady"))
         {
             ChangeReady(false);
@@ -71,11 +69,9 @@ public class MultiplayerButtonHandler : MonoBehaviour
     private void ChangeReady(bool isReady)
     {
         ExitGames.Client.Photon.Hashtable myCustomProperties = new ExitGames.Client.Photon.Hashtable();
-        //UIPlayerInstanceController uiplController = new UIPlayerInstanceController();
-        
+
         myCustomProperties["IsReady"] = !isReady;
         PhotonNetwork.SetPlayerCustomProperties(myCustomProperties);
-        //PhotonNetwork.LocalPlayer.CustomProperties = myCustomProperties;
 
         foreach (var plinstance in GameObject.FindGameObjectsWithTag("UIPlayerInstance"))
         {
@@ -105,7 +101,6 @@ public class MultiplayerButtonHandler : MonoBehaviour
 
     private void ActivateReadyButton(bool activate)
     {
-        //readyButton.enabled = activate;
         readyButton.interactable = activate;
     }
 

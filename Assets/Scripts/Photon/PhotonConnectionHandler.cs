@@ -186,7 +186,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     {
         gameManager = FindObjectOfType<GameManager>();
         gameManager.gameMode = GameMode.Multiplayer;
-        gameManager.multiplayerPhase = MultiplayerPhase.InServerCreation;
+        gameManager.multiplayerPhase = MultiplayerPhase.InRoomCreation;
         
         ChangeToServerCreationCanvas();
         playerContainerController.Clear();
@@ -203,17 +203,10 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
             Debug.Log($"Already connected to photon");
             PhotonNetwork.Disconnect();
         }
-        //DontDestroyOnLoad(this);
+        
         ConnectToPhoton(Guid.NewGuid().ToString());
         PhotonNetwork.GameVersion = _version;
-
     }
-
-    private void Awake()
-    {
-        //Debug.Log(GameManager.gameMode);
-    }
-
     #endregion
 
     #region Photon Methods
@@ -235,7 +228,6 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
     {
         Debug.Log("Connected to Photon Lobby");
         ftc.SetPhotonStatus("Connected To Photon",Color.green);
-        //CreateRoom("room1");
     }
 
     public override void OnCreatedRoom()
@@ -322,7 +314,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
         ChangeToServerCreationCanvas();
         playerContainerController.Clear();
-        gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InServerCreation);
+        gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InRoomCreation);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -345,7 +337,8 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if(!changedProps.ContainsKey("IsReady")) return;
+        if(!changedProps.ContainsKey("IsReady"))
+            return;
 
         if (!PlayerCountCheck())
         {

@@ -20,7 +20,7 @@ public class HpDropBehaviour : PhotonDropBehaviour
             return;
         if(!other.CompareTag("DefenderShip"))
             return;
-        if(_gameManager.multiplayerPhase != MultiplayerPhase.InDeploy && _gameManager.multiplayerPhase != MultiplayerPhase.InGame && _gameManager.singleplayerPhase != SingleplayerPhase.InGame)
+        if(_gameManager.multiplayerPhase != MultiplayerPhase.InDeploy && _gameManager.multiplayerPhase != MultiplayerPhase.InAttack && _gameManager.singleplayerPhase != SingleplayerPhase.InAttack)
             return;
 
         other.gameObject.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("Heal", RpcTarget.All, value);

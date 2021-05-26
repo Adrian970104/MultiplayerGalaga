@@ -11,18 +11,7 @@ using UnityEngine;
 public class PlayerContainerController : MonoBehaviour
 {
     [SerializeField]
-    public GameObject UIPlayerInstance; 
-    
-    [SerializeField]
-    public GameObject localUIPlayerInstance;
-    [SerializeField]
-    public UIPlayerInstanceController localUIPlayerInstanceController;
-
-    [SerializeField] public bool isAttacker;
-
-    public string alma = "alma";
-    
-    private ExitGames.Client.Photon.Hashtable _myCustomProperties = new ExitGames.Client.Photon.Hashtable();
+    public GameObject UIPlayerInstance;
 
     public PhotonView photonView;
     public GameObject content;
@@ -38,7 +27,6 @@ public class PlayerContainerController : MonoBehaviour
     
     public void Fill()
     {
-       
         foreach (var player in PhotonNetwork.PlayerList)
         {
             if(player.NickName == PhotonNetwork.LocalPlayer.NickName && !player.Equals(PhotonNetwork.LocalPlayer))
@@ -46,7 +34,6 @@ public class PlayerContainerController : MonoBehaviour
             
             var contentTransform = content.transform;
             var UIPLayerInstance = Instantiate(UIPlayerInstance, contentTransform);
-            UIPLayerInstance.transform.localScale = new Vector3(1.0f,1.0f,1.0f);
             var UIPIController = UIPLayerInstance.GetComponentInChildren<UIPlayerInstanceController>();
             UIPIController.SetUsername(player.NickName);
             
@@ -84,15 +71,4 @@ public class PlayerContainerController : MonoBehaviour
         Clear();
         Fill();
     }
-    #region Unity Methods
-
-    public void Update()
-    {
-        foreach (var player in PhotonNetwork.PlayerList)
-        {
-            if(player.IsLocal) return;
-        }
-    }
-
-    #endregion
 }

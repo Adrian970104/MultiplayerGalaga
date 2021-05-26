@@ -80,7 +80,7 @@ public class DefenderShipBehaviour : SpaceShip
         if (!Input.GetKeyDown(KeyCode.Space)) 
             return;
         
-        if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame && _gameManager.singleplayerPhase != SingleplayerPhase.InGame)
+        if(_gameManager.multiplayerPhase != MultiplayerPhase.InAttack && _gameManager.singleplayerPhase != SingleplayerPhase.InAttack)
             return;
         
         var bulletc = InstBullet(transform.forward);

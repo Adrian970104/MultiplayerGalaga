@@ -67,7 +67,7 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
 
     public void OnClickEndDeploy()
     {
-        if(_gameManager.multiplayerPhase == MultiplayerPhase.InGame)
+        if(_gameManager.multiplayerPhase == MultiplayerPhase.InAttack)
             return;
         
         if(_attacker.shipToDeploy != null)
@@ -76,7 +76,7 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
         if(_attacker.attackerShips.Count < 1)
             return;
         
-        _gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InGame);
+        _gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InAttack);
     }
     #endregion
 

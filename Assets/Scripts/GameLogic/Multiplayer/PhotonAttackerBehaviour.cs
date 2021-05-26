@@ -102,7 +102,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
 
     public void InGameMovement()
     {
-        if (_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+        if (_gameManager.multiplayerPhase != MultiplayerPhase.InAttack)
         {
             return;
         }
@@ -151,7 +151,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
     {
         EndCheck();
         
-        if(_gameManager.multiplayerPhase != MultiplayerPhase.InGame)
+        if(_gameManager.multiplayerPhase != MultiplayerPhase.InAttack)
             return;
 
         _gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InDeploy);
