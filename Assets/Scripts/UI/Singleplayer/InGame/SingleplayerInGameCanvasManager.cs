@@ -20,8 +20,8 @@ public class SingleplayerInGameCanvasManager : MonoBehaviour
     }
     public void RefreshDataPanel(int actualDam, int score)
     {
-        DataPanelController.RefreshDamage(actualDam);
-        DataPanelController.RefreshScore(score);
+        DataPanelController.Refresh(actualDam, score);
+        //DataPanelController.RefreshScore(score);
     }
     public void FillWinnerCanvas(bool win)
     {

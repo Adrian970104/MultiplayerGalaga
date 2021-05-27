@@ -8,15 +8,10 @@ public class SingleplayerDataPanelController : MonoBehaviour
 {
     public TextMeshProUGUI damageText;
     public TextMeshProUGUI scoreText;
-    
-    public void RefreshDamage(int dam)
+
+    public void Refresh(int dam, int score)
     {
         damageText.SetText($"Damage: {dam}");
-    }
-    
-    public void RefreshScore(int score)
-    {
         scoreText.SetText($"Score: {score}");
     }
-
 }
