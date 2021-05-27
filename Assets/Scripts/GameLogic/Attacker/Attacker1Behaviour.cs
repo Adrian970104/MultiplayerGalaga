@@ -32,5 +32,6 @@ public class Attacker1Behaviour : AttackerShipBehaviour
         }
         
         cost = 100;
+        value = 30;
     }
 }

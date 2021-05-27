@@ -4,7 +4,7 @@ using GameLogic;
 using Photon.Pun;
 using UnityEngine;
 
-public class WeaponDropBehaviour : PhotonDropBehaviour
+public class WeaponDropBehaviour : DropBehaviour
 {
     public override void Start()
     {

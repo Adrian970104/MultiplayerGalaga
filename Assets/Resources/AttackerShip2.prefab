@@ -251,9 +251,9 @@ MonoBehaviour:
   - {fileID: 1041803199959140, guid: 5f7d5f60379571b4ab916f85aae80a71, type: 3}
   - {fileID: 1142887363737176, guid: 90a8f0af0be89c04eb22578b3dae859c, type: 3}
   singleManager: {fileID: 0}
-  gameManager: {fileID: 0}
   attackerPlayer: {fileID: 0}
   defenderShip: {fileID: 0}
+  gameManager: {fileID: 0}
   explosion: {fileID: 4092430482191383480, guid: 2f0f5709403e7cf4992b397c32e2e5b0,
     type: 3}
 --- !u!114 &-4757697677379720810

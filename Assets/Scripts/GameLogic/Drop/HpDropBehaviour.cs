@@ -5,7 +5,7 @@ using GameLogic;
 using Photon.Pun;
 using UnityEngine;
 
-public class HpDropBehaviour : PhotonDropBehaviour
+public class HpDropBehaviour : DropBehaviour
 {
     public override void Start()
     {

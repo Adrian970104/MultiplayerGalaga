@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using WebSocketSharp;
 
-public class PhotonBulletBehaviour : SpaceObject
+public class BulletBehaviour : SpaceObject
     {
         public int damage = 50;
         public string ownerTag;
@@ -52,10 +52,7 @@ public class PhotonBulletBehaviour : SpaceObject
             if (other.CompareTag("AttackerShip"))
             {
                 var attacker = other.GetComponentInParent<AttackerShipBehaviour>();
-                
-                if(!attacker.isDeployed)
-                        return;
-                
+
                 attacker.photonView.RPC("TakeDamage",RpcTarget.All,damage);
                 
                 if (photonView.IsMine)

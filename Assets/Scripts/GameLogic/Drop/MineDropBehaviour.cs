@@ -4,7 +4,7 @@ using GameLogic;
 using Photon.Pun;
 using UnityEngine;
 
-public class MineDropBehaviour : PhotonDropBehaviour
+public class MineDropBehaviour : DropBehaviour
 {
 
     public override void Start()

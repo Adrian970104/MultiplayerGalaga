@@ -24,6 +24,8 @@ public class Attacker2Behaviour : AttackerShipBehaviour
         {
             InvokeRepeating(nameof(Shooting), ShootingDelay, ShootingSpeed);
         }
+        
         cost = 200;
+        value = 40;
     }
 }

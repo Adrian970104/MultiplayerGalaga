@@ -9,19 +9,17 @@ public class SpaceObject : MonoBehaviour, IPunObservable
     public int speed;
     public PhotonView photonView;
     public Vector3 selfDirection;
-    
-    protected Vector3 _selfPos;
-    protected Vector3 _starPos;
-    protected static int _maxDistance = 160;
-    protected float _lag;
-    
-    
-    protected void Movement(Vector3 direction)
+
+    private Vector3 _selfPos;
+    private Vector3 _starPos;
+    private static int _maxDistance = 160;
+
+    private void Movement(Vector3 direction)
     {
         transform.position += direction * (speed * Time.deltaTime);
     }
-    
-    protected void DestroyCheck()
+
+    private void DestroyCheck()
     {
         if (Math.Abs(Vector3.Distance(transform.position, _starPos)) > _maxDistance)
         {
@@ -40,7 +38,6 @@ public class SpaceObject : MonoBehaviour, IPunObservable
         else
         {
             _selfPos = (Vector3) stream.ReceiveNext();
-            _lag = Mathf.Abs((float) (PhotonNetwork.Time - info.SentServerTime));
         }
     }
     #endregion
@@ -62,7 +59,7 @@ public class SpaceObject : MonoBehaviour, IPunObservable
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, _selfPos, Time.deltaTime*10 + _lag);
+            transform.position = Vector3.Lerp(transform.position, _selfPos, Time.deltaTime * 11);
         }
     }
     #endregion

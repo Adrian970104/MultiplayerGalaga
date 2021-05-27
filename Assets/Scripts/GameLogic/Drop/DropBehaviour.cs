@@ -5,13 +5,13 @@ using GameLogic;
 using Photon.Pun;
 using UnityEngine;
 
-public class PhotonDropBehaviour : SpaceObject
+public class DropBehaviour : SpaceObject
 {
     public DropType type;
     public int value;
 
-    protected Quaternion _selfRot;
-    protected Vector3 _rotSpeed = new Vector3(0,0.2f,0);
+    private Quaternion _selfRot;
+    private Vector3 _rotSpeed = new Vector3(0,0.2f,0);
     protected GameManager _gameManager;
 
     
@@ -48,6 +48,5 @@ public class PhotonDropBehaviour : SpaceObject
         _selfRot = transform.rotation;
         _gameManager = FindObjectOfType<GameManager>();
     }
-
     #endregion
 }
