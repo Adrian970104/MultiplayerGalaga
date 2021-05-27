@@ -96,7 +96,6 @@ public class SingleplayerInGameManager : MonoBehaviour
     
     public void EndSingleplayer(bool win)
     {
-        //_gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.AfterGame);
         _gameManager.singleplayerPhase = SingleplayerPhase.AfterGame;
         CanvasManager.FillWinnerCanvas(win);
         CanvasManager.SetWinnerCanvasVisible();
@@ -117,7 +116,6 @@ public class SingleplayerInGameManager : MonoBehaviour
     }
 
     #region Unity Methods
-    // Start is called before the first frame update
     void Start()
     {
         CanvasManager.SetInGameCanvasVisible();
@@ -139,12 +137,6 @@ public class SingleplayerInGameManager : MonoBehaviour
         AttackerSetup();
         
         InvokeRepeating(nameof(InGameMovement), 5.0f, 2.0f);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
     #endregion
 }
