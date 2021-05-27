@@ -31,6 +31,8 @@ public class MultiplayerInGameManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        if(_gameManager.multiplayerPhase == MultiplayerPhase.AfterGame)
+            return;
         EndMultiplayer(PhotonNetwork.PlayerList[0].NickName);
     }
 

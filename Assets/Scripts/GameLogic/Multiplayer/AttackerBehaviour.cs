@@ -165,7 +165,7 @@ public class AttackerBehaviour : MonoBehaviour
 
     public void EndCheck()
     {
-        if (material <= 0)
+        if (material <= 0 && attackerShips.Count == 0)
             Ended(false);
         if(attackerShips.Any(attacker => attacker.transform.position.z <= _deadLine))
             Ended(true);
@@ -181,6 +181,7 @@ public class AttackerBehaviour : MonoBehaviour
 
     public void Ended(bool win)
     {
+        Debug.Log("Az attacker behav hívta az End-et!");
         if(PhotonNetwork.PlayerListOthers.Length < 1)
             return;
 
