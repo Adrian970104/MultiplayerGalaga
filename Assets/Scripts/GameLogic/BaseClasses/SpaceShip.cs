@@ -62,14 +62,8 @@ public abstract class SpaceShip : MonoBehaviour, IPunObservable
             return;
         PhotonNetwork.Destroy(gameObject);
     }
-    
-    public virtual void Shooting()
-    {
-        throw new System.NotImplementedException();
-    }
 
-    public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        throw new System.NotImplementedException();
-    }
+    public abstract void Shooting();
+
+    public abstract void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info);
 }

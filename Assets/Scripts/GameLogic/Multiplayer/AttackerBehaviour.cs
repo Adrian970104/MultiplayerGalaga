@@ -171,14 +171,6 @@ public class AttackerBehaviour : MonoBehaviour
             Ended(true);
     }
 
-    public void Defeated()
-    {
-        if(PhotonNetwork.PlayerListOthers.Length < 1)
-            return;
-        var winner = !(bool)PhotonNetwork.LocalPlayer.CustomProperties["IsAttacker"] ? PhotonNetwork.LocalPlayer.NickName : PhotonNetwork.PlayerListOthers[0].NickName;
-        _multiManager.photonView.RPC("EndMultiplayer", RpcTarget.All, winner);
-    }
-
     public void Ended(bool win)
     {
         Debug.Log("Az attacker behav hívta az End-et!");

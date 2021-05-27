@@ -52,25 +52,25 @@ public class DefenderShipBehaviour : SpaceShip
     {
         if (transform.position.x > _rightBorder)
         {
-            _rigidbody.velocity = new Vector3(0,0,0);
+            _rigidbody.velocity = Vector3.zero;
             transform.position = new Vector3(_rightBorder,transform.position.y,transform.position.z);
         }
         
         if (transform.position.x < _leftBorder)
         {
-            _rigidbody.velocity = new Vector3(0, 0, 0);
+            _rigidbody.velocity = Vector3.zero;
             transform.position = new Vector3(_leftBorder, transform.position.y, transform.position.z);
         }
         
         if (transform.position.z > _upBorder)
         {
-            _rigidbody.velocity = new Vector3(0, 0, 0);
+            _rigidbody.velocity = Vector3.zero;
             transform.position = new Vector3(transform.position.x, transform.position.y, _upBorder);
         }
         
         if (transform.position.z < _downBorder)
         {
-            _rigidbody.velocity = new Vector3(0,0,0);
+            _rigidbody.velocity = Vector3.zero;
             transform.position = new Vector3(transform.position.x,transform.position.y,_downBorder);
         }
     }
@@ -282,6 +282,7 @@ public class DefenderShipBehaviour : SpaceShip
     {
         if (_isAttacker)
             return;
+        
         AddForceMovement();
         BorderCheck();
         Shooting();

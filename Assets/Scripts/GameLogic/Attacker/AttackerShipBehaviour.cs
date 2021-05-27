@@ -41,8 +41,15 @@ public class AttackerShipBehaviour : SpaceShip
         var drop = PhotonNetwork.Instantiate(chosenDrop.name, transform.position, Quaternion.identity);
         drop.GetComponent<PhotonDropBehaviour>().selfDirection = transform.forward;
     }
+   
+    public override void Shooting()
+    {
+        throw new NotImplementedException();
+    }
     
     #region Photon Methods
+
+
     public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
