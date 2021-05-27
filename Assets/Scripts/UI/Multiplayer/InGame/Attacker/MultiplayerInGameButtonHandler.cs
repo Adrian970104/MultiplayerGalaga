@@ -14,7 +14,7 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
     public GameObject spaceShip2;
     public GameObject spaceShip3;
     
-    private PhotonAttackerBehaviour _attacker;
+    private AttackerBehaviour _attacker;
     private DefenderShipBehaviour _defender;
     private Vector3 _deployPos = new Vector3(-16f, 0f, 0f);
     private GameManager _gameManager;

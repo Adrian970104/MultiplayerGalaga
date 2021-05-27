@@ -301,6 +301,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
         
         ChangeToLobbyCanvas();
         playerContainerController.Fill();
+        //TODO Adrián Ezt megnézni, hogy PUnRPC nélkül múködik-e? Jó lenne ha igen!
         gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InRoom);
     }
 
@@ -314,6 +315,7 @@ public class PhotonConnectionHandler : MonoBehaviourPunCallbacks
 
         ChangeToServerCreationCanvas();
         playerContainerController.Clear();
+        //TODO Adrián Ezt megnézni, hogy PUnRPC nélkül múködik-e? Jó lenne ha igen!
         gameManager.photonView.RPC("SetMultiplayerPhase",RpcTarget.All,MultiplayerPhase.InRoomCreation);
     }
 

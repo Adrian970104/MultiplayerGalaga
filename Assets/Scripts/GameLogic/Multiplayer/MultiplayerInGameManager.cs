@@ -13,7 +13,7 @@ public class MultiplayerInGameManager : MonoBehaviourPunCallbacks
     public GameObject attackerPrefab;
 
     public bool isAttacker;
-    public PhotonAttackerBehaviour attacker;
+    public AttackerBehaviour attacker;
     public DefenderShipBehaviour defender;
 
     private GameManager _gameManager;
@@ -42,7 +42,6 @@ public class MultiplayerInGameManager : MonoBehaviourPunCallbacks
     #region Untiy Methods
     void Start()
     {
-        Debug.Log($"InGAME Manager START running;");
         _gameManager = FindObjectOfType<GameManager>();
         _gameManager.multiplayerPhase = MultiplayerPhase.InDeploy;
         
@@ -51,7 +50,7 @@ public class MultiplayerInGameManager : MonoBehaviourPunCallbacks
         if (isAttacker)
         {
             CanvasManager.SetAttackerCanvasVisible();
-            attacker = PhotonNetwork.Instantiate(attackerPrefab.name, _attackerInstPos, Quaternion.identity).GetComponent<PhotonAttackerBehaviour>();
+            attacker = PhotonNetwork.Instantiate(attackerPrefab.name, _attackerInstPos, Quaternion.identity).GetComponent<AttackerBehaviour>();
         }
         else
         {

@@ -10,9 +10,7 @@ using UnityEngine;
 
 public class PlayerContainerController : MonoBehaviour
 {
-    [SerializeField]
     public GameObject UIPlayerInstance;
-
     public PhotonView photonView;
     public GameObject content;
 

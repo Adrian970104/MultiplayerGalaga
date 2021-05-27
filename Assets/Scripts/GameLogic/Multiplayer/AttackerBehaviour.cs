@@ -3,22 +3,24 @@ using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 
-public class PhotonAttackerBehaviour : MonoBehaviour
+public class AttackerBehaviour : MonoBehaviour
 {
     public GameObject shipToDeploy;
     public int shipCount = 5;
     public int material = 1500;
     public List<AttackerShipBehaviour> attackerShips = new List<AttackerShipBehaviour>();
 
-    private const int VerticalSpeed = 4;
-    private const int HorizontalSpeed = 2;
     private GameManager _gameManager;
     private MultiplayerInGameManager _multiManager;
+    private MultiplayerFeedbackPanelController _feedbackPanelController;
+    private const int VerticalSpeed = 4;
+    private const int HorizontalSpeed = 2;
     private Vector3 _verticalDirection = Vector3.right;
     private int _stepCounter;
-    private MultiplayerFeedbackPanelController _feedbackPanelController;
     
-    private const int DeadLine = -39;
+    
+    private const float _deployMovementSpeed = 15;
+    private const int _deadLine = -39;
     private readonly int _leftBorder = -58;
     private readonly int _rightBorder = 17;
     private readonly int _upBorder = 25;
@@ -42,7 +44,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
                 return;
             
             shipBehav.isDeployed = true;
-            shipBehav.attackerPlayer = gameObject.GetComponent<PhotonAttackerBehaviour>();
+            shipBehav.attackerPlayer = gameObject.GetComponent<AttackerBehaviour>();
             attackerShips.Add(shipBehav);
             shipToDeploy = null;
         }
@@ -62,8 +64,8 @@ public class PhotonAttackerBehaviour : MonoBehaviour
 
     private void DeployMovement(GameObject ship)
     {
-        var translationV = Input.GetAxis("Vertical") * 10.0f * -1 * Time.deltaTime;
-        var translationH = Input.GetAxis("Horizontal") * 10.0f * -1 * Time.deltaTime;
+        var translationV = Input.GetAxis("Vertical") * _deployMovementSpeed * -1 * Time.deltaTime;
+        var translationH = Input.GetAxis("Horizontal") * _deployMovementSpeed * -1 * Time.deltaTime;
         ship.transform.Translate(translationH, 0, translationV);
     }
 
@@ -92,7 +94,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
         }
     }
 
-    public void InGameStep(Vector3 direction, int speed)
+    private void InAttackStep(Vector3 direction, int speed)
     {
         foreach (var ship in attackerShips)
         {
@@ -100,7 +102,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
         }
     }
 
-    public void InGameMovement()
+    public void InAttackMovement()
     {
         if (_gameManager.multiplayerPhase != MultiplayerPhase.InAttack)
         {
@@ -109,28 +111,28 @@ public class PhotonAttackerBehaviour : MonoBehaviour
 
         if (_stepCounter < 4)
         {
-            InGameStep(_verticalDirection, VerticalSpeed);
+            InAttackStep(_verticalDirection, VerticalSpeed);
             _stepCounter++;
             return;
         }
         
         if (_stepCounter == 4)
         {
-            InGameStep(_verticalDirection, VerticalSpeed);
+            InAttackStep(_verticalDirection, VerticalSpeed);
             _stepCounter = 10;
             return;
         }
 
         if (_stepCounter % 10 == 0)
         {
-            InGameStep(Vector3.back, HorizontalSpeed);
+            InAttackStep(Vector3.back, HorizontalSpeed);
             ChangeVerticalDirection();
             _stepCounter++;
             EndCheck();
             return;
         }
         
-        InGameStep(_verticalDirection, VerticalSpeed);
+        InAttackStep(_verticalDirection, VerticalSpeed);
         _stepCounter++;
     }
 
@@ -165,9 +167,8 @@ public class PhotonAttackerBehaviour : MonoBehaviour
     {
         if (material <= 0)
             Ended(false);
-        if(attackerShips.Any(attacker => attacker.transform.position.z <= DeadLine))
+        if(attackerShips.Any(attacker => attacker.transform.position.z <= _deadLine))
             Ended(true);
-        //Defeated();
     }
 
     public void Defeated()
@@ -210,7 +211,7 @@ public class PhotonAttackerBehaviour : MonoBehaviour
         _multiManager = FindObjectOfType<MultiplayerInGameManager>();
         _feedbackPanelController = FindObjectOfType<MultiplayerFeedbackPanelController>();
         _feedbackPanelController.RefreshFeedbackPanel();
-        InvokeRepeating(nameof(InGameMovement), 5.0f, 2.0f);
+        InvokeRepeating(nameof(InAttackMovement), 5.0f, 2.0f);
     }
     #endregion
     

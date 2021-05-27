@@ -12,7 +12,7 @@ public class MultiplayerFeedbackPanelController : MonoBehaviour
     public MultiplayerInGameManager multiManager;
 
     private GameManager _gameManager;
-    private PhotonAttackerBehaviour attacker;
+    private AttackerBehaviour attacker;
 
     public void RefreshFeedbackPanel()
     {

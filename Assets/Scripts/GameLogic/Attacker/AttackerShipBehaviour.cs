@@ -27,7 +27,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
     public List<GameObject> drops = new List<GameObject>();
     public SingleplayerInGameManager singleManager;
     public GameManager gameManager;
-    public PhotonAttackerBehaviour attackerPlayer;
+    public AttackerBehaviour attackerPlayer;
     public GameObject defenderShip;
     public ParticleSystem explosion;
 
