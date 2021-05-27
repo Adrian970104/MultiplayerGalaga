@@ -7,13 +7,10 @@ using Random = UnityEngine.Random;
 
 public class AttackerShipBehaviour : SpaceShip
 {
-#region deployment_variables
     public bool isDeployed;
     public int triggerCount;
     private Color _baseColor;
-#endregion
 
-    
     [SerializeField]
     private int _dropChance = 90;
     private MultiplayerFeedbackPanelController _feedbackPanelController;
@@ -25,21 +22,21 @@ public class AttackerShipBehaviour : SpaceShip
     public int value;
     public List<GameObject> drops = new List<GameObject>();
     public SingleplayerInGameManager singleManager;
-    public GameManager gameManager;
     public AttackerBehaviour attackerPlayer;
     public GameObject defenderShip;
+    public GameManager gameManager;
     public ParticleSystem explosion;
 
 
-    public void Drop()
+    private void Drop()
     {
-        var isDropping = _dropChance >= Random.Range(-1, 100) ? true : false;
+        var isDropping = _dropChance >= Random.Range(1, 101) ? true : false;
         if(!isDropping)
             return;
         
         var chosenDrop = drops[Random.Range(0, drops.Count)];
         var drop = PhotonNetwork.Instantiate(chosenDrop.name, transform.position, Quaternion.identity);
-        drop.GetComponent<PhotonDropBehaviour>().selfDirection = transform.forward;
+        drop.GetComponent<DropBehaviour>().selfDirection = transform.forward;
     }
    
     public override void Shooting()
@@ -47,32 +44,10 @@ public class AttackerShipBehaviour : SpaceShip
         throw new NotImplementedException();
     }
     
-    #region Photon Methods
-
-
-    public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(isDeployed);
-        }
-        else
-        {
-            selfPos = (Vector3)stream.ReceiveNext();
-            isDeployed = (bool)stream.ReceiveNext();
-        }
-    }
-    #endregion
-        
     #region Unity Methods
     private void Update()
     {
-        //TODO Adrian Ez így nem túl szép!
-        if (photonView.IsMine)
-        {
-        }
-        else
+        if (!photonView.IsMine)
         {
             transform.position = Vector3.Lerp(transform.position, selfPos, Time.deltaTime * 15);
         }

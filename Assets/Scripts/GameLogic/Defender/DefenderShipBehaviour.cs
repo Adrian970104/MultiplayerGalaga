@@ -218,29 +218,11 @@ public class DefenderShipBehaviour : SpaceShip
         }
     }
 
-    #region Photon Methods
-
-    public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(_rigidbody.position);
-        }
-        else
-        {
-            selfPos = (Vector3)stream.ReceiveNext();
-        }
-    }
-    #endregion
-    
-    
     #region Unity Methods
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _gameManager = FindObjectOfType<GameManager>();
-        
-        //bullet.GetComponent<Renderer>().sharedMaterial.SetColor("_Color",Color.green);
 
         baseHealth = 300;
         maxHealth = baseHealth;

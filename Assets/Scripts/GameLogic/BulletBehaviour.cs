@@ -19,20 +19,11 @@ public class BulletBehaviour : SpaceObject
             GetComponent<Renderer>().material.color = new Color(r,g,b);
         }
         
-        #region Photon Methods
-        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        [PunRPC]
+        public void SetOwnerTag(string newTag)
         {
-            base.OnPhotonSerializeView(stream, info);
-            if (stream.IsWriting)
-            {
-                stream.SendNext(ownerTag);
-            }
-            else
-            {
-                ownerTag = (string) stream.ReceiveNext();
-            }
+            ownerTag = newTag;
         }
-        #endregion
         
         #region Unity Methods
 
@@ -59,7 +50,6 @@ public class BulletBehaviour : SpaceObject
                 {
                     PhotonNetwork.Destroy(photonView);
                 }
-                
             }
 
             if (other.CompareTag("DefenderShip"))
