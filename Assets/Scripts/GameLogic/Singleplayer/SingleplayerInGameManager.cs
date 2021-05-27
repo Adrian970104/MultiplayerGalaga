@@ -9,12 +9,7 @@ using Random = UnityEngine.Random;
 public class SingleplayerInGameManager : MonoBehaviour
 {
     public GameObject defenderShip;
-    
-    //TODO Adrián ezt Listával kell megoldani!
-    public GameObject attackerShip1;
-    public GameObject attackerShip2;
-    public GameObject attackerShip3;
-
+    public List<GameObject> attackerShipVariants = new List<GameObject>();
     public SingleplayerInGameCanvasManager CanvasManager;
     
     private const int DeadLine = -39;
@@ -41,12 +36,10 @@ public class SingleplayerInGameManager : MonoBehaviour
     {
         var rot = new Quaternion(0,180,0,0);
 
-        var attackers = new[] {attackerShip1, attackerShip2, attackerShip3};
-        
         foreach (var pos in _attackerStartPos)
         {
             var shipVariant = Random.Range(0, 3);
-            var att = PhotonNetwork.Instantiate(attackers[shipVariant].name, pos, rot);
+            var att = PhotonNetwork.Instantiate(attackerShipVariants[shipVariant].name, pos, rot);
             att.GetComponent<AttackerShipBehaviour>().singleManager = this;
             attackerShips.Add(att.GetComponent<SpaceShip>());
         }

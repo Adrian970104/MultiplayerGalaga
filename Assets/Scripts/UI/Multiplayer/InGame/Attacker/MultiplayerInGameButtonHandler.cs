@@ -10,7 +10,6 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
     public MultiplayerInGameManager multiManager;
     public MultiplayerFeedbackPanelController _FeedbackPanelController;
     
-    //TODO Adrián ezt listával megoldani !
     public GameObject spaceShip1;
     public GameObject spaceShip2;
     public GameObject spaceShip3;

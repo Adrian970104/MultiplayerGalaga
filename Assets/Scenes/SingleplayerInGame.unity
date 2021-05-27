@@ -3446,6 +3446,10 @@ MonoBehaviour:
     type: 3}
   attackerShip3: {fileID: 1917106948373238, guid: c79905ec17c169a49b75177b6cf0d524,
     type: 3}
+  attackerShipVariants:
+  - {fileID: 7191163089010825858, guid: cce9971add15a44418d6e61d7a42eec2, type: 3}
+  - {fileID: 6036493471044831520, guid: 0a3ed1c5b2e96da4a87262cff3995dd8, type: 3}
+  - {fileID: 1917106948373238, guid: c79905ec17c169a49b75177b6cf0d524, type: 3}
   CanvasManager: {fileID: 1766380909}
   attackerShips: []
 --- !u!4 &2061312455
