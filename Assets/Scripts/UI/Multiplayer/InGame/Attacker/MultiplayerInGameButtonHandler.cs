@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Photon.Pun;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
     private DefenderShipBehaviour _defender;
     private Vector3 _deployPos = new Vector3(-16f, 0f, 0f);
     private GameManager _gameManager;
+    private MultiplayerInGameManager _multiManager;
     
     private readonly int _plusDamage = 10;
     private readonly int _plusHp = 30;
@@ -104,6 +106,7 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
     #region Common buttons
     public void OnClickExit()
     {
+        _multiManager.photonView.RPC("EndMultiplayer",RpcTarget.Others,PhotonNetwork.PlayerListOthers[0].NickName);
         _gameManager.EndMultiplayer();
     }
 
@@ -118,8 +121,7 @@ public class MultiplayerInGameButtonHandler : MonoBehaviour
     public void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
-        /*if(!multiManager.isAttacker)
-            return;*/
+        _multiManager = FindObjectOfType<MultiplayerInGameManager>();
         _defender = multiManager.defender;
         _attacker = multiManager.attacker;
     }

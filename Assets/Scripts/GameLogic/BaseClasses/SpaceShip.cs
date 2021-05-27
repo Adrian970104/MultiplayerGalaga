@@ -28,6 +28,8 @@ public abstract class SpaceShip : MonoBehaviour, IPunObservable
         var healed = actualHealth + amount;
         actualHealth = healed >= maxHealth ? maxHealth : healed;
     }
+    
+    [PunRPC]
     public virtual void TakeDamage(int dam)
     {
         actualHealth -= dam;

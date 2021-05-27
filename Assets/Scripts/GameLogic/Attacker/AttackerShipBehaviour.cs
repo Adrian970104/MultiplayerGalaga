@@ -5,7 +5,7 @@ using Photon.Pun;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AttackerShipBehaviour : SpaceShip, IPunObservable
+public class AttackerShipBehaviour : SpaceShip
 {
 #region deployment_variables
     public bool isDeployed;
@@ -20,8 +20,7 @@ public class AttackerShipBehaviour : SpaceShip, IPunObservable
 
     protected float ShootingDelay;
     protected float ShootingSpeed;
-    
-    
+
     public int cost;
     public int value;
     public List<GameObject> drops = new List<GameObject>();

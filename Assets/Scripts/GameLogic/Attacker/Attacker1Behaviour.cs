@@ -16,6 +16,7 @@ public class Attacker1Behaviour : AttackerShipBehaviour
         InstBullet(transform.forward);
     }
 
+    [PunRPC]
     public override void TakeDamage(int dam)
     {
         Shooting();

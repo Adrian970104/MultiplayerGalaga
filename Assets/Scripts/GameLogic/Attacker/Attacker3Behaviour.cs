@@ -13,7 +13,7 @@ public class Attacker3Behaviour : AttackerShipBehaviour
         if(gameManager.multiplayerPhase != MultiplayerPhase.InAttack && gameManager.singleplayerPhase != SingleplayerPhase.InAttack)
             return;
 
-        var n = actualHealth > (maxHealth / 3) ? 4 : 6;
+        var n = actualHealth > ((maxHealth * 2) / 3) ? 4 : 6;
 
         for (var i = 1; i <= n; i++)
         {

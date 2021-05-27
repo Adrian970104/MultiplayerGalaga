@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2235338213797721868}
   - component: {fileID: -7331562112716453074}
   m_Layer: 0
-  m_Name: PhotonAttacker
+  m_Name: MultiplayerAttacker
   m_TagString: AttackerPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

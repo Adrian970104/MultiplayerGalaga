@@ -56,12 +56,13 @@ public class PhotonBulletBehaviour : SpaceObject
                 if(!attacker.isDeployed)
                         return;
                 
+                attacker.photonView.RPC("TakeDamage",RpcTarget.All,damage);
+                
                 if (photonView.IsMine)
                 {
                     PhotonNetwork.Destroy(photonView);
                 }
                 
-                attacker.TakeDamage(damage);
             }
 
             if (other.CompareTag("DefenderShip"))
