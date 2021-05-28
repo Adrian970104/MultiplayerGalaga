@@ -70,11 +70,6 @@ public class AttackerShipBehaviour : SpaceShip
         _feedbackPanelController = FindObjectOfType<MultiplayerFeedbackPanelController>();
         
         isDeployed = gameManager.gameMode == GameMode.Singleplayer;
-        
-        if(photonView.IsMine && gameManager.gameMode == GameMode.Multiplayer)
-        {
-            GetComponent<Renderer>().material.SetColor($"_Color", Color.red);
-        }
     }
 
 

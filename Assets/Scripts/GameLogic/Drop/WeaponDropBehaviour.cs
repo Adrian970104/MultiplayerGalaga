@@ -22,7 +22,7 @@ public class WeaponDropBehaviour : DropBehaviour
         if(_gameManager.multiplayerPhase != MultiplayerPhase.InDeploy && _gameManager.multiplayerPhase != MultiplayerPhase.InAttack && _gameManager.singleplayerPhase != SingleplayerPhase.InAttack)
             return;
 
-        other.gameObject.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("IncreaseDamage", RpcTarget.All, value);
+        other.GetComponentInParent<DefenderShipBehaviour>().photonView.RPC("IncreaseDamage", RpcTarget.All, value);
         
         if(photonView.IsMine)
             PhotonNetwork.Destroy(photonView);
