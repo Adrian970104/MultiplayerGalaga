@@ -2377,7 +2377,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Restart
+  m_text: Retry
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3439,12 +3439,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defenderShip: {fileID: 7003423436027758462, guid: 6b0ead7f64a0c29408476fb1d40afea4,
-    type: 3}
-  attackerShip1: {fileID: 7191163089010825858, guid: cce9971add15a44418d6e61d7a42eec2,
-    type: 3}
-  attackerShip2: {fileID: 6036493471044831520, guid: 0a3ed1c5b2e96da4a87262cff3995dd8,
-    type: 3}
-  attackerShip3: {fileID: 1917106948373238, guid: c79905ec17c169a49b75177b6cf0d524,
     type: 3}
   attackerShipVariants:
   - {fileID: 7191163089010825858, guid: cce9971add15a44418d6e61d7a42eec2, type: 3}
