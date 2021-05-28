@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -120,9 +121,10 @@ public class SingleplayerInGameManager : MonoBehaviour
     {
         CanvasManager.SetInGameCanvasVisible();
         
+        if(PhotonNetwork.IsConnected)
+            PhotonNetwork.Disconnect();
+        
         PhotonNetwork.OfflineMode = true;
-        //Need to fix a bug: If coming from multiplayer while no internet!
-        //PhotonNetwork.Reconnect();
 
         if (PhotonNetwork.InRoom)
             PhotonNetwork.LeaveRoom();
