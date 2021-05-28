@@ -21,7 +21,7 @@ public class SingleplayerInGameManager : MonoBehaviour
     
     public List<SpaceShip> attackerShips = new List<SpaceShip>();
     private GameManager _gameManager;
-    private Vector3 _defenderPos = new Vector3(0,0,-15);
+    private Vector3 _defenderPos = new Vector3(0,0,-25);
     private List<Vector3> _attackerStartPos = new List<Vector3>();
 
     private void AttackerStartPosFill()
